@@ -1,4 +1,5 @@
-public interface IMemberService
+using WorldFamily.Data.Models;
+interface IMemberService
 {
     Task<IEnumerable<FamilyMember>> GetFamilyMembersAsync(int familyId);
     Task<FamilyMember?> GetMemberByIdAsync(int id);

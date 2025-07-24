@@ -1,4 +1,5 @@
-public interface IPhotoService
+using WorldFamily.Data.Models;
+interface IPhotoService
 {
     Task<IEnumerable<Photo>> GetPhotosAsync(int? familyId = null);
     Task<Photo?> GetPhotoByIdAsync(int id);

@@ -1,4 +1,5 @@
-public interface IFamilyService
+using WorldFamily.Data.Models;
+interface IFamilyService
 {
     Task<IEnumerable<Family>> GetAllFamiliesAsync();
     Task<Family?> GetFamilyByIdAsync(int id);
