@@ -103,6 +103,12 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Register application services
+builder.Services.AddScoped<IFamilyService, FamilyService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddScoped<IStoryService, StoryService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
