@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "71/XxNIPEUg=",
+  "dgSpecHash": "JPDeLLnLGQE=",
   "success": true,
   "projectFilePath": "C:\\Users\\marsr\\source\\repos\\00.Final_Project_2025\\WorldFamily.Api\\WorldFamily.Api.csproj",
   "expectedPackageFiles": [
@@ -54,7 +54,6 @@
     "C:\\Users\\marsr\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\9.0.3\\swashbuckle.aspnetcore.swaggerui.9.0.3.nupkg.sha512",
     "C:\\Users\\marsr\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\marsr\\.nuget\\packages\\system.collections.immutable\\7.0.0\\system.collections.immutable.7.0.0.nupkg.sha512",
-    "C:\\Users\\marsr\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\marsr\\.nuget\\packages\\system.composition\\7.0.0\\system.composition.7.0.0.nupkg.sha512",
     "C:\\Users\\marsr\\.nuget\\packages\\system.composition.attributedmodel\\7.0.0\\system.composition.attributedmodel.7.0.0.nupkg.sha512",
     "C:\\Users\\marsr\\.nuget\\packages\\system.composition.convention\\7.0.0\\system.composition.convention.7.0.0.nupkg.sha512",

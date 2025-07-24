@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorldFamily.Data\WorldFamily.Data.csproj" />
+    <ProjectReference Include="WorldFamily.Data" />
   </ItemGroup>
   
 </Project>

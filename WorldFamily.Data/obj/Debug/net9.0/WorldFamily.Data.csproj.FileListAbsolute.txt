@@ -1,6 +1,0 @@
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.csproj.AssemblyReference.cache
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.AssemblyInfoInputs.cache
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.AssemblyInfo.cs
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.csproj.CoreCompileInputs.cache
-C:\Users\marsr\source\repos\00.Final_Project_2025\WorldFamily.Data\obj\Debug\net9.0\WorldFamily.Data.sourcelink.json
