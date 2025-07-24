@@ -1,0 +1,160 @@
+
+# Node modules
+WorldFamily.Web/node_modules/
+
+# Compiled output
+WorldFamily.Web/dist/
+WorldFamily.Web/tmp/
+WorldFamily.Web/out-tsc/
+WorldFamily.Web/bazel-out/
+
+# Angular cache
+WorldFamily.Web/.angular/
+
+# npm/yarn files
+WorldFamily.Web/npm-debug.log*
+WorldFamily.Web/yarn-debug.log*
+WorldFamily.Web/yarn-error.log*
+WorldFamily.Web/package-lock.json
+
+# TypeScript cache
+WorldFamily.Web/*.tsbuildinfo
+
+# Coverage reports
+WorldFamily.Web/coverage/
+
+# e2e test reports
+WorldFamily.Web/e2e/reports/
+
+# Environment files
+WorldFamily.Web/src/environments/environment.ts
+WorldFamily.Web/src/environments/environment.prod.ts
+!WorldFamily.Web/src/environments/environment.example.ts
+
+# ==============================================================================
+# Documentation and Database folders
+# ==============================================================================
+
+# Keep docs structure but ignore temporary files
+docs/*.tmp
+docs/*.temp
+docs/~$*
+
+# Database scripts are kept, but ignore dumps
+database/*.dump
+database/*.backup
+database/temp/
+
+# ==============================================================================
+# IDE and Editor files
+# ==============================================================================
+
+# Visual Studio Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+.history/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ==============================================================================
+# OS Generated files
+# ==============================================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Linux
+*~
+.nfs*
+
+# ==============================================================================
+# Temporary files
+# ==============================================================================
+
+# General temp files
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# Logs
+*.log
+logs/
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+
+# ==============================================================================
+# Build and Deployment
+# ==============================================================================
+
+# Docker
+.dockerignore
+Dockerfile.dev
+
+# Azure
+.azure/
+
+# AWS
+.aws/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# ==============================================================================
+# Testing
+# ==============================================================================
+
+# Test results
+TestResults/
+test-results/
+coverage/
+
+# ==============================================================================
+# Archive and Package files
+# ==============================================================================
+
+*.7z
+*.rar
+*.zip
+*.gz
+*.tar
+*.iso

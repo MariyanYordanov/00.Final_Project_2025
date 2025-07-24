@@ -1,3 +1,61 @@
-bin/
 
+# Build folders
+bin/
 obj/
+
+# Visual Studio folders
+.vs/
+.vscode/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+Debug/
+Release/
+x64/
+x86/
+build/
+bld/
+Bin/
+Obj/
+
+# MSTest test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# .NET Core files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Entity Framework
+Migrations/
+
+# Configuration files with secrets
+WorldFamily.Api/appsettings.Development.json
+WorldFamily.Api/appsettings.Local.json
+WorldFamily.Data/appsettings.Development.json
+WorldFamily.Data/appsettings.Local.json
+
+# Package files
+*.nupkg
+packages/
+!packages/build/
+
+# Database files
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
