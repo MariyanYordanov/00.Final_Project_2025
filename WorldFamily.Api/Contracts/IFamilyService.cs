@@ -1,5 +1,8 @@
 using WorldFamily.Data.Models;
-interface IFamilyService
+
+namespace WorldFamily.Api.Contracts;
+
+public interface IFamilyService
 {
     Task<IEnumerable<Family>> GetAllFamiliesAsync();
     Task<Family?> GetFamilyByIdAsync(int id);

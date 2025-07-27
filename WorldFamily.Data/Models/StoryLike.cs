@@ -6,7 +6,7 @@ namespace WorldFamily.Data.Models
 
         public int StoryId { get; set; }
 
-        public string UserId { get; set; } = "";
+        public string UserId { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

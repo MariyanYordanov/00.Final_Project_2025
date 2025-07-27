@@ -11,13 +11,13 @@ namespace WorldFamily.Data.Models
 
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; } = "";
+        public string Title { get; set; } = string.Empty;
 
         [MaxLength(1000)]
         public string? Description { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; } = "";
+        public string ImageUrl { get; set; } = string.Empty;
 
         public string? ThumbnailUrl { get; set; }
 
@@ -31,16 +31,19 @@ namespace WorldFamily.Data.Models
         public int CommentsCount { get; set; } = 0;
 
         [Required]
-        public string UploadedByUserId { get; set; } = "";
+        public string UploadedByUserId { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        
+        public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
         public virtual Family Family { get; set; } = null!;
         public virtual User UploadedBy { get; set; } = null!;
         public virtual ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public virtual ICollection<PhotoTag> PhotoTags { get; set; } = new List<PhotoTag>();
+        public virtual ICollection<PhotoTag> Tags { get; set; } = new List<PhotoTag>();
     }
 }

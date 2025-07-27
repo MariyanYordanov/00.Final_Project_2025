@@ -5,15 +5,17 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WorldFamily.Data;
 using WorldFamily.Data.Models;
+using WorldFamily.Api.Contracts;
+using WorldFamily.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
 
-// Configure Entity Framework with PostgreSQL
+// Configure Entity Framework with SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
@@ -51,7 +53,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey ?? "ThisIsAVerySecretKeyForWorldFamilyAppMinimum32Characters"))
     };
 });
 
@@ -156,8 +158,8 @@ using (var scope = app.Services.CreateScope())
     // Apply migrations
     await context.Database.MigrateAsync();
 
-    // Seed data
-    await SeedData.Initialize(context, userManager, roleManager);
+    // Seed data - commented out temporarily
+    // await SeedData.Initialize(context, userManager, roleManager);
 }
 
 app.Run();

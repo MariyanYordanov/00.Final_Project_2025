@@ -47,9 +47,15 @@ namespace WorldFamily.Data.Models
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
+        public string Role { get; set; } = "member";
+        public bool CanPost { get; set; } = true;
+        public bool CanComment { get; set; } = true;
+        public bool CanInvite { get; set; } = false;
       
         public virtual Family Family { get; set; } = null!;
         public virtual User? LinkedUser { get; set; }
+        public virtual User? User { get; set; }
         public virtual User AddedBy { get; set; } = null!;
 
         // Relationships where this member is the primary person

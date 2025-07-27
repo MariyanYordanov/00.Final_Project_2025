@@ -1,6 +1,8 @@
 using WorldFamily.Data.Models;
 
-interface IStoryService
+namespace WorldFamily.Api.Contracts;
+
+public interface IStoryService
 {
     Task<IEnumerable<Story>> GetStoriesAsync(int? familyId = null);
     Task<Story?> GetStoryByIdAsync(int id);

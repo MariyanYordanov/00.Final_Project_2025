@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WorldFamily.Data.Models;
 
 namespace WorldFamily.Data
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class AppDbContext : IdentityDbContext<User, IdentityRole, string>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -56,7 +57,7 @@ namespace WorldFamily.Data
                 entity.Property(e => e.Biography).HasMaxLength(2000);
 
                 entity.HasOne(e => e.Family)
-                      .WithMany(f => f.Members)
+                      .WithMany(f => f.FamilyMembers)
                       .HasForeignKey(e => e.FamilyId)
                       .OnDelete(DeleteBehavior.Cascade);
 

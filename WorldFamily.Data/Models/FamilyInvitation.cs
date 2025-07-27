@@ -11,12 +11,12 @@ namespace WorldFamily.Data.Models
 
         [Required]
         [EmailAddress]
-        public string InvitedEmail { get; set; } = "";
+        public string InvitedEmail { get; set; } = string.Empty;
 
         public string? InvitedUserId { get; set; }
 
         [Required]
-        public string InvitedByUserId { get; set; } = "";
+        public string InvitedByUserId { get; set; } = string.Empty;
 
         public InvitationRole Role { get; set; } = InvitationRole.Member;
 

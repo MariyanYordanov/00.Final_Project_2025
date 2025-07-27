@@ -12,7 +12,7 @@ namespace WorldFamily.Data.Models
 
         public int PositionY { get; set; }
 
-        public string TaggedByUserId { get; set; } = "";
+        public string TaggedByUserId { get; set; } = string.Empty;  
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

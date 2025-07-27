@@ -1,5 +1,8 @@
 using WorldFamily.Data.Models;
-interface IMemberService
+
+namespace WorldFamily.Api.Contracts;
+
+public interface IMemberService
 {
     Task<IEnumerable<FamilyMember>> GetFamilyMembersAsync(int familyId);
     Task<FamilyMember?> GetMemberByIdAsync(int id);

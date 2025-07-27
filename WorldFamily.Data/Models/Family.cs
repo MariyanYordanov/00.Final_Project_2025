@@ -8,7 +8,7 @@ namespace WorldFamily.Data.Models
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = "";
+        public string Name { get; set; } = string.Empty;
 
         [MaxLength(1000)]
         public string? Description { get; set; }
@@ -25,7 +25,7 @@ namespace WorldFamily.Data.Models
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User CreatedBy { get; set; } = null!;
-        public virtual ICollection<FamilyMember> Members { get; set; } = new List<FamilyMember>();
+        public virtual ICollection<FamilyMember> FamilyMembers { get; set; } = new List<FamilyMember>();
         public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
         public virtual ICollection<Story> Stories { get; set; } = new List<Story>();
         public virtual ICollection<FamilyInvitation> Invitations { get; set; } = new List<FamilyInvitation>();

@@ -11,10 +11,10 @@ namespace WorldFamily.Data.Models
 
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; } = "";
+        public string Title { get; set; } = string.Empty;
 
         [Required]
-        public string Content { get; set; } = "";
+        public string Content { get; set; } = string.Empty;
 
         public string? CoverImageUrl { get; set; }
 
@@ -27,7 +27,7 @@ namespace WorldFamily.Data.Models
         public bool IsPublic { get; set; } = true;
 
         [Required]
-        public string AuthorUserId { get; set; } = "";
+        public string AuthorUserId { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

@@ -27,7 +27,11 @@ namespace WorldFamily.Data.Models
 
         public string? ProfilePictureUrl { get; set; }
 
+        public DateTime? DateOfBirth { get; set; }
+
         public DateTime CreatedAt { get; set; }
+
+        public DateTime? JoinedAt { get; set; }
 
         public DateTime? LastLoginAt { get; set; }
 
