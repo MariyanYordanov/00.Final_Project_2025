@@ -78,6 +78,7 @@ namespace WorldFamily.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             var member = new FamilyMember
             {
                 FirstName = model.FirstName,
@@ -89,7 +90,8 @@ namespace WorldFamily.Api.Controllers
                 Biography = model.Biography,
                 PlaceOfBirth = model.PlaceOfBirth,
                 PlaceOfDeath = model.PlaceOfDeath,
-                FamilyId = model.FamilyId
+                FamilyId = model.FamilyId,
+                AddedByUserId = userId ?? string.Empty
             };
 
             var createdMember = await _memberService.CreateMemberAsync(member);

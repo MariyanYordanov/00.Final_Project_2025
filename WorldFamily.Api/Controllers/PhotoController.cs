@@ -111,6 +111,27 @@ namespace WorldFamily.Api.Controllers
             return CreatedAtAction(nameof(GetPhoto), new { id = createdPhoto.Id }, photoDto);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePhoto(int id, [FromBody] UpdatePhotoDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var photo = new Photo
+            {
+                Title = model.Title ?? string.Empty,
+                Description = model.Description,
+                DateTaken = model.DateTaken,
+                Location = model.Location
+            };
+
+            var updatedPhoto = await _photoService.UpdatePhotoAsync(id, photo);
+            if (updatedPhoto == null)
+                return NotFound();
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int id)
         {

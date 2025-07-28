@@ -40,6 +40,21 @@ public class PhotoService : IPhotoService
         return photo;
     }
 
+    public async Task<Photo?> UpdatePhotoAsync(int id, Photo photo)
+    {
+        var existingPhoto = await _context.Photos.FindAsync(id);
+        if (existingPhoto == null)
+            return null;
+
+        existingPhoto.Title = photo.Title;
+        existingPhoto.Description = photo.Description;
+        existingPhoto.DateTaken = photo.DateTaken;
+        existingPhoto.Location = photo.Location;
+
+        await _context.SaveChangesAsync();
+        return existingPhoto;
+    }
+
     public async Task<bool> DeletePhotoAsync(int id)
     {
         var photo = await _context.Photos.FindAsync(id);

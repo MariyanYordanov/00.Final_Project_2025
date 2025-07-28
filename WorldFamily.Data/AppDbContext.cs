@@ -50,7 +50,7 @@ namespace WorldFamily.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FirstName).HasMaxLength(50).IsRequired();
-                entity.Property(e => e.MiddleName).HasMaxLength(50);
+                entity.Property(e => e.MiddleName).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.LastName).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.PlaceOfBirth).HasMaxLength(100);
                 entity.Property(e => e.PlaceOfDeath).HasMaxLength(100);

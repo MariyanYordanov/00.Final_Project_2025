@@ -56,7 +56,6 @@ namespace WorldFamily.Data.Models
       
         public virtual Family Family { get; set; } = null!;
         public virtual User? LinkedUser { get; set; }
-        public virtual User? User { get; set; }
         public virtual User AddedBy { get; set; } = null!;
 
         // Relationships where this member is the primary person
