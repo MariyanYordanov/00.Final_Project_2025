@@ -16,11 +16,7 @@ public class StoryService : IStoryService
 
     public async Task<IEnumerable<Story>> GetStoriesAsync(int? familyId = null)
     {
-        var query = _context.Stories
-            .Include(s => s.Author)
-            .Include(s => s.Family)
-            .Include(s => s.Likes)
-            .AsQueryable();
+        var query = _context.Stories.AsQueryable();
 
         if (familyId.HasValue)
         {
@@ -33,9 +29,6 @@ public class StoryService : IStoryService
     public async Task<Story?> GetStoryByIdAsync(int id)
     {
         return await _context.Stories
-            .Include(s => s.Author)
-            .Include(s => s.Family)
-            .Include(s => s.Likes)
             .FirstOrDefaultAsync(s => s.Id == id);
     }
 

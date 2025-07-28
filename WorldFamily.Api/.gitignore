@@ -39,10 +39,8 @@ artifacts/
 Migrations/
 
 # Configuration files with secrets
-WorldFamily.Api/appsettings.Development.json
-WorldFamily.Api/appsettings.Local.json
-WorldFamily.Data/appsettings.Development.json
-WorldFamily.Data/appsettings.Local.json
+appsettings.Development.json
+appsettings.Local.json
 
 # Package files
 *.nupkg

@@ -17,8 +17,6 @@ public class MemberService : IMemberService
     public async Task<IEnumerable<FamilyMember>> GetFamilyMembersAsync(int familyId)
     {
         return await _context.FamilyMembers
-            .Include(m => m.User)
-            .Include(m => m.Family)
             .Where(m => m.FamilyId == familyId)
             .ToListAsync();
     }
@@ -26,8 +24,6 @@ public class MemberService : IMemberService
     public async Task<FamilyMember?> GetMemberByIdAsync(int id)
     {
         return await _context.FamilyMembers
-            .Include(m => m.User)
-            .Include(m => m.Family)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 
@@ -45,10 +41,16 @@ public class MemberService : IMemberService
         if (existingMember == null)
             return null;
 
-        existingMember.Role = member.Role;
-        existingMember.CanPost = member.CanPost;
-        existingMember.CanComment = member.CanComment;
-        existingMember.CanInvite = member.CanInvite;
+        existingMember.FirstName = member.FirstName;
+        existingMember.MiddleName = member.MiddleName;
+        existingMember.LastName = member.LastName;
+        existingMember.DateOfBirth = member.DateOfBirth;
+        existingMember.DateOfDeath = member.DateOfDeath;
+        existingMember.Gender = member.Gender;
+        existingMember.Biography = member.Biography;
+        existingMember.PlaceOfBirth = member.PlaceOfBirth;
+        existingMember.PlaceOfDeath = member.PlaceOfDeath;
+        existingMember.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
         return existingMember;

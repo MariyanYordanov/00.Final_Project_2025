@@ -1,0 +1,26 @@
+namespace WorldFamily.Api.DTOs
+{
+    public class CreateFamilyDto
+    {
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+    }
+
+    public class UpdateFamilyDto
+    {
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+    }
+
+    public class FamilyDto
+    {
+        public int Id { get; set; }
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int MemberCount { get; set; }
+        public int PhotoCount { get; set; }
+        public int StoryCount { get; set; }
+        public required string CreatedByUserId { get; set; }
+    }
+}

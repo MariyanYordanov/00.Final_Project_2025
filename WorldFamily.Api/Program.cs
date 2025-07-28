@@ -106,6 +106,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Configure AutoMapper
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 // Register application services
 builder.Services.AddScoped<IFamilyService, FamilyService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
@@ -127,6 +130,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Use static files for photo uploads
+app.UseStaticFiles();
+
 // Use CORS
 app.UseCors("AllowAngularApp");
 
@@ -134,7 +140,11 @@ app.UseCors("AllowAngularApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map controllers
+// Map controllers with areas
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllers();
 
 // Health check endpoint
@@ -158,8 +168,8 @@ using (var scope = app.Services.CreateScope())
     // Apply migrations
     await context.Database.MigrateAsync();
 
-    // Seed data - commented out temporarily
-    // await SeedData.Initialize(context, userManager, roleManager);
+    // Seed data
+    await SeedData.Initialize(context, userManager, roleManager);
 }
 
 app.Run();

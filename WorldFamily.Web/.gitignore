@@ -1,35 +1,33 @@
-
-# Node modules
-WorldFamily.Web/node_modules/
+node_modules/
 
 # Compiled output
-WorldFamily.Web/dist/
-WorldFamily.Web/tmp/
-WorldFamily.Web/out-tsc/
-WorldFamily.Web/bazel-out/
+tmp/
+out-tsc/
+bazel-out/
 
 # Angular cache
-WorldFamily.Web/.angular/
+.angular/
 
 # npm/yarn files
-WorldFamily.Web/npm-debug.log*
-WorldFamily.Web/yarn-debug.log*
-WorldFamily.Web/yarn-error.log*
-WorldFamily.Web/package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
 
 # TypeScript cache
-WorldFamily.Web/*.tsbuildinfo
+*.tsbuildinfo
 
 # Coverage reports
-WorldFamily.Web/coverage/
+coverage/
 
 # e2e test reports
-WorldFamily.Web/e2e/reports/
+e2e/reports/
 
 # Environment files
-WorldFamily.Web/src/environments/environment.ts
-WorldFamily.Web/src/environments/environment.prod.ts
-!WorldFamily.Web/src/environments/environment.example.ts
+src/environments/environment.ts
+src/environments/environment.prod.ts
+
+src/environments/environment.example.ts
 
 # ==============================================================================
 # Documentation and Database folders
