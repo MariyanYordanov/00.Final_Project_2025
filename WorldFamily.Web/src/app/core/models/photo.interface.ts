@@ -10,16 +10,22 @@ export interface Photo {
   location?: string;
   fileSize: number;
   contentType: string;
+  likesCount: number;
 }
 
-export interface Story {
-  id: number;
+export interface CreatePhotoRequest {
   title: string;
-  content: string;
+  description?: string;
+  imageUrl: string;
   familyId: number;
-  authorId: string;
-  authorName: string;
-  createdAt: Date;
-  isPublished: boolean;
-  eventDate?: Date;
+  dateTaken?: Date;
+  location?: string;
 }
+
+export interface UpdatePhotoRequest {
+  title?: string;
+  description?: string;
+  dateTaken?: Date;
+  location?: string;
+}
+

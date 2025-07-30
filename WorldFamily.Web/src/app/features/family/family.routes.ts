@@ -12,6 +12,7 @@ export const familyRoutes: Routes = [
   },
   {
     path: ':id',
-    loadComponent: () => import('./components/family-details.component').then(c => c.FamilyDetailsComponent)
+    loadComponent: () => import('./components/family-details.component').then(c => c.FamilyDetailsComponent),
+    data: { renderMode: 'client-side' }
   }
 ];

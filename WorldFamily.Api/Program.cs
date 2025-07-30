@@ -15,10 +15,32 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
-// Configure Entity Framework with SQLite
+// Configure Entity Framework with SQLite (Development) or PostgreSQL (Production)
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
+var isDevelopment = builder.Environment.IsDevelopment();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    if (isDevelopment && databaseProvider == "SQLite")
+    {
+        // Development - SQLite
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    }
+    else
+    {
+        // Production - PostgreSQL
+        var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection") 
+            ?? Environment.GetEnvironmentVariable("DATABASE_URL");
+        
+        if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("postgres://"))
+        {
+            // Parse Render.com DATABASE_URL format
+            connectionString = ConvertRenderDatabaseUrl(connectionString);
+        }
+        
+        options.UseNpgsql(connectionString);
+    }
+    
     options.ConfigureWarnings(warnings =>
         warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
 });
@@ -68,10 +90,25 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+        if (builder.Environment.IsDevelopment())
+        {
+            // Development - Allow localhost
+            policy.WithOrigins("http://localhost:4200", "http://localhost:4201")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
+        else
+        {
+            // Production - Allow configured origins and Render.com domains
+            var allowedOrigins = builder.Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>() 
+                ?? new[] { "https://your-frontend-domain.onrender.com" };
+            
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
     });
 });
 
@@ -125,6 +162,20 @@ builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<WorldFamily.Api.Security.ISecurityService, WorldFamily.Api.Security.SecurityService>();
 
 var app = builder.Build();
+
+// Helper function to convert Render.com DATABASE_URL to connection string
+static string ConvertRenderDatabaseUrl(string databaseUrl)
+{
+    var uri = new Uri(databaseUrl);
+    var host = uri.Host;
+    var port = uri.Port;
+    var database = uri.LocalPath.TrimStart('/');
+    var userInfo = uri.UserInfo.Split(':');
+    var username = userInfo[0];
+    var password = userInfo.Length > 1 ? userInfo[1] : "";
+    
+    return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+}
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())

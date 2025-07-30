@@ -1,0 +1,17 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.db
+*.db-*
+node_modules/
+npm-debug.log
+Dockerfile*
+.git/
+.gitignore
+README.md
+.env
+.nyc_output
+coverage
+.coverage.*
+*.lcov

@@ -1,0 +1,41 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'relativeDate',
+  standalone: true
+})
+export class RelativeDatePipe implements PipeTransform {
+
+  transform(value: string | Date | null | undefined): string {
+    if (!value) return '';
+
+    const date = new Date(value);
+    const now = new Date();
+    const diffInMs = now.getTime() - date.getTime();
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInMonths = Math.floor(diffInDays / 30);
+    const diffInYears = Math.floor(diffInDays / 365);
+
+    if (diffInMinutes < 1) {
+      return 'сега';
+    } else if (diffInMinutes < 60) {
+      return `преди ${diffInMinutes} ${diffInMinutes === 1 ? 'минута' : 'минути'}`;
+    } else if (diffInHours < 24) {
+      return `преди ${diffInHours} ${diffInHours === 1 ? 'час' : 'часа'}`;
+    } else if (diffInDays < 30) {
+      if (diffInDays === 1) {
+        return 'вчера';
+      } else if (diffInDays === 2) {
+        return 'позавчера';
+      } else {
+        return `преди ${diffInDays} дни`;
+      }
+    } else if (diffInMonths < 12) {
+      return `преди ${diffInMonths} ${diffInMonths === 1 ? 'месец' : 'месеца'}`;
+    } else {
+      return `преди ${diffInYears} ${diffInYears === 1 ? 'година' : 'години'}`;
+    }
+  }
+}

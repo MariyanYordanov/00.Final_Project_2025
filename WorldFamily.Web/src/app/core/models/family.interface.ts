@@ -7,6 +7,7 @@ export interface Family {
   createdAt: Date;
   memberCount?: number;
   isOwner?: boolean;
+  isPublic: boolean;
 }
 
 export interface FamilyMember {
@@ -30,6 +31,15 @@ export interface CreateFamilyRequest {
   description?: string;
   location?: string;
   establishedDate?: Date;
+  isPublic?: boolean;
+}
+
+export interface UpdateFamilyRequest {
+  name?: string;
+  description?: string;
+  location?: string;
+  establishedDate?: Date;
+  isPublic?: boolean;
 }
 
 export interface CreateMemberRequest {
@@ -43,4 +53,16 @@ export interface CreateMemberRequest {
   placeOfBirth?: string;
   placeOfDeath?: string;
   familyId: number;
+}
+
+export interface UpdateMemberRequest {
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  dateOfBirth?: Date;
+  dateOfDeath?: Date;
+  gender?: string;
+  biography?: string;
+  placeOfBirth?: string;
+  placeOfDeath?: string;
 }
