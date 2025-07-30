@@ -7,11 +7,13 @@ using WorldFamily.Data;
 using WorldFamily.Data.Models;
 using WorldFamily.Api.Contracts;
 using WorldFamily.Api.Services;
+using WorldFamily.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 // Configure Entity Framework with SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -119,9 +121,69 @@ builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IStoryService, StoryService>();
 
+// Register security services
+builder.Services.AddScoped<WorldFamily.Api.Security.ISecurityService, WorldFamily.Api.Security.SecurityService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    
+    // Add test error endpoints for development
+    app.MapGet("/test-404", () => Results.NotFound());
+    app.MapGet("/test-500", () => { throw new Exception("Test 500 error"); });
+}
+else
+{
+    // Custom error handling for production
+    app.UseExceptionHandler("/Error");
+    app.UseStatusCodePagesWithReExecute("/Error/{0}");
+    
+    // Add security headers
+    app.UseHsts();
+}
+
+// Custom status code pages middleware
+app.UseStatusCodePages(async context =>
+{
+    var statusCode = context.HttpContext.Response.StatusCode;
+    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+
+    switch (statusCode)
+    {
+        case 404:
+            logger.LogWarning(
+                "404 Not Found: {Path} - User: {User} - UserAgent: {UserAgent}",
+                context.HttpContext.Request.Path,
+                context.HttpContext.User.Identity?.Name ?? "Anonymous",
+                context.HttpContext.Request.Headers.UserAgent);
+
+            context.HttpContext.Response.Redirect("/Error/404");
+            break;
+
+        case 403:
+            logger.LogWarning(
+                "403 Forbidden: {Path} - User: {User}",
+                context.HttpContext.Request.Path,
+                context.HttpContext.User.Identity?.Name ?? "Anonymous");
+
+            context.HttpContext.Response.Redirect("/Error/403");
+            break;
+
+        case 500:
+            logger.LogError(
+                "500 Internal Server Error: {Path} - User: {User}",
+                context.HttpContext.Request.Path,
+                context.HttpContext.User.Identity?.Name ?? "Anonymous");
+
+            context.HttpContext.Response.Redirect("/Error/500");
+            break;
+    }
+});
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -133,6 +195,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 
 // Use static files for photo uploads
 app.UseStaticFiles();
@@ -149,6 +214,15 @@ app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "mvc",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "errors",
+    pattern: "Error/{action=Index}",
+    defaults: new { controller = "Error" });
+    
 app.MapControllers();
 
 // Health check endpoint

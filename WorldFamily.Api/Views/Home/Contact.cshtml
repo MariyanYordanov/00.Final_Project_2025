@@ -1,0 +1,328 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<!-- Hero Section -->
+<section class="hero-section text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-envelope me-3"></i>
+                    Contact Us
+                </h1>
+                <p class="lead mb-4">
+                    We'd love to hear from you! Whether you have questions, feedback, or need help 
+                    with your family tree, our team is here to assist you.
+                </p>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-comments fa-10x opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form & Info Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm border-radius-lg">
+                    <div class="card-body p-5">
+                        <h3 class="mb-4">
+                            <i class="fas fa-paper-plane text-primary me-2"></i>
+                            Send us a message
+                        </h3>
+                        
+                        <form class="needs-validation" novalidate method="post" action="/Home/Contact">
+                            @Html.AntiForgeryToken()
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" id="firstName" name="FirstName" 
+                                           data-field-name="First name" required>
+                                    <div class="invalid-feedback">
+                                        Please provide your first name.
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" id="lastName" name="LastName" 
+                                           data-field-name="Last name" required>
+                                    <div class="invalid-feedback">
+                                        Please provide your last name.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="Email" 
+                                       data-field-name="Email" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number (Optional)</label>
+                                <input type="tel" class="form-control" id="phone" name="Phone">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <select class="form-control" id="subject" name="Subject" required>
+                                    <option value="">Please select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="account">Account Issues</option>
+                                    <option value="billing">Billing Questions</option>
+                                    <option value="partnership">Partnership Inquiry</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a subject.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" name="Message" rows="6" 
+                                         minlength="10" maxlength="1000" 
+                                         data-field-name="Message" required 
+                                         placeholder="Please describe your inquiry in detail..."></textarea>
+                                <div class="invalid-feedback">
+                                    Please provide a message (minimum 10 characters).
+                                </div>
+                                <div class="form-text">
+                                    <span id="charCount">0</span>/1000 characters
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter" name="SubscribeNewsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        I would like to receive updates and newsletters from World Family
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="privacy" name="AcceptPrivacy" required>
+                                    <label class="form-check-label" for="privacy">
+                                        I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> *
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        You must agree to our privacy policy.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <div class="contact-info">
+                    <div class="card border-0 shadow-sm border-radius-lg mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="mb-4">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                Contact Information
+                            </h4>
+                            
+                            <div class="contact-item mb-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-envelope text-primary me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="mb-1">Email</h6>
+                                        <p class="text-muted mb-0">info@worldfamily.com</p>
+                                        <p class="text-muted mb-0">support@worldfamily.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item mb-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-phone text-success me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="mb-1">Phone</h6>
+                                        <p class="text-muted mb-0">+1 (555) 123-4567</p>
+                                        <p class="text-muted mb-0 small">Mon-Fri, 9AM-6PM EST</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item mb-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-map-marker-alt text-warning me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="mb-1">Address</h6>
+                                        <p class="text-muted mb-0">
+                                            123 Family Tree Lane<br>
+                                            Heritage City, HC 12345<br>
+                                            United States
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-clock text-info me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="mb-1">Business Hours</h6>
+                                        <p class="text-muted mb-1">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                                        <p class="text-muted mb-1">Saturday: 10:00 AM - 4:00 PM</p>
+                                        <p class="text-muted mb-0">Sunday: Closed</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div class="card border-0 shadow-sm border-radius-lg">
+                        <div class="card-body p-4 text-center">
+                            <h5 class="mb-3">Follow Us</h5>
+                            <div class="social-links d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary btn-circle">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-info btn-circle">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-circle">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-circle">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-5">
+                    <i class="fas fa-question-circle text-primary me-2"></i>
+                    Frequently Asked Questions
+                </h2>
+                
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                How do I get started with World Family?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Getting started is easy! Simply create a free account, set up your family profile, 
+                                and begin adding family members. You can upload photos, share stories, and build 
+                                your family tree right away.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                Is my family data secure and private?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! We take privacy very seriously. Your family data is encrypted and stored securely. 
+                                You have complete control over who can see your family information, and we never share 
+                                your personal data with third parties.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                Can I invite family members to join?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! You can invite family members via email to join your family tree. 
+                                They can then add their own information, photos, and stories to enhance your 
+                                shared family history.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                What if I need help using the platform?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We're here to help! Check out our <a href="/help">Help Center</a> for tutorials and guides. 
+                                You can also contact our support team using the form above, and we'll get back to you 
+                                within 24 hours.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Character counter for message textarea
+        document.getElementById('message').addEventListener('input', function() {
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = this.value.length;
+            
+            if (this.value.length > 900) {
+                charCount.style.color = '#dc3545';
+            } else if (this.value.length > 800) {
+                charCount.style.color = '#ffc107';
+            } else {
+                charCount.style.color = '#6c757d';
+            }
+        });
+        
+        // Form submission handling
+        document.querySelector('.needs-validation').addEventListener('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                // Show success message (in real app, this would be handled server-side)
+                setTimeout(() => {
+                    showToast('Thank you! Your message has been sent successfully.', 'success');
+                }, 500);
+            }
+        });
+    </script>
+}

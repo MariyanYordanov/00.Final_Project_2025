@@ -1,0 +1,275 @@
+@model WorldFamily.Data.Models.Family
+@{
+    ViewData["Title"] = $"{Model.Name} - Family Tree";
+}
+
+<!-- Hero Section -->
+<section class="bg-gradient text-white py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb text-white-50">
+                        <li class="breadcrumb-item">
+                            <a href="/" class="text-white-50">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/FamilyMvc/Browse" class="text-white-50">Families</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/FamilyMvc/Details/@Model.Id" class="text-white-50">@Model.Name</a>
+                        </li>
+                        <li class="breadcrumb-item active text-white">Family Tree</li>
+                    </ol>
+                </nav>
+                <h1 class="display-6 fw-bold mb-2">
+                    <i class="fas fa-project-diagram me-2"></i>
+                    @Model.Name Family Tree
+                </h1>
+                <p class="lead mb-0">
+                    Interactive visualization of family relationships and connections.
+                </p>
+            </div>
+            <div class="col-lg-4 text-end">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light" onclick="zoomIn()">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-light" onclick="zoomOut()">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-light" onclick="resetZoom()">
+                        <i class="fas fa-home"></i>
+                    </button>
+                    <button type="button" class="btn btn-warning" onclick="printTree()">
+                        <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tree Controls -->
+<section class="py-3 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="showAllGenerations()">
+                        <i class="fas fa-eye me-1"></i>Show All
+                    </button>
+                    <button type="button" class="btn btn-outline-success btn-sm" onclick="collapseTree()">
+                        <i class="fas fa-compress me-1"></i>Collapse
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-sm" onclick="expandTree()">
+                        <i class="fas fa-expand me-1"></i>Expand
+                    </button>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-filter me-1"></i>Filter
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="filterByGeneration('all')">All Generations</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGeneration(1)">Generation 1</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGeneration(2)">Generation 2</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGeneration(3)">Generation 3</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGender('all')">All Genders</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGender('male')">Males Only</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByGender('female')">Females Only</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-end">
+                <div class="input-group" style="max-width: 300px; margin-left: auto;">
+                    <input type="text" class="form-control form-control-sm" 
+                           placeholder="Search family members..." 
+                           id="memberSearch" onkeyup="searchMembers()">
+                    <button class="btn btn-outline-secondary btn-sm" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Family Tree Container -->
+<section class="py-5">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Tree Visualization -->
+            <div class="col-lg-9">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-sitemap text-primary me-2"></i>
+                            Interactive Family Tree
+                        </h5>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-outline-secondary" onclick="switchView('vertical')">
+                                <i class="fas fa-arrows-alt-v"></i> Vertical
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary active" onclick="switchView('horizontal')">
+                                <i class="fas fa-arrows-alt-h"></i> Horizontal
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- Tree SVG Container -->
+                        <div id="treeContainer" class="tree-container position-relative">
+                            <svg id="familyTreeSvg" width="100%" height="600" class="border-bottom">
+                                <!-- Tree will be rendered here by JavaScript -->
+                            </svg>
+                            
+                            <!-- Loading Overlay -->
+                            <div id="treeLoading" class="position-absolute top-50 start-50 translate-middle">
+                                <div class="text-center">
+                                    <div class="spinner-border text-primary mb-3" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div>Building family tree...</div>
+                                </div>
+                            </div>
+                            
+                            <!-- No Data Message -->
+                            <div id="noDataMessage" class="position-absolute top-50 start-50 translate-middle text-center" style="display: none;">
+                                <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                                <h4>No Family Members Yet</h4>
+                                <p class="text-muted mb-4">Start building your family tree by adding the first member.</p>
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    <a href="/Members/Create?familyId=@Model.Id" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Add First Member
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tree Legend -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-info-circle text-info me-2"></i>
+                            Tree Legend
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="legend-node male me-2"></div>
+                                    <span>Male</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="legend-node female me-2"></div>
+                                    <span>Female</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="legend-line marriage me-2"></div>
+                                    <span>Marriage</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="legend-line parent-child me-2"></div>
+                                    <span>Parent-Child</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Information -->
+            <div class="col-lg-3">
+                
+                <!-- Selected Member Info -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-user text-primary me-2"></i>
+                            Member Information
+                        </h6>
+                    </div>
+                    <div class="card-body" id="memberInfo">
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-hand-pointer fa-2x mb-2"></i>
+                            <p class="mb-0">Click on a family member to view their information</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tree Statistics -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-bar text-success me-2"></i>
+                            Tree Statistics
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-item d-flex justify-content-between mb-2">
+                            <span>Total Members:</span>
+                            <strong id="totalMembers">@ViewBag.Members?.Count() ?? 0</strong>
+                        </div>
+                        <div class="stat-item d-flex justify-content-between mb-2">
+                            <span>Generations:</span>
+                            <strong id="totalGenerations">@ViewBag.GenerationCount</strong>
+                        </div>
+                        <div class="stat-item d-flex justify-content-between mb-2">
+                            <span>Males:</span>
+                            <strong id="maleCount">0</strong>
+                        </div>
+                        <div class="stat-item d-flex justify-content-between mb-2">
+                            <span>Females:</span>
+                            <strong id="femaleCount">0</strong>
+                        </div>
+                        <div class="stat-item d-flex justify-content-between">
+                            <span>Relationships:</span>
+                            <strong id="relationshipCount">@ViewBag.Relationships?.Count() ?? 0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-bolt text-warning me-2"></i>
+                            Quick Actions
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <a href="/Members/Create?familyId=@Model.Id" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-plus me-2"></i>Add Member
+                                </a>
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="addRelationship()">
+                                    <i class="fas fa-link me-2"></i>Add Relationship
+                                </button>
+                            }
+                            <button type="button" class="btn btn-outline-info btn-sm" onclick="exportTree()">
+                                <i class="fas fa-download me-2"></i>Export Tree
+                            </button>
+                            <a href="/FamilyMvc/Details/@Model.Id" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

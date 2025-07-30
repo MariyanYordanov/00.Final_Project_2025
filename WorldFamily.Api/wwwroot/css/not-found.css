@@ -1,0 +1,221 @@
+
+    .error-hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 70vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .error-hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+
+    .error-hero-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .min-vh-75 {
+        min-height: 75vh;
+    }
+
+    .error-code {
+        font-size: 8rem;
+        font-weight: 900;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        line-height: 1;
+    }
+
+    .error-title {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .error-description {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-suggestion {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+    }
+
+    .error-illustration {
+        position: relative;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .floating-tree {
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .tree-icon {
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    }
+
+    .floating-members {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .floating-member {
+        position: absolute;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .member-1 {
+        top: 20%;
+        left: 10%;
+        animation: memberFloat1 4s ease-in-out infinite;
+    }
+
+    .member-2 {
+        top: 30%;
+        right: 15%;
+        animation: memberFloat2 5s ease-in-out infinite;
+    }
+
+    .member-3 {
+        bottom: 25%;
+        left: 20%;
+        animation: memberFloat3 6s ease-in-out infinite;
+    }
+
+    .missing-member {
+        bottom: 30%;
+        right: 10%;
+        color: #ffc107;
+        animation: missingPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes memberFloat1 {
+        0%, 100% {
+            transform: translateY(0px) translateX(0px);
+        }
+        33% {
+            transform: translateY(-15px) translateX(10px);
+        }
+        66% {
+            transform: translateY(10px) translateX(-5px);
+        }
+    }
+
+    @keyframes memberFloat2 {
+        0%, 100% {
+            transform: translateY(0px) translateX(0px);
+        }
+        50% {
+            transform: translateY(-20px) translateX(-10px);
+        }
+    }
+
+    @keyframes memberFloat3 {
+        0%, 100% {
+            transform: translateY(0px) translateX(0px);
+        }
+        25% {
+            transform: translateY(-10px) translateX(15px);
+        }
+        75% {
+            transform: translateY(15px) translateX(-10px);
+        }
+    }
+
+    @keyframes missingPulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.5;
+            transform: scale(1.2);
+        }
+    }
+
+    .suggestion-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .suggestion-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .suggestion-card .card-body {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border-radius: 15px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 4rem;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+        }
+        
+        .error-illustration {
+            height: 250px;
+        }
+        
+        .tree-icon {
+            font-size: 6rem !important;
+        }
+        
+        .floating-member {
+            font-size: 1rem;
+        }
+        
+        .error-actions {
+            justify-content: center;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .error-code {
+            font-size: 3rem;
+        }
+        
+        .search-suggestion {
+            padding: 1rem;
+        }
+        
+        .card-body {
+            padding: 2rem !important;
+        }
+    }

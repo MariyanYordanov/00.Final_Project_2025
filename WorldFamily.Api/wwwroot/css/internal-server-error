@@ -1,0 +1,212 @@
+ .error-hero-section {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        min-height: 70vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .error-hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+
+    .error-hero-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .error-code {
+        font-size: 8rem;
+        font-weight: 900;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        line-height: 1;
+        color: #fff;
+    }
+
+    .error-title {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-info {
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+    }
+
+    .status-item {
+        padding: 1rem;
+    }
+
+    .error-illustration {
+        position: relative;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .server-stack {
+        position: relative;
+    }
+
+    .server-unit {
+        position: relative;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        animation: serverHum 3s ease-in-out infinite;
+    }
+
+    .server-unit:nth-child(2) {
+        animation-delay: 0.5s;
+    }
+
+    .server-unit:nth-child(3) {
+        animation-delay: 1s;
+    }
+
+    .server-lights {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 5px;
+    }
+
+    .light {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #666;
+    }
+
+    .light.red {
+        background: #dc3545;
+    }
+
+    .light.yellow {
+        background: #ffc107;
+    }
+
+    .light.green {
+        background: #28a745;
+    }
+
+    .light.blinking {
+        animation: blink 1s infinite;
+    }
+
+    .error-sparks {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+    }
+
+    .spark {
+        position: absolute;
+        color: #ffc107;
+        animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .spark-1 {
+        top: 20%;
+        left: 80%;
+        animation-delay: 0s;
+    }
+
+    .spark-2 {
+        top: 60%;
+        right: 85%;
+        animation-delay: 0.7s;
+    }
+
+    .spark-3 {
+        bottom: 30%;
+        left: 75%;
+        animation-delay: 1.4s;
+    }
+
+    @keyframes serverHum {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes blink {
+        0%, 50% {
+            opacity: 1;
+        }
+        51%, 100% {
+            opacity: 0.3;
+        }
+    }
+
+    @keyframes sparkle {
+        0%, 100% {
+            opacity: 0;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+    }
+
+    .suggestion-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .suggestion-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .countdown-timer {
+        background: rgba(13, 110, 253, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        color: #0d6efd;
+        font-size: 0.9rem;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 4rem;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+        }
+        
+        .error-illustration {
+            height: 250px;
+        }
+        
+        .server-unit i {
+            font-size: 2rem !important;
+        }
+        
+        .error-actions {
+            justify-content: center;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+    }

@@ -1,0 +1,183 @@
+@{
+    ViewData["Title"] = "Page Not Found - 404";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section -->
+<section class="error-hero-section text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <div class="error-content">
+                    <h1 class="error-code display-1 fw-bold mb-4">404</h1>
+                    <h2 class="error-title display-5 fw-bold mb-3">
+                        <i class="fas fa-search me-2"></i>
+                        Page Not Found
+                    </h2>
+                    <p class="error-description lead mb-4">
+                        Oops! The page you're looking for seems to have wandered off like a lost family member. 
+                        Don't worry, we'll help you find your way back to your family tree.
+                    </p>
+                    
+                    <!-- Search Suggestion -->
+                    <div class="search-suggestion mb-4">
+                        <p class="mb-2">Maybe you were looking for:</p>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" 
+                                   placeholder="Search families or members..." 
+                                   id="errorPageSearch">
+                            <button class="btn btn-light btn-lg" type="button" onclick="performSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="error-actions d-flex flex-wrap gap-3">
+                        <a href="/" class="btn btn-light btn-lg">
+                            <i class="fas fa-home me-2"></i>Go Home
+                        </a>
+                        <a href="/FamilyMvc/Browse" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-users me-2"></i>Browse Families
+                        </a>
+                        <button type="button" class="btn btn-outline-light btn-lg" onclick="goBack()">
+                            <i class="fas fa-arrow-left me-2"></i>Go Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <!-- Animated Family Tree Illustration -->
+                <div class="error-illustration">
+                    <div class="floating-tree">
+                        <i class="fas fa-tree fa-10x opacity-75 tree-icon"></i>
+                        <div class="floating-members">
+                            <i class="fas fa-user floating-member member-1"></i>
+                            <i class="fas fa-user floating-member member-2"></i>
+                            <i class="fas fa-user floating-member member-3"></i>
+                            <i class="fas fa-question-circle floating-member missing-member"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Helpful Links Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h3>Maybe you were looking for one of these?</h3>
+                <p class="text-muted">Popular pages and features</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 suggestion-card">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-home fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Homepage</h5>
+                        <p class="card-text text-muted">Start your family journey</p>
+                        <a href="/" class="btn btn-outline-primary">Visit Homepage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 suggestion-card">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-users fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Browse Families</h5>
+                        <p class="card-text text-muted">Discover family trees</p>
+                        <a href="/FamilyMvc/Browse" class="btn btn-outline-success">Browse Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 suggestion-card">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-plus-circle fa-3x text-warning mb-3"></i>
+                        <h5 class="card-title">Create Family</h5>
+                        <p class="card-text text-muted">Start your own tree</p>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a href="/FamilyMvc/Create" class="btn btn-outline-warning">Create Family</a>
+                        }
+                        else
+                        {
+                            <a href="/api/auth/register" class="btn btn-outline-warning">Get Started</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 suggestion-card">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-question-circle fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">Get Help</h5>
+                        <p class="card-text text-muted">Find answers & support</p>
+                        <a href="/help" class="btn btn-outline-info">Help Center</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Error Details Section (for debugging - only show in development) -->
+@if (Context.RequestServices.GetService<IWebHostEnvironment>()?.IsDevelopment() == true)
+{
+    <section class="py-4 bg-warning">
+        <div class="container">
+            <div class="alert alert-warning border-0">
+                <h5 class="alert-heading">
+                    <i class="fas fa-code me-2"></i>
+                    Development Information
+                </h5>
+                <hr>
+                <p class="mb-2"><strong>Requested URL:</strong> @Context.Request.Path@Context.Request.QueryString</p>
+                <p class="mb-2"><strong>HTTP Method:</strong> @Context.Request.Method</p>
+                <p class="mb-2"><strong>User Agent:</strong> @Context.Request.Headers.UserAgent</p>
+                <p class="mb-0"><strong>Timestamp:</strong> @DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") UTC</p>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Contact Support Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h4>Still can't find what you're looking for?</h4>
+                        <p class="text-muted mb-4">
+                            Our support team is here to help you navigate your family history journey.
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <a href="/contact" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-envelope me-2"></i>Contact Support
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/help" class="btn btn-outline-success w-100">
+                                    <i class="fas fa-book-open me-2"></i>Help Center
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-outline-info w-100" onclick="reportProblem()">
+                                    <i class="fas fa-flag me-2"></i>Report Problem
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
