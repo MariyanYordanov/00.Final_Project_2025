@@ -155,6 +155,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Register application services
 builder.Services.AddScoped<IFamilyService, FamilyService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IRelationshipService, RelationshipService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IStoryService, StoryService>();
 
@@ -201,6 +202,36 @@ app.UseStatusCodePages(async context =>
 {
     var statusCode = context.HttpContext.Response.StatusCode;
     var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+    var path = context.HttpContext.Request.Path;
+    
+    // Don't redirect API calls - return JSON error response
+    if (path.StartsWithSegments("/api"))
+    {
+        context.HttpContext.Response.ContentType = "application/json";
+        var error = new
+        {
+            type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            title = statusCode switch
+            {
+                404 => "Not Found",
+                403 => "Forbidden",
+                401 => "Unauthorized",
+                _ => "Error"
+            },
+            status = statusCode,
+            detail = statusCode switch
+            {
+                404 => "The requested resource was not found.",
+                403 => "You do not have permission to access this resource.",
+                401 => "Authentication is required to access this resource.",
+                _ => "An error occurred processing your request."
+            },
+            traceId = context.HttpContext.TraceIdentifier
+        };
+        
+        await context.HttpContext.Response.WriteAsJsonAsync(error);
+        return;
+    }
 
     switch (statusCode)
     {

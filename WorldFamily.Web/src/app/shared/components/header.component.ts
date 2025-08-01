@@ -39,9 +39,10 @@ import { Observable } from 'rxjs';
             <mat-icon>groups</mat-icon>
             Семейства
           </a>
-          <a mat-button routerLink="/members" routerLinkActive="active">
-            <mat-icon>person</mat-icon>
-            Членове
+          <a mat-button routerLink="/members" routerLinkActive="active" 
+             title="Моите роднини">
+            <mat-icon>people</mat-icon>
+            Роднини
           </a>
         </nav>
 

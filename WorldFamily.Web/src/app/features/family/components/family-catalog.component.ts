@@ -33,6 +33,11 @@ import { RelativeDatePipe } from '../../../shared/pipes/relative-date.pipe';
         <h1>Каталог на семейства</h1>
         <p>Разгледайте семейните истории и открийте връзки</p>
         
+        <button mat-raised-button color="primary" routerLink="/families/create" class="create-button">
+          <mat-icon>add</mat-icon>
+          Създай семейство
+        </button>
+        
         <!-- Search -->
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Търсене на семейства</mat-label>
@@ -130,6 +135,10 @@ import { RelativeDatePipe } from '../../../shared/pipes/relative-date.pipe';
     .header-section {
       text-align: center;
       margin-bottom: 32px;
+    }
+
+    .create-button {
+      margin: 16px 0;
     }
 
     .header-section h1 {

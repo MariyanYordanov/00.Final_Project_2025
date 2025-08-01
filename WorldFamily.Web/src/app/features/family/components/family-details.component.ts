@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router, NavigationEnd } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, filter } from 'rxjs';
 
 import { FamilyService } from '../../../core/services/family.service';
 import { MemberService } from '../../../core/services/member.service';
@@ -88,11 +88,21 @@ import { MemberAgePipe } from '../../../shared/pipes/member-age.pipe';
 
         <!-- Family Members -->
         <div class="members-section">
-          <h2>Членове на семейството</h2>
+          <div class="members-header">
+            <h2>Членове на семейството</h2>
+            <button mat-raised-button color="primary" [routerLink]="['/families', family.id, 'members', 'create']">
+              <mat-icon>person_add</mat-icon>
+              Добави член
+            </button>
+          </div>
           
           <div *ngIf="members.length === 0" class="empty-members">
             <mat-icon>person_add</mat-icon>
             <p>Няма добавени членове към това семейство</p>
+            <button mat-button color="primary" [routerLink]="['/families', family.id, 'members', 'create']">
+              <mat-icon>add</mat-icon>
+              Добави първия член
+            </button>
           </div>
           
           <div class="members-grid" *ngIf="members.length > 0">
@@ -199,8 +209,15 @@ import { MemberAgePipe } from '../../../shared/pipes/member-age.pipe';
       width: 20px;
     }
 
-    .members-section h2 {
+    .members-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 24px;
+    }
+
+    .members-section h2 {
+      margin: 0;
       color: #333;
     }
 
@@ -262,7 +279,7 @@ import { MemberAgePipe } from '../../../shared/pipes/member-age.pipe';
     }
   `]
 })
-export class FamilyDetailsComponent implements OnInit, OnDestroy {
+export class FamilyDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   family: Family | null = null;
@@ -273,6 +290,7 @@ export class FamilyDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private familyService: FamilyService,
     private memberService: MemberService
   ) {}
@@ -287,6 +305,15 @@ export class FamilyDetailsComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    // Refresh members every time this view is displayed
+    setTimeout(() => {
+      if (this.familyId) {
+        this.loadMembers();
+      }
+    }, 500);
   }
 
   ngOnDestroy(): void {
@@ -328,6 +355,10 @@ export class FamilyDetailsComponent implements OnInit, OnDestroy {
           console.error('Error loading members:', err);
         }
       });
+  }
+
+  refreshMembers(): void {
+    this.loadMembers();
   }
 
   trackByMemberId(index: number, member: FamilyMember): number {

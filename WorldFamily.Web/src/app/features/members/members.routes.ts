@@ -3,13 +3,11 @@ import { Routes } from '@angular/router';
 export const memberRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/families',
-    pathMatch: 'full'
+    loadComponent: () => import('./components/my-members.component').then(c => c.MyMembersComponent)
   },
   {
     path: ':id',
-    redirectTo: '/families',
-    pathMatch: 'full',
+    loadComponent: () => import('./components/member-details.component').then(c => c.MemberDetailsComponent),
     data: { renderMode: 'client-side' }
   }
 ];

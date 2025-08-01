@@ -9,8 +9,16 @@ export class RelativeDatePipe implements PipeTransform {
   transform(value: string | Date | null | undefined): string {
     if (!value) return '';
 
-    const date = new Date(value);
+    // Server returns UTC timestamps without 'Z' suffix, so we need to add it
+    let dateString = value.toString();
+    if (typeof value === 'string' && !dateString.includes('Z') && !dateString.includes('+')) {
+      dateString += 'Z'; // Explicitly mark as UTC
+    }
+    
+    const date = new Date(dateString);
     const now = new Date();
+    
+    // Calculate difference in milliseconds
     const diffInMs = now.getTime() - date.getTime();
     const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
     const diffInHours = Math.floor(diffInMinutes / 60);

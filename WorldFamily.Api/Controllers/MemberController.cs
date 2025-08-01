@@ -13,11 +13,13 @@ namespace WorldFamily.Api.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberService _memberService;
+        private readonly IFamilyService _familyService;
         private readonly IMapper _mapper;
 
-        public MemberController(IMemberService memberService, IMapper mapper)
+        public MemberController(IMemberService memberService, IFamilyService familyService, IMapper mapper)
         {
             _memberService = memberService;
+            _familyService = familyService;
             _mapper = mapper;
         }
 
@@ -79,6 +81,17 @@ namespace WorldFamily.Api.Controllers
                 return BadRequest(ModelState);
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized("User not authenticated");
+
+            // Check if user owns the family they're adding member to
+            var family = await _familyService.GetFamilyByIdAsync(model.FamilyId);
+            if (family == null)
+                return BadRequest("Family not found");
+            
+            if (family.CreatedByUserId != userId)
+                return Forbid("You can only add members to your own families");
+
             var member = new FamilyMember
             {
                 FirstName = model.FirstName,
@@ -91,7 +104,7 @@ namespace WorldFamily.Api.Controllers
                 PlaceOfBirth = model.PlaceOfBirth,
                 PlaceOfDeath = model.PlaceOfDeath,
                 FamilyId = model.FamilyId,
-                AddedByUserId = userId ?? string.Empty
+                AddedByUserId = userId
             };
 
             var createdMember = await _memberService.CreateMemberAsync(member);
@@ -120,6 +133,19 @@ namespace WorldFamily.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized("User not authenticated");
+
+            // Check if user owns the family of this member
+            var existingMember = await _memberService.GetMemberByIdAsync(id);
+            if (existingMember == null)
+                return NotFound("Member not found");
+            
+            var family = await _familyService.GetFamilyByIdAsync(existingMember.FamilyId);
+            if (family?.CreatedByUserId != userId)
+                return Forbid("You can only edit members of your own families");
+
             var member = new FamilyMember
             {
                 Id = id,
@@ -144,6 +170,19 @@ namespace WorldFamily.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMember(int id)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized("User not authenticated");
+
+            // Check if user owns the family of this member
+            var existingMember = await _memberService.GetMemberByIdAsync(id);
+            if (existingMember == null)
+                return NotFound("Member not found");
+            
+            var family = await _familyService.GetFamilyByIdAsync(existingMember.FamilyId);
+            if (family?.CreatedByUserId != userId)
+                return Forbid("You can only delete members of your own families");
+
             var success = await _memberService.DeleteMemberAsync(id);
             if (!success)
                 return NotFound();

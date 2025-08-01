@@ -98,6 +98,18 @@ namespace WorldFamily.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized("User not authenticated");
+
+            // Check if user owns this family
+            var existingFamily = await _familyService.GetFamilyByIdAsync(id);
+            if (existingFamily == null)
+                return NotFound();
+            
+            if (existingFamily.CreatedByUserId != userId)
+                return Forbid("You can only edit your own families");
+
             var family = new Family
             {
                 Id = id,
@@ -115,6 +127,18 @@ namespace WorldFamily.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFamily(int id)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized("User not authenticated");
+
+            // Check if user owns this family
+            var existingFamily = await _familyService.GetFamilyByIdAsync(id);
+            if (existingFamily == null)
+                return NotFound();
+            
+            if (existingFamily.CreatedByUserId != userId)
+                return Forbid("You can only delete your own families");
+
             var success = await _familyService.DeleteFamilyAsync(id);
             if (!success)
                 return NotFound();

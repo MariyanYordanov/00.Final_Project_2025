@@ -32,8 +32,13 @@ namespace WorldFamily.Api.Mappings
 
             // Relationship mappings
             CreateMap<Relationship, RelationshipDto>()
-                .ForMember(dest => dest.MemberName, opt => opt.MapFrom(src => $"{src.PrimaryMember.FirstName} {src.PrimaryMember.MiddleName} {src.PrimaryMember.LastName}"))
-                .ForMember(dest => dest.RelatedMemberName, opt => opt.MapFrom(src => $"{src.RelatedMember.FirstName} {src.RelatedMember.MiddleName} {src.RelatedMember.LastName}"));
+                .ForMember(dest => dest.PrimaryMemberName, opt => opt.MapFrom(src => 
+                    src.PrimaryMember != null ? $"{src.PrimaryMember.FirstName} {src.PrimaryMember.MiddleName} {src.PrimaryMember.LastName}".Trim() : ""))
+                .ForMember(dest => dest.RelatedMemberName, opt => opt.MapFrom(src => 
+                    src.RelatedMember != null ? $"{src.RelatedMember.FirstName} {src.RelatedMember.MiddleName} {src.RelatedMember.LastName}".Trim() : ""));
+            CreateMap<CreateRelationshipDto, Relationship>();
+            CreateMap<UpdateRelationshipDto, Relationship>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             // Photo mappings
             CreateMap<Photo, PhotoDto>()

@@ -64,16 +64,47 @@ namespace WorldFamily.Api.DTOs
 
     public class CreateRelationshipDto
     {
+        [Required]
+        public int PrimaryMemberId { get; set; }
+
+        [Required]
         public int RelatedMemberId { get; set; }
-        public required string RelationshipType { get; set; }
+
+        [Required]
+        public WorldFamily.Data.Models.RelationshipType RelationshipType { get; set; }
+
+        [MaxLength(500)]
+        public string? Notes { get; set; }
     }
 
     public class RelationshipDto
     {
-        public int MemberId { get; set; }
-        public required string MemberName { get; set; }
+        public int Id { get; set; }
+        public int PrimaryMemberId { get; set; }
         public int RelatedMemberId { get; set; }
-        public required string RelatedMemberName { get; set; }
-        public required string RelationshipType { get; set; }
+        public WorldFamily.Data.Models.RelationshipType RelationshipType { get; set; }
+        public string? Notes { get; set; }
+        public DateTime CreatedAt { get; set; }
+        
+        // Additional fields for display
+        public string? PrimaryMemberName { get; set; }
+        public string? RelatedMemberName { get; set; }
+        public string? RelationshipTypeName { get; set; }
+    }
+
+    public class UpdateRelationshipDto
+    {
+        [Required]
+        public WorldFamily.Data.Models.RelationshipType RelationshipType { get; set; }
+
+        [MaxLength(500)]
+        public string? Notes { get; set; }
+    }
+
+    public class MemberRelationshipsDto
+    {
+        public int MemberId { get; set; }
+        public string MemberName { get; set; } = string.Empty;
+        public List<RelationshipDto> Relationships { get; set; } = new();
     }
 }
