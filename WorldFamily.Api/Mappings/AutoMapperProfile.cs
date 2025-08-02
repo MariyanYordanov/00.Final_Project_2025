@@ -45,7 +45,7 @@ namespace WorldFamily.Api.Mappings
                 .ForMember(dest => dest.FamilyName, opt => opt.MapFrom(src => src.Family.Name))
                 .ForMember(dest => dest.UploadedByName, opt => opt.MapFrom(src => $"{src.UploadedBy.FirstName} {src.UploadedBy.MiddleName} {src.UploadedBy.LastName}"))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.Likes.Count))
-                .ForMember(dest => dest.TaggedMembers, opt => opt.MapFrom(src => src.Tags.Select(t => new TaggedMemberDto
+                .ForMember(dest => dest.TaggedMembers, opt => opt.MapFrom(src => src.PhotoTags.Select(t => new TaggedMemberDto
                 {
                     MemberId = t.FamilyMemberId,
                     MemberName = $"{t.FamilyMember.FirstName} {t.FamilyMember.MiddleName} {t.FamilyMember.LastName}"

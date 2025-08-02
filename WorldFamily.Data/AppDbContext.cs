@@ -31,7 +31,6 @@ namespace WorldFamily.Data
                 entity.Property(e => e.FirstName).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.MiddleName).HasMaxLength(50);
                 entity.Property(e => e.LastName).HasMaxLength(50).IsRequired();
-                entity.Property(e => e.Bio).HasMaxLength(500);
             });
 
             modelBuilder.Entity<Family>(entity =>
@@ -60,11 +59,6 @@ namespace WorldFamily.Data
                       .WithMany(f => f.FamilyMembers)
                       .HasForeignKey(e => e.FamilyId)
                       .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.LinkedUser)
-                      .WithMany(u => u.FamilyMembers)
-                      .HasForeignKey(e => e.LinkedUserId)
-                      .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasOne(e => e.AddedBy)
                       .WithMany()
@@ -209,11 +203,6 @@ namespace WorldFamily.Data
                       .WithMany()
                       .HasForeignKey(e => e.FamilyMemberId)
                       .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.TaggedBy)
-                      .WithMany()
-                      .HasForeignKey(e => e.TaggedByUserId)
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<FamilyInvitation>(entity =>

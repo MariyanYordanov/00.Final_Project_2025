@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/auth/login`, credentials)
+    return this.http.post<LoginResponse>(`${this.API_URL}/api/auth/login`, credentials)
       .pipe(
         tap(response => {
           this.setToken(response.token);
@@ -46,12 +46,16 @@ export class AuthService {
   }
 
   register(userData: RegisterRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/auth/register`, userData)
+    // Remove confirmPassword and dateOfBirth as API doesn't expect them
+    const { confirmPassword, dateOfBirth, ...registerData } = userData;
+    return this.http.post<LoginResponse>(`${this.API_URL}/api/auth/register`, registerData)
       .pipe(
         tap(response => {
-          this.setToken(response.token);
-          this.setUser(response.user);
-          this.currentUserSubject.next(response.user);
+          if (response.token && response.user) {
+            this.setToken(response.token);
+            this.setUser(response.user);
+            this.currentUserSubject.next(response.user);
+          }
         })
       );
   }

@@ -23,16 +23,11 @@ namespace WorldFamily.Data.Models
         [MaxLength(50)]
         public string LastName { get; set; } = "";
 
-        [MaxLength(500)]
-        public string? Bio { get; set; }
-
         public string? ProfilePictureUrl { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
         public DateTime CreatedAt { get; set; }
-
-        public DateTime? JoinedAt { get; set; }
 
         public DateTime? LastLoginAt { get; set; }
 

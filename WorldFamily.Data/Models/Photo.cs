@@ -19,8 +19,6 @@ namespace WorldFamily.Data.Models
         [Required]
         public string ImageUrl { get; set; } = string.Empty;
 
-        public string? ThumbnailUrl { get; set; }
-
         public DateTime? DateTaken { get; set; }
 
         [MaxLength(100)]
@@ -34,8 +32,6 @@ namespace WorldFamily.Data.Models
         public string UploadedByUserId { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         
         public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
@@ -44,6 +40,5 @@ namespace WorldFamily.Data.Models
         public virtual ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public virtual ICollection<PhotoTag> PhotoTags { get; set; } = new List<PhotoTag>();
-        public virtual ICollection<PhotoTag> Tags { get; set; } = new List<PhotoTag>();
     }
 }

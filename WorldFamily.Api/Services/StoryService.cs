@@ -16,7 +16,7 @@ public class StoryService : IStoryService
 
     public async Task<IEnumerable<Story>> GetStoriesAsync(int? familyId = null)
     {
-        var query = _context.Stories.AsQueryable();
+        var query = _context.Stories.Include(s => s.Family).AsQueryable();
 
         if (familyId.HasValue)
         {
@@ -29,13 +29,13 @@ public class StoryService : IStoryService
     public async Task<Story?> GetStoryByIdAsync(int id)
     {
         return await _context.Stories
+            .Include(s => s.Family)
             .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task<Story> CreateStoryAsync(Story story)
     {
         story.CreatedAt = DateTime.UtcNow;
-        story.UpdatedAt = DateTime.UtcNow;
         _context.Stories.Add(story);
         await _context.SaveChangesAsync();
         return story;
@@ -49,7 +49,6 @@ public class StoryService : IStoryService
 
         existingStory.Title = story.Title;
         existingStory.Content = story.Content;
-        existingStory.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
         return existingStory;

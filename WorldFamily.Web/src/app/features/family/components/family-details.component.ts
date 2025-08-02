@@ -1,18 +1,15 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink, Router, NavigationEnd } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject, takeUntil, filter } from 'rxjs';
 
 import { FamilyService } from '../../../core/services/family.service';
 import { MemberService } from '../../../core/services/member.service';
-import { Family, FamilyMember } from '../../../core/models/family.interface';
+import { RelationshipService } from '../../../core/services/relationship.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { Family, FamilyMember, Relationship } from '../../../core/models/family.interface';
+import { FamilyTreeComponent } from './family-tree.component';
 import { RelativeDatePipe } from '../../../shared/pipes/relative-date.pipe';
-import { FullNamePipe } from '../../../shared/pipes/full-name.pipe';
-import { MemberAgePipe } from '../../../shared/pipes/member-age.pipe';
 
 @Component({
   selector: 'app-family-details',
@@ -20,270 +17,119 @@ import { MemberAgePipe } from '../../../shared/pipes/member-age.pipe';
   imports: [
     CommonModule, 
     RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    RelativeDatePipe,
-    FullNamePipe,
-    MemberAgePipe
+    FamilyTreeComponent,
+    RelativeDatePipe
   ],
   template: `
-    <div class="details-container">
+    <div class="container my-4">
       <!-- Loading State -->
-      <div *ngIf="isLoading" class="loading-container">
-        <mat-spinner></mat-spinner>
-        <p>Зареждане на семейство...</p>
+      <div *ngIf="isLoading" class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Зареждане...</span>
+        </div>
+        <p class="text-muted">Зареждане на семейство...</p>
       </div>
 
       <!-- Error State -->
-      <div *ngIf="error" class="error-container">
-        <mat-icon color="warn">error</mat-icon>
-        <p>{{ error }}</p>
-        <button mat-raised-button color="primary" (click)="loadFamily()">
+      <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+        <h4>Възникна грешка</h4>
+        <p class="mb-3">{{ error }}</p>
+        <button class="btn btn-primary" (click)="loadFamily()">
+          <i class="fas fa-redo me-2"></i>
           Опитайте отново
         </button>
       </div>
 
       <!-- Family Details -->
       <div *ngIf="family && !isLoading && !error">
-        <div class="family-header">
-          <button mat-button routerLink="/families" class="back-button">
-            <mat-icon>arrow_back</mat-icon>
+        <!-- Back Button -->
+        <div class="mb-4">
+          <a routerLink="/families" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
             Обратно към каталога
-          </button>
+          </a>
+        </div>
+        
+        <!-- Family Header Card -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h3 class="mb-0">
+                  <i class="fas fa-home me-2"></i>
+                  {{ family.name }}
+                </h3>
+                <small class="opacity-75">
+                  <i class="fas fa-calendar me-1"></i>
+                  Създадено {{ family.createdAt | relativeDate }}
+                </small>
+              </div>
+            </div>
+          </div>
           
-          <mat-card class="family-card">
-            <mat-card-header>
-              <mat-card-title>{{ family.name }}</mat-card-title>
-              <mat-card-subtitle>
-                Създадено {{ family.createdAt | relativeDate }}
-              </mat-card-subtitle>
-            </mat-card-header>
+          <div class="card-body">
+            <p *ngIf="family.description" class="lead mb-4">
+              {{ family.description }}
+            </p>
             
-            <mat-card-content>
-              <p *ngIf="family.description" class="family-description">
-                {{ family.description }}
-              </p>
-              
-              <div class="family-info">
-                <div class="info-item" *ngIf="family.location">
-                  <mat-icon>location_on</mat-icon>
+            <div class="row g-3">
+              <div class="col-md-4" *ngIf="family.location">
+                <div class="d-flex align-items-center text-muted">
+                  <i class="fas fa-map-marker-alt me-2"></i>
                   <span>{{ family.location }}</span>
                 </div>
-                
-                <div class="info-item">
-                  <mat-icon>people</mat-icon>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="d-flex align-items-center text-muted">
+                  <i class="fas fa-users me-2"></i>
                   <span>{{ members.length }} членове</span>
                 </div>
-                
-                <div class="info-item">
-                  <mat-icon>{{ family.isPublic ? 'public' : 'lock' }}</mat-icon>
-                  <span>{{ family.isPublic ? 'Публично' : 'Частно' }}</span>
-                </div>
               </div>
-            </mat-card-content>
-          </mat-card>
+              
+              <div class="col-md-4">
+                <span class="badge" 
+                     [class.bg-success]="family.isPublic" 
+                     [class.bg-secondary]="!family.isPublic">
+                  <i class="fas" [class.fa-globe]="family.isPublic" [class.fa-lock]="!family.isPublic" class="me-1"></i>
+                  {{ family.isPublic ? 'Публично' : 'Частно' }}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Family Members -->
-        <div class="members-section">
-          <div class="members-header">
-            <h2>Членове на семейството</h2>
-            <button mat-raised-button color="primary" [routerLink]="['/families', family.id, 'members', 'create']">
-              <mat-icon>person_add</mat-icon>
-              Добави член
-            </button>
-          </div>
-          
-          <div *ngIf="members.length === 0" class="empty-members">
-            <mat-icon>person_add</mat-icon>
-            <p>Няма добавени членове към това семейство</p>
-            <button mat-button color="primary" [routerLink]="['/families', family.id, 'members', 'create']">
-              <mat-icon>add</mat-icon>
-              Добави първия член
-            </button>
-          </div>
-          
-          <div class="members-grid" *ngIf="members.length > 0">
-            <mat-card *ngFor="let member of members; trackBy: trackByMemberId" class="member-card">
-              <mat-card-header>
-                <mat-card-title>
-                  {{ member.firstName | fullName:member.middleName:member.lastName }}
-                </mat-card-title>
-                <mat-card-subtitle>
-                  {{ member.gender }}
-                  <span *ngIf="member.dateOfBirth">
-                    • {{ member.dateOfBirth | memberAge }}
-                  </span>
-                </mat-card-subtitle>
-              </mat-card-header>
-              
-              <mat-card-content>
-                <div class="member-info">
-                  <div class="info-item" *ngIf="member.dateOfBirth">
-                    <mat-icon>cake</mat-icon>
-                    <span>{{ member.dateOfBirth | date:'dd.MM.yyyy' }}</span>
-                  </div>
-                  
-                  <div class="info-item" *ngIf="member.placeOfBirth">
-                    <mat-icon>place</mat-icon>
-                    <span>{{ member.placeOfBirth }}</span>
-                  </div>
-                </div>
-                
-                <p *ngIf="member.biography" class="member-bio">
-                  {{ member.biography | slice:0:100 }}
-                  <span *ngIf="member.biography.length > 100">...</span>
-                </p>
-              </mat-card-content>
-              
-              <mat-card-actions>
-                <button mat-button 
-                        color="primary" 
-                        [routerLink]="['/members', member.id]">
-                  <mat-icon>visibility</mat-icon>
-                  Детайли
-                </button>
-              </mat-card-actions>
-            </mat-card>
-          </div>
+        <!-- Family Tree Section -->
+        <div class="mb-5" *ngIf="members.length > 0">
+          <app-family-tree 
+            [members]="members" 
+            [relationships]="relationships"
+            [canViewBirthDates]="canViewPersonalData()">
+          </app-family-tree>
+        </div>
+
+        <!-- Empty Members State -->
+        <div *ngIf="members.length === 0" class="text-center py-5">
+          <i class="fas fa-user-plus fa-4x text-muted mb-3"></i>
+          <h4 class="text-muted">Няма добавени членове</h4>
+          <p class="text-muted mb-4">Добавете първия член към това семейство</p>
+          <a *ngIf="canManageFamily()" class="btn btn-primary" [routerLink]="['/families', family.id, 'members', 'create']">
+            <i class="fas fa-plus me-2"></i>
+            Добави първия член
+          </a>
         </div>
       </div>
     </div>
   `,
-  styles: [`
-    .details-container {
-      padding: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .loading-container, .error-container {
-      text-align: center;
-      padding: 48px 24px;
-    }
-
-    .loading-container mat-spinner {
-      margin: 0 auto 16px;
-    }
-
-    .error-container mat-icon {
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
-      margin-bottom: 16px;
-    }
-
-    .back-button {
-      margin-bottom: 16px;
-    }
-
-    .family-card {
-      margin-bottom: 32px;
-    }
-
-    .family-description {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 16px;
-      color: #666;
-    }
-
-    .family-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #666;
-    }
-
-    .info-item mat-icon {
-      font-size: 20px;
-      height: 20px;
-      width: 20px;
-    }
-
-    .members-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .members-section h2 {
-      margin: 0;
-      color: #333;
-    }
-
-    .empty-members {
-      text-align: center;
-      padding: 48px 24px;
-      color: #666;
-    }
-
-    .empty-members mat-icon {
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
-      margin-bottom: 16px;
-    }
-
-    .members-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
-    }
-
-    .member-card {
-      transition: transform 0.2s ease-in-out;
-    }
-
-    .member-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .member-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .member-bio {
-      color: #666;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .details-container {
-        padding: 16px;
-      }
-      
-      .members-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      
-      .family-info {
-        flex-direction: column;
-        gap: 12px;
-      }
-    }
-  `]
+  styles: []
 })
 export class FamilyDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   family: Family | null = null;
   members: FamilyMember[] = [];
+  relationships: Relationship[] = [];
   isLoading = true;
   error: string | null = null;
   familyId: number = 0;
@@ -292,7 +138,9 @@ export class FamilyDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     private route: ActivatedRoute,
     private router: Router,
     private familyService: FamilyService,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private relationshipService: RelationshipService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -342,12 +190,14 @@ export class FamilyDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   private loadMembers(): void {
+    // Load both members and relationships
     this.memberService.getMembersByFamily(this.familyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (members) => {
           this.members = members;
-          this.isLoading = false;
+          // Also load relationships for this family
+          this.loadRelationships();
         },
         error: (err) => {
           this.members = [];
@@ -357,11 +207,33 @@ export class FamilyDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
       });
   }
 
+  private loadRelationships(): void {
+    this.relationshipService.getRelationshipsByFamily(this.familyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (relationships) => {
+          this.relationships = relationships;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.relationships = [];
+          this.isLoading = false;
+          console.error('Error loading relationships:', err);
+        }
+      });
+  }
+
   refreshMembers(): void {
     this.loadMembers();
   }
 
-  trackByMemberId(index: number, member: FamilyMember): number {
-    return member.id;
+  canManageFamily(): boolean {
+    if (!this.family) return false;
+    const currentUser = this.authService.getCurrentUser();
+    return currentUser?.id === this.family.createdByUserId;
+  }
+
+  canViewPersonalData(): boolean {
+    return this.canManageFamily();
   }
 }

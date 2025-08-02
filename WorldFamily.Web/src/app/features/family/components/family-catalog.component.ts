@@ -2,11 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
 import { Subject, Observable, takeUntil, debounceTime, switchMap, startWith, catchError, of } from 'rxjs';
 
 import { FamilyService } from '../../../core/services/family.service';
@@ -20,221 +15,139 @@ import { RelativeDatePipe } from '../../../shared/pipes/relative-date.pipe';
     CommonModule, 
     RouterLink, 
     FormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
     RelativeDatePipe
   ],
   template: `
-    <div class="catalog-container">
-      <div class="header-section">
-        <h1>Каталог на семейства</h1>
-        <p>Разгледайте семейните истории и открийте връзки</p>
+    <div class="container my-4">
+      <!-- Hero Section -->
+      <div class="text-center mb-5">
+        <h1 class="display-4 text-primary-custom mb-3">
+          <i class="fas fa-users me-3"></i>
+          Каталог на семейства
+        </h1>
+        <p class="lead text-muted mb-4">Разгледайте семейните истории и открийте връзки</p>
         
-        <button mat-raised-button color="primary" routerLink="/families/create" class="create-button">
-          <mat-icon>add</mat-icon>
-          Създай семейство
-        </button>
-        
-        <!-- Search -->
-        <mat-form-field appearance="outline" class="search-field">
-          <mat-label>Търсене на семейства</mat-label>
-          <input matInput 
-                 placeholder="Въведете име на семейство..." 
-                 [(ngModel)]="searchTerm"
-                 (input)="onSearchChange($event)">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
+        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
+          <a routerLink="/families/create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus me-2"></i>
+            Създай семейство
+          </a>
+          
+          <!-- Search -->
+          <div class="input-group" style="max-width: 400px;">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Търсене на семейства..." 
+              [(ngModel)]="searchTerm"
+              (input)="onSearchChange($event)">
+          </div>
+        </div>
       </div>
 
       <!-- Loading State -->
-      <div *ngIf="isLoading" class="loading-container">
-        <mat-spinner></mat-spinner>
-        <p>Зареждане на семейства...</p>
+      <div *ngIf="isLoading" class="text-center py-5">
+        <div class="spinner-border spinner-border-custom mb-3" role="status">
+          <span class="visually-hidden">Зареждане...</span>
+        </div>
+        <p class="text-muted">Зареждане на семейства...</p>
       </div>
 
       <!-- Error State -->
-      <div *ngIf="error" class="error-container">
-        <mat-icon color="warn">error</mat-icon>
-        <p>Възникна грешка при зареждането: {{ error }}</p>
-        <button mat-raised-button color="primary" (click)="loadFamilies()">
+      <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+        <h4>Възникна грешка</h4>
+        <p class="mb-3">{{ error }}</p>
+        <button class="btn btn-primary" (click)="loadFamilies()">
+          <i class="fas fa-redo me-2"></i>
           Опитайте отново
         </button>
       </div>
 
       <!-- Family Grid -->
-      <div *ngIf="!isLoading && !error" class="families-grid">
-        <mat-card *ngFor="let family of filteredFamilies$ | async; trackBy: trackByFamilyId" 
-                  class="family-card">
-          <mat-card-header>
-            <mat-card-title>{{ family.name }}</mat-card-title>
-            <mat-card-subtitle>
-              Създадено {{ family.createdAt | relativeDate }}
-            </mat-card-subtitle>
-          </mat-card-header>
-          
-          <mat-card-content>
-            <p class="family-description">
-              {{ family.description || 'Няма описание' | slice:0:150 }}
-              <span *ngIf="family.description && family.description.length > 150">...</span>
-            </p>
-            
-            <div class="family-stats">
-              <span class="stat">
-                <mat-icon>people</mat-icon>
-                {{ family.memberCount || 0 }} членове
-              </span>
-              <span class="stat" *ngIf="family.isPublic">
-                <mat-icon>public</mat-icon>
-                Публично
-              </span>
-              <span class="stat" *ngIf="!family.isPublic">
-                <mat-icon>lock</mat-icon>
-                Частно
-              </span>
+      <div *ngIf="!isLoading && !error" class="row g-4">
+        <div *ngFor="let family of filteredFamilies$ | async; trackBy: trackByFamilyId" 
+             class="col-12 col-md-6 col-lg-4">
+          <div class="card family-card h-100 shadow-sm">
+            <!-- Card Header with Family Icon -->
+            <div class="card-header bg-primary-custom text-white d-flex align-items-center">
+              <i class="fas fa-home me-2"></i>
+              <h5 class="mb-0">{{ family.name }}</h5>
             </div>
-          </mat-card-content>
-          
-          <mat-card-actions>
-            <button mat-button 
-                    color="primary" 
-                    [routerLink]="['/families', family.id]">
-              <mat-icon>visibility</mat-icon>
-              Разгледай
-            </button>
-            <button mat-button color="accent" *ngIf="family.isPublic">
-              <mat-icon>share</mat-icon>
-              Споделе
-            </button>
-          </mat-card-actions>
-        </mat-card>
+            
+            <div class="card-body d-flex flex-column">
+              <!-- Creation Date -->
+              <p class="text-muted small mb-2">
+                <i class="fas fa-calendar me-1"></i>
+                Създадено {{ family.createdAt | relativeDate }}
+              </p>
+              
+              <!-- Description -->
+              <p class="card-text flex-grow-1">
+                {{ family.description || 'Няма описание' | slice:0:120 }}
+                <span *ngIf="family.description && family.description.length > 120">...</span>
+              </p>
+              
+              <!-- Family Stats -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <small class="text-muted">
+                  <i class="fas fa-users me-1"></i>
+                  {{ family.memberCount || 0 }} членове
+                </small>
+                <small class="badge" 
+                       [class.bg-success]="family.isPublic" 
+                       [class.bg-secondary]="!family.isPublic">
+                  <i class="fas" [class.fa-globe]="family.isPublic" [class.fa-lock]="!family.isPublic"></i>
+                  {{ family.isPublic ? 'Публично' : 'Частно' }}
+                </small>
+              </div>
+            </div>
+            
+            <!-- Card Actions -->
+            <div class="card-footer bg-transparent">
+              <a [routerLink]="['/families', family.id]" class="btn btn-outline-primary w-100">
+                <i class="fas fa-eye me-2"></i>
+                Разгледай семейството
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Empty State -->
       <div *ngIf="!isLoading && !error && (filteredFamilies$ | async)?.length === 0" 
-           class="empty-state">
-        <mat-icon>family_restroom</mat-icon>
-        <h3>Няма намерени семейства</h3>
-        <p>Опитайте с различен термин за търсене или създайте ново семейство.</p>
-        <button mat-raised-button color="primary" routerLink="/families/create">
-          <mat-icon>add</mat-icon>
-          Създай семейство
-        </button>
+           class="text-center py-5">
+        <i class="fas fa-family fa-4x text-muted mb-3"></i>
+        <h3 class="text-muted">Няма намерени семейства</h3>
+        <p class="text-muted mb-4">Станете първия, който ще създаде семейството си!</p>
+        <a routerLink="/families/create" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i>
+          Създай първото семейство
+        </a>
       </div>
     </div>
   `,
   styles: [`
-    .catalog-container {
-      padding: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .header-section {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .create-button {
-      margin: 16px 0;
-    }
-
-    .header-section h1 {
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    .header-section p {
-      font-size: 1.1rem;
-      color: #666;
-      margin-bottom: 24px;
-    }
-
-    .search-field {
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .loading-container, .error-container, .empty-state {
-      text-align: center;
-      padding: 48px 24px;
-    }
-
-    .loading-container mat-spinner {
-      margin: 0 auto 16px;
-    }
-
-    .error-container mat-icon, .empty-state mat-icon {
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
-      margin-bottom: 16px;
-    }
-
-    .families-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 24px;
-      margin-top: 24px;
-    }
-
+    /* Bootstrap overrides for family cards */
     .family-card {
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
     }
-
+    
     .family-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
     }
-
-    .family-description {
-      color: #666;
-      line-height: 1.5;
-      margin-bottom: 16px;
+    
+    .bg-primary-custom {
+      background-color: var(--primary-color) !important;
     }
-
-    .family-stats {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 8px;
-    }
-
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    .stat mat-icon {
-      font-size: 18px;
-      height: 18px;
-      width: 18px;
-    }
-
-    mat-card-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .catalog-container {
-        padding: 16px;
-      }
-      
-      .families-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      
-      .header-section h1 {
-        font-size: 2rem;
-      }
+    
+    .text-primary-custom {
+      color: var(--primary-color) !important;
     }
   `]
 })

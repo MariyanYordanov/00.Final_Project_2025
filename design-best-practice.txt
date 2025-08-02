@@ -1,0 +1,59 @@
+Design Your Project – Best Practices
+
+1. Clean and Simple Navigation
+	•	Ensure the navigation is intuitive and easy to understand
+	•	Use clear and descriptive labels for the menus
+
+
+2. Consistency
+	•	Apply a consistent design across all pages and interface elements
+	•	This includes colors, fonts, buttons, and icons
+	•	Consistency helps users navigate more easily
+
+3. Simplify
+	•	Avoid overwhelming the user with too much information and elements
+	•	Keep the interface clean and simple, focusing on core functions and content
+
+4. Visual Hierarchy
+	•	Use visual hierarchy to guide users' attention to the most important elements
+	•	Utilize sizes, colors, and positioning to highlight key elements and content
+
+
+5. Readability
+	•	Use easy-to-read fonts and sufficiently large text size
+	•	Ensure adequate contrast between text and background
+
+
+6. Easy to Find Call-to-Action Buttons
+	•	Provide clearly labeled and easily accessible action buttons (like "Buy Now," "Sign Up," "Learn More")
+	•	Use contrasting colors to make them visible
+
+7. Interactive Elements
+	•	Provide feedback when interacting with interactive elements like buttons, links, and forms
+	•	This can include color changes, animations, or other visual indicators
+
+8. Whitespace
+	•	Use sufficient white space to make content easier to perceive and to improve the overall aesthetic of the site
+
+9. Intuitive Icons
+	•	Use easily recognizable icons that clearly indicate their function
+	•	Avoid complex icons that may confuse users
+
+
+10. Use of Visuals
+	•	Utilize high-quality images and graphics that complement the content and enhance the visual appeal of the site
+	•	Avoid excessive use of stock images
+ 
+11. Color Selection
+	•	Create a limited color palette that includes primary, secondary, and accent colors
+	•	Ensure sufficient contrast
+	•	Use accent colors to highlight important elements and neutral colors (like white, black, gray) for background and other secondary elements
+
+
+12. Bonus Resources
+	•	https://digitalsynopsis.com/design/ui-ux-design-tips/
+	•	https://www.paulinewiles.com/articles/12-done-for-you-website-color-schemes
+	•	https://wpmudev.com/blog/hack-your-way-to-great-design-basic-design-principles-for-wordpress-developers/
+	•	https://yellowchalkuiux.medium.com/8-golden-rules-of-interface-design-dff2133c4a66
+
+

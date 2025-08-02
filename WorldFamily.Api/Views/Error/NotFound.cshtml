@@ -1,183 +1,197 @@
 @{
-    ViewData["Title"] = "Page Not Found - 404";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Страницата не е намерена";
 }
 
-<!-- Hero Section -->
-<section class="error-hero-section text-white py-5">
-    <div class="container">
-        <div class="row align-items-center min-vh-75">
-            <div class="col-lg-6">
-                <div class="error-content">
-                    <h1 class="error-code display-1 fw-bold mb-4">404</h1>
-                    <h2 class="error-title display-5 fw-bold mb-3">
-                        <i class="fas fa-search me-2"></i>
-                        Page Not Found
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="error-page">
+                <!-- 404 Icon -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-search fa-5x text-primary opacity-75"></i>
+                    <div class="position-relative">
+                        <h1 class="display-1 fw-bold text-muted">404</h1>
+                        <div class="position-absolute top-50 start-50 translate-middle">
+                            <i class="fas fa-question-circle fa-3x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="mb-4">
+                    <h2 class="h3 text-primary mb-3">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Страницата не е намерена
                     </h2>
-                    <p class="error-description lead mb-4">
-                        Oops! The page you're looking for seems to have wandered off like a lost family member. 
-                        Don't worry, we'll help you find your way back to your family tree.
+                    <p class="lead text-muted mb-4">
+                        Съжаляваме, но страницата която търсите не съществува или е била премахната.
                     </p>
-                    
-                    <!-- Search Suggestion -->
-                    <div class="search-suggestion mb-4">
-                        <p class="mb-2">Maybe you were looking for:</p>
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-lg" 
-                                   placeholder="Search families or members..." 
-                                   id="errorPageSearch">
-                            <button class="btn btn-light btn-lg" type="button" onclick="performSearch()">
-                                <i class="fas fa-search"></i>
-                            </button>
+                </div>
+
+                <!-- Help Section -->
+                <div class="card border-primary mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Какво можете да направите?
+                        </h5>
+                        <div class="row text-start">
+                            <div class="col-md-6 mb-3">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Проверете URL адреса за грешки
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Използвайте навигационното меню
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Върнете се към началната страница
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Използвайте функцията за търсене
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Прегледайте каталога със семейства
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Свържете се с нас за помощ
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Action Buttons -->
-                    <div class="error-actions d-flex flex-wrap gap-3">
-                        <a href="/" class="btn btn-light btn-lg">
-                            <i class="fas fa-home me-2"></i>Go Home
-                        </a>
-                        <a href="/FamilyMvc/Browse" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-users me-2"></i>Browse Families
-                        </a>
-                        <button type="button" class="btn btn-outline-light btn-lg" onclick="goBack()">
-                            <i class="fas fa-arrow-left me-2"></i>Go Back
-                        </button>
-                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <!-- Animated Family Tree Illustration -->
-                <div class="error-illustration">
-                    <div class="floating-tree">
-                        <i class="fas fa-tree fa-10x opacity-75 tree-icon"></i>
-                        <div class="floating-members">
-                            <i class="fas fa-user floating-member member-1"></i>
-                            <i class="fas fa-user floating-member member-2"></i>
-                            <i class="fas fa-user floating-member member-3"></i>
-                            <i class="fas fa-question-circle floating-member missing-member"></i>
+
+                <!-- Quick Actions -->
+                <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
+                        <i class="fas fa-home me-2"></i>
+                        Начална страница
+                    </a>
+                    <a asp-controller="FamilyMvc" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-users me-2"></i>
+                        Каталог със семейства
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="history.back()">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Върни се назад
+                    </button>
+                </div>
+
+                <!-- Additional Help -->
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-question-circle fa-2x text-info mb-3"></i>
+                                    <h6>Имате въпроси?</h6>
+                                    <p class="text-muted small">Посетете нашата страница с често задавани въпроси</p>
+                                    <a href="#" class="btn btn-sm btn-outline-info">FAQ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-envelope fa-2x text-success mb-3"></i>
+                                    <h6>Нужна е помощ?</h6>
+                                    <p class="text-muted small">Свържете се с нашия екип за поддръжка</p>
+                                    <a href="#" class="btn btn-sm btn-outline-success">Контакт</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-bug fa-2x text-warning mb-3"></i>
+                                    <h6>Намерихте проблем?</h6>
+                                    <p class="text-muted small">Съобщете ни за технически грешки</p>
+                                    <a href="#" class="btn btn-sm btn-outline-warning">Съобщи</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Helpful Links Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-4">
-                <h3>Maybe you were looking for one of these?</h3>
-                <p class="text-muted">Popular pages and features</p>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-home fa-3x text-primary mb-3"></i>
-                        <h5 class="card-title">Homepage</h5>
-                        <p class="card-text text-muted">Start your family journey</p>
-                        <a href="/" class="btn btn-outline-primary">Visit Homepage</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-users fa-3x text-success mb-3"></i>
-                        <h5 class="card-title">Browse Families</h5>
-                        <p class="card-text text-muted">Discover family trees</p>
-                        <a href="/FamilyMvc/Browse" class="btn btn-outline-success">Browse Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-plus-circle fa-3x text-warning mb-3"></i>
-                        <h5 class="card-title">Create Family</h5>
-                        <p class="card-text text-muted">Start your own tree</p>
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <a href="/FamilyMvc/Create" class="btn btn-outline-warning">Create Family</a>
-                        }
-                        else
-                        {
-                            <a href="/api/auth/register" class="btn btn-outline-warning">Get Started</a>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-question-circle fa-3x text-info mb-3"></i>
-                        <h5 class="card-title">Get Help</h5>
-                        <p class="card-text text-muted">Find answers & support</p>
-                        <a href="/help" class="btn btn-outline-info">Help Center</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@section Styles {
+    <style>
+        .error-page {
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-<!-- Error Details Section (for debugging - only show in development) -->
-@if (Context.RequestServices.GetService<IWebHostEnvironment>()?.IsDevelopment() == true)
-{
-    <section class="py-4 bg-warning">
-        <div class="container">
-            <div class="alert alert-warning border-0">
-                <h5 class="alert-heading">
-                    <i class="fas fa-code me-2"></i>
-                    Development Information
-                </h5>
-                <hr>
-                <p class="mb-2"><strong>Requested URL:</strong> @Context.Request.Path@Context.Request.QueryString</p>
-                <p class="mb-2"><strong>HTTP Method:</strong> @Context.Request.Method</p>
-                <p class="mb-2"><strong>User Agent:</strong> @Context.Request.Headers.UserAgent</p>
-                <p class="mb-0"><strong>Timestamp:</strong> @DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") UTC</p>
-            </div>
-        </div>
-    </section>
+        .error-icon {
+            position: relative;
+        }
+
+        .error-icon .display-1 {
+            opacity: 0.1;
+            font-size: 8rem;
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        @@media (max-width: 768px) {
+            .error-icon .display-1 {
+                font-size: 4rem;
+            }
+            
+            .error-icon .fas.fa-5x {
+                font-size: 3rem !important;
+            }
+        }
+    </style>
 }
 
-<!-- Contact Support Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5">
-                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
-                        <h4>Still can't find what you're looking for?</h4>
-                        <p class="text-muted mb-4">
-                            Our support team is here to help you navigate your family history journey.
-                        </p>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <a href="/contact" class="btn btn-outline-primary w-100">
-                                    <i class="fas fa-envelope me-2"></i>Contact Support
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="/help" class="btn btn-outline-success w-100">
-                                    <i class="fas fa-book-open me-2"></i>Help Center
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-outline-info w-100" onclick="reportProblem()">
-                                    <i class="fas fa-flag me-2"></i>Report Problem
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Log 404 error for analytics (if needed)
+            console.log('404 Error: Page not found - ' + window.location.href);
+            
+            // Optional: Send error report to server
+            // sendErrorReport('404', window.location.href);
+        });
+        
+        // Add some interactive effects
+        $('.btn').hover(
+            function() {
+                $(this).addClass('shadow');
+            },
+            function() {
+                $(this).removeClass('shadow');
+            }
+        );
+    </script>
+}

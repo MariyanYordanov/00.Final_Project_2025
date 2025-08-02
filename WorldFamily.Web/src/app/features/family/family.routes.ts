@@ -13,7 +13,7 @@ export const familyRoutes: Routes = [
   },
   {
     path: 'create',
-    loadComponent: () => import('./components/family-create.component').then(c => c.FamilyCreateComponent),
+    loadComponent: () => import('./components/family-create-bootstrap.component').then(c => c.FamilyCreateBootstrapComponent),
     canActivate: [AuthGuard]
   },
   {

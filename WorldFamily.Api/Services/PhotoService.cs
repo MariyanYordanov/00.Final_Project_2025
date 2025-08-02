@@ -16,7 +16,7 @@ public class PhotoService : IPhotoService
 
     public async Task<IEnumerable<Photo>> GetPhotosAsync(int? familyId = null)
     {
-        var query = _context.Photos.AsQueryable();
+        var query = _context.Photos.Include(p => p.Family).AsQueryable();
 
         if (familyId.HasValue)
         {
@@ -29,6 +29,7 @@ public class PhotoService : IPhotoService
     public async Task<Photo?> GetPhotoByIdAsync(int id)
     {
         return await _context.Photos
+            .Include(p => p.Family)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 

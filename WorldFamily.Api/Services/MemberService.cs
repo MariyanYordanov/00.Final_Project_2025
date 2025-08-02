@@ -17,6 +17,7 @@ public class MemberService : IMemberService
     public async Task<IEnumerable<FamilyMember>> GetFamilyMembersAsync(int familyId)
     {
         return await _context.FamilyMembers
+            .Include(m => m.Family)
             .Where(m => m.FamilyId == familyId)
             .ToListAsync();
     }
@@ -24,12 +25,12 @@ public class MemberService : IMemberService
     public async Task<FamilyMember?> GetMemberByIdAsync(int id)
     {
         return await _context.FamilyMembers
+            .Include(m => m.Family)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 
     public async Task<FamilyMember> CreateMemberAsync(FamilyMember member)
     {
-        member.JoinedAt = DateTime.UtcNow;
         _context.FamilyMembers.Add(member);
         await _context.SaveChangesAsync();
         return member;
@@ -50,7 +51,6 @@ public class MemberService : IMemberService
         existingMember.Biography = member.Biography;
         existingMember.PlaceOfBirth = member.PlaceOfBirth;
         existingMember.PlaceOfDeath = member.PlaceOfDeath;
-        existingMember.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
         return existingMember;

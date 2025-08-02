@@ -17,12 +17,18 @@ public class FamilyService : IFamilyService
     public async Task<IEnumerable<Family>> GetAllFamiliesAsync()
     {
         return await _context.Families
+            .Include(f => f.FamilyMembers)
+            .Include(f => f.Photos)
+            .Include(f => f.Stories)
             .ToListAsync();
     }
 
     public async Task<Family?> GetFamilyByIdAsync(int id)
     {
         return await _context.Families
+            .Include(f => f.FamilyMembers)
+            .Include(f => f.Photos)
+            .Include(f => f.Stories)
             .FirstOrDefaultAsync(f => f.Id == id);
     }
 
@@ -41,7 +47,6 @@ public class FamilyService : IFamilyService
 
         existingFamily.Name = family.Name;
         existingFamily.Description = family.Description;
-        existingFamily.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
         return existingFamily;

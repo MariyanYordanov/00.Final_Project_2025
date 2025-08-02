@@ -51,7 +51,17 @@ namespace WorldFamily.Api.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                return Ok(new { message = "Registration successful" });
+                
+                // Auto-login after registration
+                var token = await GenerateJwtToken(user);
+                var userDto = _mapper.Map<UserDto>(user);
+                
+                return Ok(new 
+                { 
+                    token = token,
+                    user = userDto,
+                    message = "Registration successful"
+                });
             }
 
             return BadRequest(result.Errors);

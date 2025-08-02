@@ -32,7 +32,6 @@ namespace WorldFamily.Api.Controllers
                 Title = s.Title,
                 Content = s.Content,
                 CreatedAt = s.CreatedAt,
-                UpdatedAt = s.UpdatedAt,
                 FamilyId = s.FamilyId,
                 FamilyName = "",
                 AuthorId = s.AuthorUserId,
@@ -57,7 +56,6 @@ namespace WorldFamily.Api.Controllers
                 Title = story.Title,
                 Content = story.Content,
                 CreatedAt = story.CreatedAt,
-                UpdatedAt = story.UpdatedAt,
                 FamilyId = story.FamilyId,
                 FamilyName = "",
                 AuthorId = story.AuthorUserId,
@@ -79,7 +77,6 @@ namespace WorldFamily.Api.Controllers
                 Title = s.Title,
                 Content = s.Content,
                 CreatedAt = s.CreatedAt,
-                UpdatedAt = s.UpdatedAt,
                 FamilyId = s.FamilyId,
                 FamilyName = "",
                 AuthorId = s.AuthorUserId,
@@ -104,7 +101,6 @@ namespace WorldFamily.Api.Controllers
                 FamilyId = model.FamilyId,
                 AuthorUserId = userId ?? string.Empty,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
             
             var createdStory = await _storyService.CreateStoryAsync(story);
@@ -114,7 +110,6 @@ namespace WorldFamily.Api.Controllers
                 Title = createdStory.Title,
                 Content = createdStory.Content,
                 CreatedAt = createdStory.CreatedAt,
-                UpdatedAt = createdStory.UpdatedAt,
                 FamilyId = createdStory.FamilyId,
                 FamilyName = "",
                 AuthorId = createdStory.AuthorUserId,
@@ -136,7 +131,6 @@ namespace WorldFamily.Api.Controllers
                 Id = id,
                 Title = model.Title,
                 Content = model.Content,
-                UpdatedAt = DateTime.UtcNow
             };
             
             var updatedStory = await _storyService.UpdateStoryAsync(id, story);

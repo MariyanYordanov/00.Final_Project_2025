@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -10,133 +7,141 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule
+    RouterModule
   ],
   template: `
-    <footer class="app-footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>World Family</h3>
-          <p>Свържете се с вашето семейство и открийте вашата история.</p>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Бързи връзки</h4>
-          <ul>
-            <li><a routerLink="/families">Семейства</a></li>
-            <li><a routerLink="/members">Членове</a></li>
-            <li><a routerLink="/about">За нас</a></li>
-            <li><a routerLink="/contact">Контакти</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Следвайте ни</h4>
-          <div class="social-links">
-            <button mat-icon-button>
-              <mat-icon>facebook</mat-icon>
-            </button>
-            <button mat-icon-button>
-              <mat-icon>twitter</mat-icon>
-            </button>
-            <button mat-icon-button>
-              <mat-icon>instagram</mat-icon>
-            </button>
+    <footer class="footer bg-dark text-light py-5 mt-auto">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Brand Section -->
+          <div class="col-lg-4 col-md-6">
+            <h3 class="fw-bold mb-3">
+              <i class="fas fa-home me-2 text-primary"></i>
+              World Family
+            </h3>
+            <p class="text-light-emphasis mb-3">
+              Свържете се с вашето семейство и открийте вашата история.
+            </p>
+            <div class="d-flex gap-2">
+              <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h5 class="fw-semibold mb-3">Бързи връзки</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a routerLink="/families" class="text-light-emphasis text-decoration-none hover-primary">
+                  <i class="fas fa-users me-2"></i>
+                  Семейства
+                </a>
+              </li>
+              <li class="mb-2">
+                <a routerLink="/members" class="text-light-emphasis text-decoration-none hover-primary">
+                  <i class="fas fa-user-friends me-2"></i>
+                  Членове
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-light-emphasis text-decoration-none hover-primary">
+                  <i class="fas fa-info-circle me-2"></i>
+                  За нас
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-light-emphasis text-decoration-none hover-primary">
+                  <i class="fas fa-envelope me-2"></i>
+                  Контакти
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Features -->
+          <div class="col-lg-3 col-md-6">
+            <h5 class="fw-semibold mb-3">Функции</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <span class="text-light-emphasis">
+                  <i class="fas fa-tree me-2"></i>
+                  Родословни дървета
+                </span>
+              </li>
+              <li class="mb-2">
+                <span class="text-light-emphasis">
+                  <i class="fas fa-images me-2"></i>
+                  Семейни галерии
+                </span>
+              </li>
+              <li class="mb-2">
+                <span class="text-light-emphasis">
+                  <i class="fas fa-book me-2"></i>
+                  Семейни истории
+                </span>
+              </li>
+              <li class="mb-2">
+                <span class="text-light-emphasis">
+                  <i class="fas fa-shield-alt me-2"></i>
+                  Сигурност и поверителност
+                </span>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h5 class="fw-semibold mb-3">Свържете се с нас</h5>
+            <div class="text-light-emphasis">
+              <div class="mb-2">
+                <i class="fas fa-envelope me-2"></i>
+                info@worldfamily.bg
+              </div>
+              <div class="mb-2">
+                <i class="fas fa-phone me-2"></i>
+                +359 888 123 456
+              </div>
+              <div class="mb-2">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                София, България
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2025 World Family. Всички права запазени.</p>
+        
+        <!-- Copyright -->
+        <hr class="my-4 border-secondary">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="text-light-emphasis mb-0">
+              &copy; 2025 World Family. Всички права запазени.
+            </p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <small class="text-light-emphasis">
+              Създадено с <i class="fas fa-heart text-danger"></i> за семействата
+            </small>
+          </div>
+        </div>
       </div>
     </footer>
   `,
   styles: [`
-    .app-footer {
-      background-color: #424242;
-      color: white;
-      margin-top: auto;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 16px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 32px;
-    }
-
-    .footer-section h3,
-    .footer-section h4 {
-      margin-bottom: 16px;
-      color: #fff;
-    }
-
-    .footer-section h3 {
-      font-size: 24px;
-      font-weight: 500;
-    }
-
-    .footer-section h4 {
-      font-size: 18px;
-      font-weight: 400;
-    }
-
-    .footer-section p {
-      color: #ccc;
-      line-height: 1.6;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 8px;
-    }
-
-    .footer-section ul li a {
-      color: #ccc;
-      text-decoration: none;
+    .hover-primary:hover {
+      color: var(--bs-primary) !important;
       transition: color 0.3s ease;
     }
-
-    .footer-section ul li a:hover {
-      color: #fff;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 8px;
-    }
-
-    .social-links button {
-      color: #ccc;
-    }
-
-    .social-links button:hover {
-      color: #fff;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid #555;
-      text-align: center;
-      padding: 16px;
-      color: #ccc;
-    }
-
-    @media (max-width: 768px) {
-      .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 24px 16px;
-      }
+    
+    .footer {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
     }
   `]
 })

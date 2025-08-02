@@ -1,84 +1,73 @@
 using Microsoft.AspNetCore.Mvc;
 using WorldFamily.Api.Contracts;
 using WorldFamily.Data.Models;
-using WorldFamily.Data;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WorldFamily.Api.Controllers.Mvc
 {
     public class HomeController : Controller
     {
         private readonly IFamilyService _familyService;
-        private readonly AppDbContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IFamilyService familyService, AppDbContext context, ILogger<HomeController> logger)
+        public HomeController(IFamilyService familyService, ILogger<HomeController> logger)
         {
             _familyService = familyService;
-            _context = context;
             _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
+            ViewData["Title"] = "Начало - World Family";
+            
             try
             {
-                // Get featured families for homepage (recent public families)
-                var featuredFamilies = await _context.Families
-                    .Where(f => f.IsPublic)
-                    .OrderByDescending(f => f.CreatedAt)
-                    .Take(6)
-                    .ToListAsync();
-                ViewBag.FeaturedFamilies = featuredFamilies;
+                // Get recent families for homepage
+                var recentFamilies = await _familyService.GetAllFamiliesAsync();
+                var featuredFamilies = recentFamilies.Take(6).ToList();
                 
-                // Get stats for homepage
-                ViewBag.TotalFamilies = await _context.Families.CountAsync();
-                ViewBag.TotalMembers = await _context.FamilyMembers.CountAsync();
+                ViewBag.FeaturedFamilies = featuredFamilies;
+                ViewBag.TotalFamilies = recentFamilies.Count();
                 
                 return View();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error loading homepage");
-                ViewBag.ErrorMessage = "Unable to load homepage content.";
+                _logger.LogError(ex, "Error loading homepage data");
+                ViewBag.FeaturedFamilies = new List<Family>();
+                ViewBag.TotalFamilies = 0;
                 return View();
             }
         }
 
         public IActionResult About()
         {
-            ViewData["Title"] = "About World Family";
+            ViewData["Title"] = "За нас - World Family";
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Title"] = "Contact Us";
+            ViewData["Title"] = "Контакти - World Family";
             return View();
         }
 
         public IActionResult Privacy()
         {
-            ViewData["Title"] = "Privacy Policy";
+            ViewData["Title"] = "Поверителност - World Family";
             return View();
         }
 
         public IActionResult Help()
         {
-            ViewData["Title"] = "Help & FAQ";
+            ViewData["Title"] = "Помощ - World Family";
             return View();
         }
 
-        public IActionResult Features()
+        [Authorize]
+        public IActionResult Dashboard()
         {
-            ViewData["Title"] = "Features";
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            ViewData["Title"] = "Error";
+            ViewData["Title"] = "Моят профил - World Family";
             return View();
         }
     }

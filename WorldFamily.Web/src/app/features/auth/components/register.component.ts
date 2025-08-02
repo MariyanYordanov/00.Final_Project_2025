@@ -2,14 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { RegisterRequest } from '../../../core/models/user.interface';
 import { catchError, finalize } from 'rxjs/operators';
@@ -31,155 +23,179 @@ function passwordMatchValidator(control: AbstractControl) {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    RouterLink
   ],
   template: `
     <div class="auth-container">
-      <mat-card class="auth-card">
-        <mat-card-header>
-          <mat-card-title>Регистрация в World Family</mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
+      <div class="auth-card">
+        <!-- Header -->
+        <div class="auth-header">
+          <h2 class="mb-0">
+            <i class="fas fa-user-plus me-2"></i>
+            Регистрация в World Family
+          </h2>
+          <p class="mb-0 mt-2 opacity-75">Създайте акаунт за семейната мрежа</p>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-4">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="name-row">
-              <mat-form-field appearance="outline" class="name-field">
-                <mat-label>Име</mat-label>
-                <input matInput formControlName="firstName" required>
-                <mat-error *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+            <!-- Name Fields Row -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label for="firstName" class="form-label">
+                  <i class="fas fa-user me-1"></i>
+                  Име *
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="firstName"
+                  formControlName="firstName" 
+                  placeholder="Име"
+                  [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                <div class="invalid-feedback" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
                   Името е задължително
-                </mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="name-field">
-                <mat-label>Презиме</mat-label>
-                <input matInput formControlName="middleName" required>
-                <mat-error *ngIf="registerForm.get('middleName')?.invalid && registerForm.get('middleName')?.touched">
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <label for="middleName" class="form-label">
+                  <i class="fas fa-user me-1"></i>
+                  Презиме *
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="middleName"
+                  formControlName="middleName" 
+                  placeholder="Презиме"
+                  [class.is-invalid]="registerForm.get('middleName')?.invalid && registerForm.get('middleName')?.touched">
+                <div class="invalid-feedback" *ngIf="registerForm.get('middleName')?.invalid && registerForm.get('middleName')?.touched">
                   Презимето е задължително
-                </mat-error>
-              </mat-form-field>
+                </div>
+              </div>
 
-              <mat-form-field appearance="outline" class="name-field">
-                <mat-label>Фамилия</mat-label>
-                <input matInput formControlName="lastName" required>
-                <mat-error *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+              <div class="col-md-4">
+                <label for="lastName" class="form-label">
+                  <i class="fas fa-user me-1"></i>
+                  Фамилия *
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="lastName"
+                  formControlName="lastName" 
+                  placeholder="Фамилия"
+                  [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                <div class="invalid-feedback" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
                   Фамилията е задължителна
-                </mat-error>
-              </mat-form-field>
+                </div>
+              </div>
             </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" required>
-              <mat-error *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-                Моля въведете валиден email
-              </mat-error>
-            </mat-form-field>
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope me-1"></i>
+                Email адрес *
+              </label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                formControlName="email" 
+                placeholder="Въведете вашия email"
+                [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+              <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                Моля въведете валиден email адрес
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Дата на раждане</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            <!-- Date of Birth Field -->
+            <div class="mb-3">
+              <label for="dateOfBirth" class="form-label">
+                <i class="fas fa-calendar me-1"></i>
+                Дата на раждане *
+              </label>
+              <input 
+                type="date" 
+                class="form-control" 
+                id="dateOfBirth"
+                formControlName="dateOfBirth" 
+                placeholder="Изберете дата"
+                [class.is-invalid]="registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched">
+              <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched">
+                Датата на раждане е задължителна
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Парола</mat-label>
-              <input matInput type="password" formControlName="password" required>
-              <mat-error *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-                Паролата трябва да е поне 6 символа
-              </mat-error>
-            </mat-form-field>
+            <!-- Password Fields -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="password" class="form-label">
+                  <i class="fas fa-lock me-1"></i>
+                  Парола *
+                </label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="password"
+                  formControlName="password" 
+                  placeholder="Въведете парола"
+                  [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                  Паролата трябва да е поне 6 символа
+                </div>
+              </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Потвърдете паролата</mat-label>
-              <input matInput type="password" formControlName="confirmPassword" required>
-              <mat-error *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
-                Потвърдената парола е задължителна
-              </mat-error>
-              <mat-error *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
-                Паролите не съвпадат
-              </mat-error>
-            </mat-form-field>
+              <div class="col-md-6">
+                <label for="confirmPassword" class="form-label">
+                  <i class="fas fa-lock me-1"></i>
+                  Потвърдете паролата *
+                </label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="confirmPassword"
+                  formControlName="confirmPassword" 
+                  placeholder="Потвърдете паролата"
+                  [class.is-invalid]="(registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) || (registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched)">
+                <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                  Потвърдената парола е задължителна
+                </div>
+                <div class="invalid-feedback" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+                  Паролите не съвпадат
+                </div>
+              </div>
+            </div>
 
+            <!-- Submit Button -->
             <button 
-              mat-raised-button 
-              color="primary" 
               type="submit" 
-              class="full-width submit-button"
+              class="btn btn-primary w-100 py-2"
               [disabled]="registerForm.invalid || isLoading">
-              <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+              <i *ngIf="!isLoading" class="fas fa-user-plus me-2"></i>
               {{ isLoading ? 'Регистриране...' : 'Регистрирай се' }}
             </button>
           </form>
-        </mat-card-content>
 
-        <mat-card-actions>
-          <p>Вече имате акаунт? <a routerLink="/auth/login" mat-button color="accent">Влезте</a></p>
-        </mat-card-actions>
-      </mat-card>
+          <!-- Login Link -->
+          <div class="text-center mt-4">
+            <p class="mb-0">
+              Вече имате акаунт? 
+              <a routerLink="/auth/login" class="text-decoration-none fw-bold">
+                Влезте
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .auth-card {
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .full-width {
-      width: 100%;
-      margin-bottom: 16px;
-    }
-
-    .name-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .name-field {
-      flex: 1;
-    }
-
-    .submit-button {
-      margin-top: 16px;
-      height: 48px;
-    }
-
-    mat-card-title {
-      text-align: center;
-      color: #333;
-      margin-bottom: 0;
-    }
-
-    mat-card-actions p {
-      margin: 0;
-      text-align: center;
-    }
-
-    @media (max-width: 600px) {
-      .name-row {
-        flex-direction: column;
-        gap: 0;
-      }
-    }
+    /* Register page uses global auth-container and auth-card styles from styles.scss */
   `]
 })
 export class RegisterComponent {
@@ -189,17 +205,20 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private router: Router
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required]],
       middleName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/)
+      ]],
       confirmPassword: ['', [Validators.required]],
-      dateOfBirth: ['']
+      dateOfBirth: ['', [Validators.required]]
     }, { validators: passwordMatchValidator });
   }
 
@@ -211,18 +230,16 @@ export class RegisterComponent {
       this.authService.register(registerData)
         .pipe(
           catchError(error => {
-            this.snackBar.open(
-              error.error?.message || 'Грешка при регистрация. Моля опитайте отново.',
-              'Затвори',
-              { duration: 5000 }
-            );
+            console.error('Register error:', error);
+            alert(error.error?.message || 'Грешка при регистрация. Моля опитайте отново.');
             return of(null);
           }),
           finalize(() => this.isLoading = false)
         )
         .subscribe(response => {
           if (response) {
-            this.snackBar.open('Успешна регистрация!', 'Затвори', { duration: 3000 });
+            console.log('Registration successful');
+            alert('Регистрацията е успешна! Добре дошли!');
             this.router.navigate(['/families']);
           }
         });

@@ -1,285 +1,177 @@
-// World Family - Site JavaScript
+// World Family MVC Site JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
-    
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Auto-hide alerts after 5 seconds
+    // Auto-dismiss alerts after 5 seconds
     setTimeout(function() {
-        const alerts = document.querySelectorAll('.alert');
+        var alerts = document.querySelectorAll('.alert');
         alerts.forEach(function(alert) {
-            const bsAlert = new bootstrap.Alert(alert);
+            var bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         });
     }, 5000);
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+    // Search functionality enhancement
+    const searchInputs = document.querySelectorAll('input[type="search"], input[name="search"]');
+    searchInputs.forEach(function(input) {
+        input.addEventListener('input', function() {
+            // Add search suggestions or real-time filtering here
+            console.log('Searching for:', this.value);
         });
     });
-
-    // Search functionality with debounce
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        let searchTimeout;
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                performSearch(this.value);
-            }, 300);
-        });
-    }
-
-    // Family grid animations
-    observeElements('.family-card', 'animate-fade-in');
-    observeElements('.feature-card', 'animate-slide-up');
 
     // Form validation enhancement
-    enhanceFormValidation();
-
-    // Loading states for buttons
-    addLoadingStates();
-});
-
-// Search functionality
-function performSearch(query) {
-    if (query.length < 2) return;
-    
-    // Show loading state
-    showSearchLoading(true);
-    
-    // This would typically make an AJAX call to search endpoint
-    // For now, we'll just filter visible cards
-    const cards = document.querySelectorAll('.family-card');
-    cards.forEach(card => {
-        const familyName = card.querySelector('h5').textContent.toLowerCase();
-        const description = card.querySelector('p').textContent.toLowerCase();
-        const searchTerm = query.toLowerCase();
-        
-        if (familyName.includes(searchTerm) || description.includes(searchTerm)) {
-            card.style.display = 'block';
-            card.classList.add('animate-fade-in');
-        } else {
-            card.style.display = 'none';
-        }
-    });
-    
-    showSearchLoading(false);
-}
-
-function showSearchLoading(show) {
-    const searchButton = document.querySelector('.search-btn');
-    if (searchButton) {
-        if (show) {
-            searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            searchButton.disabled = true;
-        } else {
-            searchButton.innerHTML = '<i class="fas fa-search"></i>';
-            searchButton.disabled = false;
-        }
-    }
-}
-
-// Intersection Observer for animations
-function observeElements(selector, animationClass) {
-    const elements = document.querySelectorAll(selector);
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add(animationClass);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    elements.forEach(el => observer.observe(el));
-}
-
-// Enhanced form validation
-function enhanceFormValidation() {
-    const forms = document.querySelectorAll('.needs-validation');
-    
-    forms.forEach(form => {
-        form.addEventListener('submit', function(event) {
+    const forms = document.querySelectorAll('form');
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
             if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                // Focus first invalid field
-                const firstInvalid = form.querySelector(':invalid');
-                if (firstInvalid) {
-                    firstInvalid.focus();
-                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+                e.preventDefault();
+                e.stopPropagation();
             }
-            
             form.classList.add('was-validated');
         });
-        
-        // Real-time validation
-        const inputs = form.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-            
-            input.addEventListener('input', function() {
-                if (this.classList.contains('is-invalid')) {
-                    validateField(this);
-                }
-            });
-        });
     });
-}
 
-function validateField(field) {
-    const isValid = field.checkValidity();
-    
-    field.classList.remove('is-valid', 'is-invalid');
-    field.classList.add(isValid ? 'is-valid' : 'is-invalid');
-    
-    // Custom validation messages
-    const feedback = field.parentNode.querySelector('.invalid-feedback');
-    if (feedback && !isValid) {
-        feedback.textContent = getValidationMessage(field);
+    // Family tree zoom functionality
+    const zoomControls = document.querySelector('.zoom-controls');
+    if (zoomControls) {
+        let currentZoom = 1;
+        const treeContainer = document.querySelector('.tree-container');
+        
+        zoomControls.addEventListener('click', function(e) {
+            if (e.target.classList.contains('zoom-in')) {
+                currentZoom = Math.min(currentZoom + 0.1, 2);
+            } else if (e.target.classList.contains('zoom-out')) {
+                currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            } else if (e.target.classList.contains('zoom-reset')) {
+                currentZoom = 1;
+            }
+            
+            if (treeContainer) {
+                treeContainer.style.transform = `scale(${currentZoom})`;
+            }
+        });
     }
-}
 
-function getValidationMessage(field) {
-    if (field.validity.valueMissing) {
-        return `${field.getAttribute('data-field-name') || 'This field'} is required.`;
-    }
-    if (field.validity.typeMismatch) {
-        return `Please enter a valid ${field.type}.`;
-    }
-    if (field.validity.tooShort) {
-        return `Must be at least ${field.minLength} characters long.`;
-    }
-    if (field.validity.tooLong) {
-        return `Must be no more than ${field.maxLength} characters long.`;
-    }
-    if (field.validity.patternMismatch) {
-        return field.getAttribute('data-pattern-message') || 'Please match the requested format.';
-    }
-    return 'Please enter a valid value.';
-}
-
-// Loading states for buttons
-function addLoadingStates() {
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function() {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn && !submitBtn.disabled) {
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<span class="loading"></span> Processing...';
-                submitBtn.disabled = true;
+    // Family tree member click handlers
+    const treeMembers = document.querySelectorAll('.tree-member');
+    treeMembers.forEach(function(member) {
+        member.addEventListener('click', function() {
+            const memberId = this.dataset.memberId;
+            const memberName = this.dataset.memberName;
+            
+            // Show member details in modal
+            const modal = document.getElementById('memberModal');
+            if (modal) {
+                const modalTitle = modal.querySelector('.modal-title');
+                const modalBody = modal.querySelector('.modal-body');
                 
-                // Re-enable after 10 seconds as fallback
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 10000);
+                if (modalTitle) modalTitle.textContent = memberName;
+                if (modalBody) modalBody.innerHTML = `
+                    <p><strong>ID:</strong> ${memberId}</p>
+                    <p><strong>Име:</strong> ${memberName}</p>
+                    <p>Повече информация за този член...</p>
+                `;
+                
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
             }
         });
     });
-}
 
-// Utility functions
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    toast.innerHTML = `
-        ${message}
+    // Confirm delete actions
+    const deleteButtons = document.querySelectorAll('.btn-delete, [data-action="delete"]');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const itemName = this.dataset.itemName || 'елемента';
+            const confirmed = confirm(`Сигурни ли сте, че искате да изтриете ${itemName}?`);
+            
+            if (!confirmed) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+
+    // Loading states for buttons
+    const submitButtons = document.querySelectorAll('button[type="submit"]');
+    submitButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const form = this.closest('form');
+            if (form && form.checkValidity()) {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Обработва се...';
+                this.disabled = true;
+                
+                // Re-enable after 5 seconds as fallback
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.innerHTML = this.dataset.originalText || 'Изпрати';
+                }, 5000);
+            }
+        });
+    });
+
+    // Store original button text
+    submitButtons.forEach(function(button) {
+        button.dataset.originalText = button.innerHTML;
+    });
+});
+
+// Global functions
+function showSuccessMessage(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+    alertDiv.innerHTML = `
+        <i class="fas fa-check-circle me-2"></i>${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     
-    document.body.appendChild(toast);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (toast.parentNode) {
-            toast.parentNode.removeChild(toast);
-        }
-    }, 5000);
+    const container = document.querySelector('.container');
+    if (container) {
+        container.insertBefore(alertDiv, container.firstChild);
+    }
 }
 
-// AJAX helper function
-function makeRequest(url, options = {}) {
-    const defaultOptions = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    };
+function showErrorMessage(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+    alertDiv.innerHTML = `
+        <i class="fas fa-exclamation-triangle me-2"></i>${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
     
-    const config = { ...defaultOptions, ...options };
-    
-    return fetch(url, config)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Request failed:', error);
-            showToast('An error occurred. Please try again.', 'danger');
-            throw error;
-        });
+    const container = document.querySelector('.container');
+    if (container) {
+        container.insertBefore(alertDiv, container.firstChild);
+    }
 }
 
-// Animation CSS classes (to be added via JavaScript)
-const animationStyles = `
-    .animate-fade-in {
-        animation: fadeIn 0.6s ease-in-out;
-    }
+// Search functionality for help pages
+function performSearch(query) {
+    const searchResults = document.getElementById('searchResults');
+    if (!searchResults) return;
     
-    .animate-slide-up {
-        animation: slideUp 0.8s ease-out;
-    }
+    // Mock search results
+    const mockResults = [
+        { title: 'Как да създам семейство?', url: '#', snippet: 'Научете как да създадете ново семейство...' },
+        { title: 'Добавяне на членове', url: '#', snippet: 'Стъпки за добавяне на нови членове...' },
+        { title: 'Управление на снимки', url: '#', snippet: 'Как да качвате и организирате снимки...' }
+    ];
     
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+    const filteredResults = mockResults.filter(result => 
+        result.title.toLowerCase().includes(query.toLowerCase()) ||
+        result.snippet.toLowerCase().includes(query.toLowerCase())
+    );
     
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
-
-// Inject animation styles
-const styleSheet = document.createElement('style');
-styleSheet.textContent = animationStyles;
-document.head.appendChild(styleSheet);
+    searchResults.innerHTML = filteredResults.map(result => `
+        <div class="search-result mb-3">
+            <h6><a href="${result.url}">${result.title}</a></h6>
+            <p class="small text-muted">${result.snippet}</p>
+        </div>
+    `).join('');
+}

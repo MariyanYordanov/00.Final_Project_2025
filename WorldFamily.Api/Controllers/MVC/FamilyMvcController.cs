@@ -1,72 +1,69 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WorldFamily.Api.Contracts;
 using WorldFamily.Data.Models;
-using WorldFamily.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace WorldFamily.Api.Controllers.Mvc
 {
-    public class FamilyMvcController : Controller
+    public class WebController : Controller
     {
         private readonly IFamilyService _familyService;
         private readonly IMemberService _memberService;
-        private readonly AppDbContext _context;
-        private readonly ILogger<FamilyMvcController> _logger;
+        private readonly IRelationshipService _relationshipService;
+        private readonly ILogger<WebController> _logger;
 
-        public FamilyMvcController(
-            IFamilyService familyService, 
+        public WebController(
+            IFamilyService familyService,
             IMemberService memberService,
-            AppDbContext context,
-            ILogger<FamilyMvcController> logger)
+            IRelationshipService relationshipService,
+            ILogger<WebController> logger)
         {
             _familyService = familyService;
             _memberService = memberService;
-            _context = context;
+            _relationshipService = relationshipService;
             _logger = logger;
         }
 
-        // GET: /FamilyMvc/Browse
-        public async Task<IActionResult> Browse(int page = 1, string search = "", string sort = "name")
+        // GET: /FamilyMvc
+        public async Task<IActionResult> Index(string search = "", int page = 1)
         {
+            ViewData["Title"] = "Семейства - World Family";
+            
             try
             {
-                ViewData["Title"] = "Browse Families";
+                var families = await _familyService.GetAllFamiliesAsync();
                 
-                const int pageSize = 12;
-                // Get paginated families with direct query
-                var query = _context.Families.Where(f => f.IsPublic);
-                
+                // Apply search filter
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query = query.Where(f => f.Name.Contains(search) || f.Description.Contains(search));
+                    families = families.Where(f => f.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                                                 f.Description.Contains(search, StringComparison.OrdinalIgnoreCase))
+                                     .ToList();
                 }
                 
-                query = sort switch
-                {
-                    "date" => query.OrderByDescending(f => f.CreatedAt),
-                    "members" => query.OrderByDescending(f => f.FamilyMembers.Count),
-                    _ => query.OrderBy(f => f.Name)
-                };
+                // Pagination
+                const int pageSize = 9;
+                var totalCount = families.Count();
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 
-                var totalFamilies = await query.CountAsync();
-                var families = await query
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+                var pagedFamilies = families.Skip((page - 1) * pageSize)
+                                          .Take(pageSize)
+                                          .ToList();
                 
+                ViewBag.Families = pagedFamilies;
                 ViewBag.CurrentPage = page;
-                ViewBag.TotalPages = (int)Math.Ceiling((double)totalFamilies / pageSize);
+                ViewBag.TotalPages = totalPages;
                 ViewBag.SearchTerm = search;
-                ViewBag.SortOrder = sort;
+                ViewBag.TotalCount = totalCount;
                 
-                return View(families);
+                return View();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error browsing families");
-                TempData["ErrorMessage"] = "Unable to load families.";
-                return View(new List<Family>());
+                _logger.LogError(ex, "Error loading families");
+                TempData["ErrorMessage"] = "Възникна грешка при зареждането на семействата.";
+                ViewBag.Families = new List<Family>();
+                return View();
             }
         }
 
@@ -80,54 +77,69 @@ namespace WorldFamily.Api.Controllers.Mvc
                 {
                     return NotFound();
                 }
-
-                ViewData["Title"] = $"{family.Name} Family";
+                
+                ViewData["Title"] = $"{family.Name} - World Family";
                 
                 // Get family members
                 var members = await _memberService.GetFamilyMembersAsync(id);
                 ViewBag.Members = members;
                 
-                // Get family statistics
-                ViewBag.MemberCount = members.Count();
-                // Simple generation count (could be improved with actual family tree logic)
-                ViewBag.GenerationCount = Math.Max(1, members.Count() / 3);
-                
                 return View(family);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error loading family details for ID {FamilyId}", id);
-                TempData["ErrorMessage"] = "Unable to load family details.";
-                return RedirectToAction(nameof(Browse));
+                _logger.LogError(ex, "Error loading family details for ID: {FamilyId}", id);
+                TempData["ErrorMessage"] = "Възникна грешка при зареждането на семейството.";
+                return RedirectToAction(nameof(Index));
             }
         }
 
-        // GET: /FamilyMvc/Gallery/5
-        public async Task<IActionResult> Gallery(int id)
+        // GET: /FamilyMvc/Create
+        [Authorize]
+        public IActionResult Create()
         {
-            try
-            {
-                var family = await _familyService.GetFamilyByIdAsync(id);
-                if (family == null)
-                {
-                    return NotFound();
-                }
+            ViewData["Title"] = "Създай семейство - World Family";
+            return View();
+        }
 
-                ViewData["Title"] = $"{family.Name} - Photo Gallery";
-                ViewBag.Family = family;
-                
-                // Get family photos (this would be implemented in PhotoService)
-                // var photos = await _photoService.GetFamilyPhotosAsync(id);
-                // ViewBag.Photos = photos;
-                
-                return View();
-            }
-            catch (Exception ex)
+        // POST: /FamilyMvc/Create
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Family family)
+        {
+            ViewData["Title"] = "Създай семейство - World Family";
+            
+            if (ModelState.IsValid)
             {
-                _logger.LogError(ex, "Error loading family gallery for ID {FamilyId}", id);
-                TempData["ErrorMessage"] = "Unable to load family gallery.";
-                return RedirectToAction(nameof(Details), new { id });
+                try
+                {
+                    // Get current user ID
+                    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                    
+                    family.CreatedByUserId = userId;
+                    family.CreatedAt = DateTime.UtcNow;
+                    
+                    var result = await _familyService.CreateFamilyAsync(family);
+                    
+                    if (result != null)
+                    {
+                        TempData["SuccessMessage"] = "Семейството беше създадено успешно!";
+                        return RedirectToAction(nameof(Details), new { id = result.Id });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Възникна грешка при създаването на семейството.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error creating family");
+                    ModelState.AddModelError("", "Възникна грешка при създаването на семейството.");
+                }
             }
+            
+            return View(family);
         }
 
         // GET: /FamilyMvc/Tree/5
@@ -140,65 +152,23 @@ namespace WorldFamily.Api.Controllers.Mvc
                 {
                     return NotFound();
                 }
-
-                ViewData["Title"] = $"{family.Name} - Family Tree";
-                ViewBag.Family = family;
                 
-                // Get family tree data
+                ViewData["Title"] = $"Родословно дърво - {family.Name}";
+                
+                // Get family members and relationships for tree visualization
                 var members = await _memberService.GetFamilyMembersAsync(id);
-                // Get relationships from database directly
-                var relationships = await _context.Relationships
-                    .Where(r => members.Any(m => m.Id == r.PrimaryMemberId) ||
-                               members.Any(m => m.Id == r.RelatedMemberId))
-                    .ToListAsync();
+                var relationships = await _relationshipService.GetRelationshipsByFamilyAsync(id);
                 
                 ViewBag.Members = members;
                 ViewBag.Relationships = relationships;
                 
-                return View();
+                return View(family);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error loading family tree for ID {FamilyId}", id);
-                TempData["ErrorMessage"] = "Unable to load family tree.";
+                _logger.LogError(ex, "Error loading family tree for ID: {FamilyId}", id);
+                TempData["ErrorMessage"] = "Възникна грешка при зареждането на родословното дърво.";
                 return RedirectToAction(nameof(Details), new { id });
-            }
-        }
-
-        // GET: /FamilyMvc/Create
-        [Authorize]
-        public IActionResult Create()
-        {
-            ViewData["Title"] = "Create New Family";
-            return View();
-        }
-
-        // POST: /FamilyMvc/Create
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Family family)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                    family.CreatedByUserId = userId;
-                    family.CreatedAt = DateTime.UtcNow;
-                    
-                    var createdFamily = await _familyService.CreateFamilyAsync(family);
-                    TempData["SuccessMessage"] = "Family created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = createdFamily.Id });
-                }
-                
-                return View(family);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error creating family");
-                TempData["ErrorMessage"] = "Unable to create family. Please try again.";
-                return View(family);
             }
         }
     }

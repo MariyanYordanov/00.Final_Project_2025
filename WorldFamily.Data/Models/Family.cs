@@ -13,16 +13,12 @@ namespace WorldFamily.Data.Models
         [MaxLength(1000)]
         public string? Description { get; set; }
 
-        public string? FamilyTreeImageUrl { get; set; }
-
         public bool IsPublic { get; set; } = true;
 
         [Required]
         public string CreatedByUserId { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User CreatedBy { get; set; } = null!;
         public virtual ICollection<FamilyMember> FamilyMembers { get; set; } = new List<FamilyMember>();

@@ -33,9 +33,9 @@ namespace WorldFamily.Api.Controllers
                 Description = f.Description,
                 CreatedAt = f.CreatedAt,
                 CreatedByUserId = f.CreatedByUserId,
-                MemberCount = 0, // Will be loaded separately
-                PhotoCount = 0,
-                StoryCount = 0
+                MemberCount = f.FamilyMembers?.Count ?? 0,
+                PhotoCount = f.Photos?.Count ?? 0,
+                StoryCount = f.Stories?.Count ?? 0
             });
             return Ok(familyDtos);
         }
@@ -55,9 +55,9 @@ namespace WorldFamily.Api.Controllers
                 Description = family.Description,
                 CreatedAt = family.CreatedAt,
                 CreatedByUserId = family.CreatedByUserId,
-                MemberCount = 0, // Will be loaded separately if needed
-                PhotoCount = 0,
-                StoryCount = 0
+                MemberCount = family.FamilyMembers?.Count ?? 0,
+                PhotoCount = family.Photos?.Count ?? 0,
+                StoryCount = family.Stories?.Count ?? 0
             };
             return Ok(familyDto);
         }

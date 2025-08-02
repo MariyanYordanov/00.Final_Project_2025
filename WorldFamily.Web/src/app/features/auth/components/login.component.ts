@@ -2,12 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginRequest } from '../../../core/models/user.interface';
 import { catchError, finalize } from 'rxjs/operators';
@@ -19,92 +13,94 @@ import { of } from 'rxjs';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule
+    RouterLink
   ],
   template: `
     <div class="auth-container">
-      <mat-card class="auth-card">
-        <mat-card-header>
-          <mat-card-title>Вход в World Family</mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
+      <div class="auth-card">
+        <!-- Header -->
+        <div class="auth-header">
+          <h2 class="mb-0">
+            <i class="fas fa-sign-in-alt me-2"></i>
+            Вход в World Family
+          </h2>
+          <p class="mb-0 mt-2 opacity-75">Влезте в семейната мрежа</p>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-4">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" required>
-              <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                Моля въведете валиден email
-              </mat-error>
-            </mat-form-field>
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope me-1"></i>
+                Email адрес
+              </label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                formControlName="email" 
+                placeholder="Въведете вашия email"
+                [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                Моля въведете валиден email адрес
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Парола</mat-label>
-              <input matInput type="password" formControlName="password" required>
-              <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <!-- Password Field -->
+            <div class="mb-4">
+              <label for="password" class="form-label">
+                <i class="fas fa-lock me-1"></i>
+                Парола
+              </label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                formControlName="password" 
+                placeholder="Въведете вашата парола"
+                [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
                 Паролата е задължителна
-              </mat-error>
-            </mat-form-field>
+              </div>
+            </div>
 
+            <!-- Submit Button -->
             <button 
-              mat-raised-button 
-              color="primary" 
               type="submit" 
-              class="full-width submit-button"
+              class="btn btn-primary w-100 py-2"
               [disabled]="loginForm.invalid || isLoading">
-              <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+              <i *ngIf="!isLoading" class="fas fa-sign-in-alt me-2"></i>
               {{ isLoading ? 'Влизане...' : 'Влез' }}
             </button>
           </form>
-        </mat-card-content>
 
-        <mat-card-actions>
-          <p>Нямате акаунт? <a routerLink="/auth/register" mat-button color="accent">Регистрирайте се</a></p>
-        </mat-card-actions>
-      </mat-card>
+          <!-- Register Link -->
+          <div class="text-center mt-4">
+            <p class="mb-0">
+              Нямате акаунт? 
+              <a routerLink="/auth/register" class="text-decoration-none fw-bold">
+                Регистрирайте се
+              </a>
+            </p>
+          </div>
+
+          <!-- Demo Credentials -->
+          <div class="mt-4 p-3 bg-light rounded">
+            <small class="text-muted">
+              <strong>Демо достъп:</strong><br>
+              Email: admin@worldfamily.com<br>
+              Парола: Admin123
+            </small>
+          </div>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .auth-card {
-      max-width: 400px;
-      width: 100%;
-    }
-
-    .full-width {
-      width: 100%;
-      margin-bottom: 16px;
-    }
-
-    .submit-button {
-      margin-top: 16px;
-      height: 48px;
-    }
-
-    mat-card-title {
-      text-align: center;
-      color: #333;
-      margin-bottom: 0;
-    }
-
-    mat-card-actions p {
-      margin: 0;
-      text-align: center;
-    }
+    /* Login page uses global auth-container and auth-card styles from styles.scss */
   `]
 })
 export class LoginComponent implements OnInit {
@@ -116,8 +112,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -142,18 +137,15 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginData)
         .pipe(
           catchError(error => {
-            this.snackBar.open(
-              error.error?.message || 'Грешка при влизане. Моля опитайте отново.',
-              'Затвори',
-              { duration: 5000 }
-            );
+            console.error('Login error:', error);
+            alert(error.error?.message || 'Грешка при влизане. Моля опитайте отново.');
             return of(null);
           }),
           finalize(() => this.isLoading = false)
         )
         .subscribe(response => {
           if (response) {
-            this.snackBar.open('Успешно влизане!', 'Затвори', { duration: 3000 });
+            console.log('Login successful');
             this.router.navigate([this.returnUrl]);
           }
         });

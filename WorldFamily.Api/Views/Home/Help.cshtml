@@ -1,720 +1,84 @@
 @{
-    ViewData["Title"] = "Help Center";
+    ViewData["Title"] = "Помощ - World Family";
 }
 
-<!-- Hero Section -->
-<section class="hero-section text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    <i class="fas fa-question-circle me-3"></i>
-                    Help Center
-                </h1>
-                <p class="lead mb-4">
-                    Find answers to common questions and learn how to make the most of World Family. 
-                    We're here to help you build and share your family story.
-                </p>
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-primary mb-3">
+                <i class="fas fa-question-circle me-3"></i>Помощ и поддръжка
+            </h1>
+            <p class="lead text-muted">
+                Намерете отговори на най-често задаваните въпроси
+            </p>
+        </div>
+
+        <!-- Help Categories -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Първи стъпки</h5>
+                        <p class="card-text">Научете как да започнете с World Family</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <i class="fas fa-life-ring fa-10x opacity-75"></i>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-sitemap fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Семейни дървета</h5>
+                        <p class="card-text">Как да създавате и управлявате родословни дървета</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-cog fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Настройки</h5>
+                        <p class="card-text">Персонализирайте вашия профил и настройки</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Search Help -->
-<section class="py-4 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="input-group input-group-lg">
-                    <input type="text" class="form-control" id="helpSearch" 
-                           placeholder="Search for help topics...">
-                    <button class="btn btn-primary search-btn" type="button">
-                        <i class="fas fa-search"></i>
+        <!-- FAQ -->
+        <div class="accordion" id="helpAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Как да създам ново семейство?
                     </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Quick Help Categories -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="display-6 fw-bold">Popular Help Topics</h2>
-                <p class="lead text-muted">Quick access to the most common questions</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
-                        <h4 class="card-title">Getting Started</h4>
-                        <p class="card-text text-muted mb-4">
-                            Learn how to create your account, set up your first family tree, 
-                            and invite family members.
-                        </p>
-                        <a href="#getting-started" class="btn btn-outline-primary">
-                            View Guides <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-project-diagram fa-3x text-success mb-3"></i>
-                        <h4 class="card-title">Family Trees</h4>
-                        <p class="card-text text-muted mb-4">
-                            Understanding how to build, edit, and navigate your family tree 
-                            with relationships and connections.
-                        </p>
-                        <a href="#family-trees" class="btn btn-outline-success">
-                            Learn More <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-images fa-3x text-warning mb-3"></i>
-                        <h4 class="card-title">Photos & Stories</h4>
-                        <p class="card-text text-muted mb-4">
-                            How to upload photos, write family stories, and organize 
-                            your memories effectively.
-                        </p>
-                        <a href="#photos-stories" class="btn btn-outline-warning">
-                            Get Help <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-shield-alt fa-3x text-info mb-3"></i>
-                        <h4 class="card-title">Privacy & Security</h4>
-                        <p class="card-text text-muted mb-4">
-                            Learn about privacy settings, who can see your information, 
-                            and how to keep your data secure.
-                        </p>
-                        <a href="#privacy-security" class="btn btn-outline-info">
-                            Security Help <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-users fa-3x text-danger mb-3"></i>
-                        <h4 class="card-title">Family Collaboration</h4>
-                        <p class="card-text text-muted mb-4">
-                            Tips for inviting family members, managing permissions, 
-                            and collaborating on your family tree.
-                        </p>
-                        <a href="#collaboration" class="btn btn-outline-danger">
-                            Collaboration Tips <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm feature-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-cog fa-3x text-secondary mb-3"></i>
-                        <h4 class="card-title">Account Settings</h4>
-                        <p class="card-text text-muted mb-4">
-                            Manage your account, update your profile, change passwords, 
-                            and customize your experience.
-                        </p>
-                        <a href="#account-settings" class="btn btn-outline-secondary">
-                            Account Help <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 mx-auto">
-                <h2 class="text-center mb-5">
-                    <i class="fas fa-comments text-primary me-2"></i>
-                    Frequently Asked Questions
                 </h2>
-                
-                <!-- Getting Started -->
-                <div id="getting-started" class="mb-5">
-                    <h3 class="h4 mb-4 text-primary">
-                        <i class="fas fa-rocket me-2"></i>
-                        Getting Started
-                    </h3>
-                    
-                    <div class="accordion" id="gettingStartedAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#gs1">
-                                    How do I create my first family tree?
-                                </button>
-                            </h2>
-                            <div id="gs1" class="accordion-collapse collapse show" data-bs-parent="#gettingStartedAccordion">
-                                <div class="accordion-body">
-                                    <ol>
-                                        <li>Sign up for a free account</li>
-                                        <li>Click "Create Family" from your dashboard</li>
-                                        <li>Enter your family name and description</li>
-                                        <li>Add yourself as the first family member</li>
-                                        <li>Start adding parents, siblings, and other relatives</li>
-                                        <li>Upload photos and share stories to bring your tree to life</li>
-                                    </ol>
-                                    <p class="mb-0 mt-3">
-                                        <strong>Tip:</strong> Start with yourself and work your way up and down the family tree.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gs2">
-                                    How do I invite family members to join?
-                                </button>
-                            </h2>
-                            <div id="gs2" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
-                                <div class="accordion-body">
-                                    <p>There are several ways to invite family members:</p>
-                                    <ul>
-                                        <li><strong>Email Invitation:</strong> Go to your family tree and click "Invite Members"</li>
-                                        <li><strong>Share Link:</strong> Generate a special invitation link to share</li>
-                                        <li><strong>Add Manually:</strong> Add family members and they'll receive a notification to claim their profile</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        You can switch between trees easily from your dashboard.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ft3">
-                                    How do I navigate large family trees?
-                                </button>
-                            </h2>
-                            <div id="ft3" class="accordion-collapse collapse" data-bs-parent="#familyTreesAccordion">
-                                <div class="accordion-body">
-                                    <p>For large family trees, we provide several navigation tools:</p>
-                                    <ul>
-                                        <li><strong>Zoom:</strong> Use mouse wheel or zoom controls to get an overview</li>
-                                        <li><strong>Search:</strong> Find specific family members quickly</li>
-                                        <li><strong>Focus Mode:</strong> Center the tree on a specific person</li>
-                                        <li><strong>Generation View:</strong> Show only specific generations</li>
-                                        <li><strong>Branch Filtering:</strong> Hide or show specific family branches</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Photos & Stories -->
-                <div id="photos-stories" class="mb-5">
-                    <h3 class="h4 mb-4 text-warning">
-                        <i class="fas fa-camera me-2"></i>
-                        Photos and Stories
-                    </h3>
-                    
-                    <div class="accordion" id="photosStoriesAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps1">
-                                    What photo formats are supported?
-                                </button>
-                            </h2>
-                            <div id="ps1" class="accordion-collapse collapse" data-bs-parent="#photosStoriesAccordion">
-                                <div class="accordion-body">
-                                    <p>We support most common image formats:</p>
-                                    <ul>
-                                        <li><strong>JPEG/JPG</strong> - Most common format</li>
-                                        <li><strong>PNG</strong> - High quality with transparency</li>
-                                        <li><strong>GIF</strong> - For animated images</li>
-                                        <li><strong>WEBP</strong> - Modern efficient format</li>
-                                    </ul>
-                                    <p><strong>File Size Limits:</strong></p>
-                                    <ul class="mb-0">
-                                        <li>Maximum file size: 10MB per photo</li>
-                                        <li>Recommended resolution: 1920x1080 or higher</li>
-                                        <li>We automatically optimize photos for web viewing</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps2">
-                                    How do I tag people in photos?
-                                </button>
-                            </h2>
-                            <div id="ps2" class="accordion-collapse collapse" data-bs-parent="#photosStoriesAccordion">
-                                <div class="accordion-body">
-                                    <p>Photo tagging helps connect photos to family members:</p>
-                                    <ol>
-                                        <li>Upload your photo to a family member's profile or gallery</li>
-                                        <li>Click on the photo to open it</li>
-                                        <li>Click "Tag People" button</li>
-                                        <li>Click on faces in the photo</li>
-                                        <li>Select the family member from the dropdown</li>
-                                        <li>Save your tags</li>
-                                    </ol>
-                                    <p class="mb-0">
-                                        Tagged photos will appear in each person's photo collection automatically.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps3">
-                                    How do I write and organize family stories?
-                                </button>
-                            </h2>
-                            <div id="ps3" class="accordion-collapse collapse" data-bs-parent="#photosStoriesAccordion">
-                                <div class="accordion-body">
-                                    <p>Family stories preserve memories and bring your tree to life:</p>
-                                    <ul>
-                                        <li><strong>Personal Stories:</strong> Attach stories to individual family members</li>
-                                        <li><strong>Family Events:</strong> Document weddings, reunions, holidays</li>
-                                        <li><strong>Historical Context:</strong> Add stories about family traditions</li>
-                                        <li><strong>Photo Stories:</strong> Combine photos with written memories</li>
-                                    </ul>
-                                    <p><strong>Tips for great stories:</strong></p>
-                                    <ul class="mb-0">
-                                        <li>Include dates and locations when possible</li>
-                                        <li>Ask family members to contribute their memories</li>
-                                        <li>Use photos to illustrate your stories</li>
-                                        <li>Keep stories organized by person or event</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Privacy & Security -->
-                <div id="privacy-security" class="mb-5">
-                    <h3 class="h4 mb-4 text-info">
-                        <i class="fas fa-lock me-2"></i>
-                        Privacy and Security
-                    </h3>
-                    
-                    <div class="accordion" id="privacySecurityAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps_sec1">
-                                    Who can see my family information?
-                                </button>
-                            </h2>
-                            <div id="ps_sec1" class="accordion-collapse collapse" data-bs-parent="#privacySecurityAccordion">
-                                <div class="accordion-body">
-                                    <p>You have complete control over your family's privacy:</p>
-                                    <ul>
-                                        <li><strong>Private:</strong> Only you can see the information</li>
-                                        <li><strong>Family Only:</strong> Only invited family members can view</li>
-                                        <li><strong>Public:</strong> Anyone can view (optional for sharing heritage)</li>
-                                    </ul>
-                                    <p><strong>Default Privacy Settings:</strong></p>
-                                    <ul class="mb-0">
-                                        <li>All new family trees are private by default</li>
-                                        <li>You can change privacy settings at any time</li>
-                                        <li>Individual family members can control their own information</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps_sec2">
-                                    How do I manage family member permissions?
-                                </button>
-                            </h2>
-                            <div id="ps_sec2" class="accordion-collapse collapse" data-bs-parent="#privacySecurityAccordion">
-                                <div class="accordion-body">
-                                    <p>As a family tree creator, you can assign different permission levels:</p>
-                                    <ul>
-                                        <li><strong>Administrator:</strong> Full access to edit all information</li>
-                                        <li><strong>Editor:</strong> Can edit most information and add new members</li>
-                                        <li><strong>Contributor:</strong> Can add photos, stories, and edit their own info</li>
-                                        <li><strong>Viewer:</strong> Can only view information, no editing</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        Change permissions anytime from your Family Settings page.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ps_sec3">
-                                    Is my data backed up and secure?
-                                </button>
-                            </h2>
-                            <div id="ps_sec3" class="accordion-collapse collapse" data-bs-parent="#privacySecurityAccordion">
-                                <div class="accordion-body">
-                                    <p>Yes! We take data security very seriously:</p>
-                                    <ul>
-                                        <li><strong>Encryption:</strong> All data is encrypted in transit and at rest</li>
-                                        <li><strong>Backups:</strong> Daily automated backups stored securely</li>
-                                        <li><strong>Access Control:</strong> Strict employee access controls</li>
-                                        <li><strong>Monitoring:</strong> 24/7 security monitoring and alerts</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        You can also export your data anytime as an additional backup.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Collaboration -->
-                <div id="collaboration" class="mb-5">
-                    <h3 class="h4 mb-4 text-danger">
-                        <i class="fas fa-handshake me-2"></i>
-                        Family Collaboration
-                    </h3>
-                    
-                    <div class="accordion" id="collaborationAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collab1">
-                                    How do I coordinate with family members on the tree?
-                                </button>
-                            </h2>
-                            <div id="collab1" class="accordion-collapse collapse" data-bs-parent="#collaborationAccordion">
-                                <div class="accordion-body">
-                                    <p>Effective family collaboration makes your tree more complete:</p>
-                                    <ul>
-                                        <li><strong>Assign Roles:</strong> Give different family members specific responsibilities</li>
-                                        <li><strong>Comments:</strong> Use comments on profiles to discuss information</li>
-                                        <li><strong>Activity Feed:</strong> See what family members have added recently</li>
-                                        <li><strong>Notifications:</strong> Get notified when information is updated</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        <strong>Tip:</strong> Designate one person per family branch to coordinate information.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collab2">
-                                    What if family members disagree on information?
-                                </button>
-                            </h2>
-                            <div id="collab2" class="accordion-collapse collapse" data-bs-parent="#collaborationAccordion">
-                                <div class="accordion-body">
-                                    <p>Disagreements are common in family research. Here's how to handle them:</p>
-                                    <ul>
-                                        <li><strong>Document Sources:</strong> Always note where information came from</li>
-                                        <li><strong>Alternative Information:</strong> Include multiple versions when uncertain</li>
-                                        <li><strong>Comments:</strong> Use comments to explain discrepancies</li>
-                                        <li><strong>Family Discussions:</strong> Organize family meetings to resolve conflicts</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        Remember: the goal is preserving family history, not being "right."
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account Settings -->
-                <div id="account-settings" class="mb-5">
-                    <h3 class="h4 mb-4 text-secondary">
-                        <i class="fas fa-user-cog me-2"></i>
-                        Account Management
-                    </h3>
-                    
-                    <div class="accordion" id="accountAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account1">
-                                    How do I change my password?
-                                </button>
-                            </h2>
-                            <div id="account1" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
-                                <div class="accordion-body">
-                                    <ol>
-                                        <li>Go to your Account Settings</li>
-                                        <li>Click on "Security" tab</li>
-                                        <li>Click "Change Password"</li>
-                                        <li>Enter your current password</li>
-                                        <li>Enter your new password twice</li>
-                                        <li>Click "Update Password"</li>
-                                    </ol>
-                                    <p class="mb-0">
-                                        <strong>Password Requirements:</strong> Minimum 8 characters with uppercase, lowercase, and numbers.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account2">
-                                    How do I export my family tree data?
-                                </button>
-                            </h2>
-                            <div id="account2" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
-                                <div class="accordion-body">
-                                    <p>You can export your family tree data in several formats:</p>
-                                    <ol>
-                                        <li>Go to Family Settings</li>
-                                        <li>Click "Export Data"</li>
-                                        <li>Choose your export format:
-                                            <ul>
-                                                <li><strong>GEDCOM:</strong> Standard genealogy format</li>
-                                                <li><strong>PDF:</strong> Printable family tree</li>
-                                                <li><strong>JSON:</strong> Complete data backup</li>
-                                            </ul>
-                                        </li>
-                                        <li>Select what to include (photos, stories, etc.)</li>
-                                        <li>Click "Generate Export"</li>
-                                        <li>Download when ready (you'll receive an email)</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account3">
-                                    How do I delete my account?
-                                </button>
-                            </h2>
-                            <div id="account3" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
-                                <div class="accordion-body">
-                                    <div class="alert alert-warning">
-                                        <strong>Important:</strong> Deleting your account is permanent and cannot be undone.
-                                    </div>
-                                    <p>Before deleting your account:</p>
-                                    <ul>
-                                        <li>Export your family tree data</li>
-                                        <li>Transfer ownership of family trees to other members</li>
-                                        <li>Download any photos or documents you want to keep</li>
-                                    </ul>
-                                    <p>To delete your account:</p>
-                                    <ol>
-                                        <li>Go to Account Settings</li>
-                                        <li>Click "Delete Account" at the bottom</li>
-                                        <li>Confirm your password</li>
-                                        <li>Type "DELETE" to confirm</li>
-                                        <li>Click "Permanently Delete Account"</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        След регистрация кликнете "Създай семейство" и попълнете формата с данни за семейството.
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Still Need Help -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-6 fw-bold mb-3">
-                    <i class="fas fa-headset me-2"></i>
-                    Still Need Help?
-                </h2>
-                <p class="lead mb-4">
-                    Can't find what you're looking for? Our support team is here to help!
-                </p>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card bg-light text-dark border-0">
-                            <div class="card-body p-4">
-                                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
-                                <h5>Email Support</h5>
-                                <p class="mb-3 small">Get detailed help via email</p>
-                                <a href="/contact" class="btn btn-primary btn-sm">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-light text-dark border-0">
-                            <div class="card-body p-4">
-                                <i class="fas fa-video fa-2x text-success mb-3"></i>
-                                <h5>Video Tutorials</h5>
-                                <p class="mb-3 small">Watch step-by-step guides</p>
-                                <a href="#" class="btn btn-success btn-sm">Watch Videos</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-light text-dark border-0">
-                            <div class="card-body p-4">
-                                <i class="fas fa-users fa-2x text-warning mb-3"></i>
-                                <h5>Community Forum</h5>
-                                <p class="mb-3 small">Get help from other users</p>
-                                <a href="#" class="btn btn-warning btn-sm">Join Forum</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="mb-0">
-                    <strong>Average Response Time:</strong> 24 hours | 
-                    <strong>Support Hours:</strong> Monday-Friday, 9AM-6PM EST
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-@section Scripts {
-    <script>
-        // Help search functionality
-        document.getElementById('helpSearch').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const accordions = document.querySelectorAll('.accordion-item');
             
-            accordions.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                if (text.includes(searchTerm) || searchTerm === '') {
-                    item.style.display = 'block';
-                    if (searchTerm !== '') {
-                        // Expand matching items
-                        const collapse = item.querySelector('.accordion-collapse');
-                        if (collapse && !collapse.classList.contains('show')) {
-                            const button = item.querySelector('.accordion-button');
-                            button.click();
-                        }
-                    }
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-}
-
-                                        Invited members can view and edit information you give them permission to access.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gs3">
-                                    What information should I include for each family member?
-                                </button>
-                            </h2>
-                            <div id="gs3" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
-                                <div class="accordion-body">
-                                    <p>You can include as much or as little information as you want:</p>
-                                    <ul>
-                                        <li><strong>Basic Info:</strong> Name, birth date, gender</li>
-                                        <li><strong>Life Events:</strong> Marriage, death, education, career</li>
-                                        <li><strong>Photos:</strong> Portrait photos, family photos, documents</li>
-                                        <li><strong>Stories:</strong> Personal memories, achievements, family traditions</li>
-                                        <li><strong>Relationships:</strong> Parents, spouses, children, siblings</li>
-                                    </ul>
-                                    <p class="mb-0">
-                                        <strong>Remember:</strong> Only add information that family members are comfortable sharing.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Как да добавя членове към семейството?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        Отидете в детайлите на семейството и кликнете "Добави член". Попълнете данните за новия член.
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Family Trees -->
-                <div id="family-trees" class="mb-5">
-                    <h3 class="h4 mb-4 text-success">
-                        <i class="fas fa-sitemap me-2"></i>
-                        Working with Family Trees
-                    </h3>
-                    
-                    <div class="accordion" id="familyTreesAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ft1">
-                                    How do I add relationships between family members?
-                                </button>
-                            </h2>
-                            <div id="ft1" class="accordion-collapse collapse" data-bs-parent="#familyTreesAccordion">
-                                <div class="accordion-body">
-                                    <p>Adding relationships is easy:</p>
-                                    <ol>
-                                        <li>Click on a family member in your tree</li>
-                                        <li>Select "Add Relationship" from the menu</li>
-                                        <li>Choose the relationship type (parent, child, spouse, sibling)</li>
-                                        <li>Either select an existing family member or create a new one</li>
-                                        <li>Confirm the relationship</li>
-                                    </ol>
-                                    <p class="mb-0">
-                                        The family tree will automatically update to show the new connections.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ft2">
-                                    Can I have multiple family trees?
-                                </button>
-                            </h2>
-                            <div id="ft2" class="accordion-collapse collapse" data-bs-parent="#familyTreesAccordion">
-                                <div class="accordion-body">
-                                    <p>
-                                        Yes! You can create separate family trees for different family lines 
-                                        or organize them however makes sense for your family. For example:
-                                    </p>
-                                    <ul>
-                                        <li>Maternal and paternal family trees</li>
-                                        <li>Different surnames or family branches</li>
-                                        <li>In-laws and extended family</li>
-                                    </ul>
-                                    <p class="mb-0">
+        <!-- Contact Support -->
+        <div class="bg-light p-4 rounded text-center mt-5">
+            <h4 class="text-primary mb-3">Нужна ви е помощ?</h4>
+            <a asp-area="" asp-controller="Home" asp-action="Contact" class="btn btn-primary">
+                <i class="fas fa-envelope me-2"></i>Свържете се с нас
+            </a>
+        </div>
+    </div>
+</div>

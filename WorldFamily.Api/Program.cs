@@ -197,72 +197,43 @@ else
     app.UseHsts();
 }
 
-// Custom status code pages middleware
+// API-only status code handling
 app.UseStatusCodePages(async context =>
 {
     var statusCode = context.HttpContext.Response.StatusCode;
     var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
     var path = context.HttpContext.Request.Path;
     
-    // Don't redirect API calls - return JSON error response
-    if (path.StartsWithSegments("/api"))
+    // Return JSON error response for all requests
+    context.HttpContext.Response.ContentType = "application/json";
+    var error = new
     {
-        context.HttpContext.Response.ContentType = "application/json";
-        var error = new
+        type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+        title = statusCode switch
         {
-            type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-            title = statusCode switch
-            {
-                404 => "Not Found",
-                403 => "Forbidden",
-                401 => "Unauthorized",
-                _ => "Error"
-            },
-            status = statusCode,
-            detail = statusCode switch
-            {
-                404 => "The requested resource was not found.",
-                403 => "You do not have permission to access this resource.",
-                401 => "Authentication is required to access this resource.",
-                _ => "An error occurred processing your request."
-            },
-            traceId = context.HttpContext.TraceIdentifier
-        };
-        
-        await context.HttpContext.Response.WriteAsJsonAsync(error);
-        return;
-    }
-
-    switch (statusCode)
-    {
-        case 404:
-            logger.LogWarning(
-                "404 Not Found: {Path} - User: {User} - UserAgent: {UserAgent}",
-                context.HttpContext.Request.Path,
-                context.HttpContext.User.Identity?.Name ?? "Anonymous",
-                context.HttpContext.Request.Headers.UserAgent);
-
-            context.HttpContext.Response.Redirect("/Error/404");
-            break;
-
-        case 403:
-            logger.LogWarning(
-                "403 Forbidden: {Path} - User: {User}",
-                context.HttpContext.Request.Path,
-                context.HttpContext.User.Identity?.Name ?? "Anonymous");
-
-            context.HttpContext.Response.Redirect("/Error/403");
-            break;
-
-        case 500:
-            logger.LogError(
-                "500 Internal Server Error: {Path} - User: {User}",
-                context.HttpContext.Request.Path,
-                context.HttpContext.User.Identity?.Name ?? "Anonymous");
-
-            context.HttpContext.Response.Redirect("/Error/500");
-            break;
-    }
+            404 => "Not Found",
+            403 => "Forbidden", 
+            401 => "Unauthorized",
+            500 => "Internal Server Error",
+            _ => "Error"
+        },
+        status = statusCode,
+        detail = statusCode switch
+        {
+            404 => "The requested API endpoint was not found.",
+            403 => "You do not have permission to access this API resource.",
+            401 => "Authentication is required to access this API resource.",
+            500 => "An internal server error occurred.",
+            _ => "An error occurred processing your API request."
+        },
+        traceId = context.HttpContext.TraceIdentifier
+    };
+    
+    // Log the error
+    logger.LogWarning("API Error {StatusCode}: {Path} - User: {User}", 
+        statusCode, path, context.HttpContext.User.Identity?.Name ?? "Anonymous");
+    
+    await context.HttpContext.Response.WriteAsJsonAsync(error);
 });
 
 
@@ -281,7 +252,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
-// Use static files for photo uploads
+// Use static files for MVC pages (CSS, JS, images)
 app.UseStaticFiles();
 
 // Use CORS
@@ -291,20 +262,23 @@ app.UseCors("AllowAngularApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map controllers with areas
+// Map controllers with areas (for Admin)
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+// Map MVC controllers
 app.MapControllerRoute(
-    name: "mvc",
+    name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Map error routes
 app.MapControllerRoute(
     name: "errors",
     pattern: "Error/{action=Index}",
     defaults: new { controller = "Error" });
     
+// Map API controllers
 app.MapControllers();
 
 // Health check endpoint

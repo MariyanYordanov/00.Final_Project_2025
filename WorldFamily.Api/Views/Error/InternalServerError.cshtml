@@ -1,244 +1,297 @@
 @{
-    ViewData["Title"] = "Internal Server Error - 500";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Възникна техническа грешка";
 }
 
-<!-- Hero Section -->
-<section class="error-hero-section text-white py-5">
-    <div class="container">
-        <div class="row align-items-center min-vh-75">
-            <div class="col-lg-6">
-                <div class="error-content">
-                    <h1 class="error-code display-1 fw-bold mb-4">500</h1>
-                    <h2 class="error-title display-5 fw-bold mb-3">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        Something Went Wrong
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="error-page">
+                <!-- 500 Icon -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-tools fa-5x text-danger opacity-75"></i>
+                    <div class="position-relative">
+                        <h1 class="display-1 fw-bold text-muted">500</h1>
+                        <div class="position-absolute top-50 start-50 translate-middle">
+                            <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="mb-4">
+                    <h2 class="h3 text-danger mb-3">
+                        <i class="fas fa-cog me-2"></i>
+                        Възникна техническа грешка
                     </h2>
-                    <p class="error-description lead mb-4">
-                        We're experiencing some technical difficulties on our family tree servers. 
-                        Our team has been notified and we're working to restore everything quickly.
+                    <p class="lead text-muted mb-4">
+                        Съжаляваме за неудобството. Нашият екип работи по отстраняването на проблема.
                     </p>
-                    
-                    <!-- Status Information -->
-                    <div class="status-info mb-4">
-                        <div class="card bg-dark bg-opacity-25 border-0">
+                </div>
+
+                <!-- Error Details (if in development) -->
+                @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                {
+                    <div class="alert alert-warning text-start mb-4">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-code me-2"></i>
+                            Информация за разработчици
+                        </h6>
+                        <p class="mb-2">
+                            <strong>Време:</strong> @DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")
+                        </p>
+                        <p class="mb-2">
+                            <strong>URL:</strong> <code>@Context.Request.Path</code>
+                        </p>
+                        <p class="mb-0">
+                            <strong>Метод:</strong> <span class="badge bg-primary">@Context.Request.Method</span>
+                        </p>
+                    </div>
+                }
+
+                <!-- Status Information -->
+                <div class="card border-danger mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Какво се случи?
+                        </h5>
+                        <div class="row text-start">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-primary">Възможни причини:</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-circle text-danger me-2" style="font-size: 0.5rem;"></i>
+                                        Временна претоварка на сървъра
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-circle text-danger me-2" style="font-size: 0.5rem;"></i>
+                                        Проблем с базата данни
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-circle text-danger me-2" style="font-size: 0.5rem;"></i>
+                                        Техническа поддръжка
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-success">Какво правим:</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Автоматично уведомяване на екипа
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Анализ на грешката
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        Възстановяване на услугата
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3">Опитайте следното:</h6>
+                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="location.reload()">
+                            <i class="fas fa-redo me-2"></i>
+                            Презаредете страницата
+                        </button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-home me-2"></i>
+                            Начална страница
+                        </a>
+                        <button type="button" class="btn btn-outline-secondary btn-lg" onclick="history.back()">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Върни се назад
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status Indicator -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card bg-light border-0">
                             <div class="card-body">
-                                <div class="row g-3 text-center">
-                                    <div class="col-md-4">
-                                        <div class="status-item">
-                                            <i class="fas fa-server fa-2x mb-2 text-warning"></i>
-                                            <div>Server Status</div>
-                                            <small class="text-warning">Investigating</small>
+                                <h6 class="card-title">
+                                    <i class="fas fa-heartbeat me-2 text-success"></i>
+                                    Статус на системата
+                                </h6>
+                                <div class="row text-center">
+                                    <div class="col-md-3 mb-2">
+                                        <div class="service-status">
+                                            <i class="fas fa-circle text-success"></i>
+                                            <small class="d-block">Уеб сайт</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="status-item">
-                                            <i class="fas fa-database fa-2x mb-2 text-success"></i>
-                                            <div>Database</div>
-                                            <small class="text-success">Online</small>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="service-status">
+                                            <i class="fas fa-circle text-warning"></i>
+                                            <small class="d-block">API</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="status-item">
-                                            <i class="fas fa-shield-alt fa-2x mb-2 text-success"></i>
-                                            <div>Data Security</div>
-                                            <small class="text-success">Protected</small>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="service-status">
+                                            <i class="fas fa-circle text-success"></i>
+                                            <small class="d-block">База данни</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="service-status">
+                                            <i class="fas fa-circle text-success"></i>
+                                            <small class="d-block">Файлове</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Action Buttons -->
-                    <div class="error-actions d-flex flex-wrap gap-3">
-                        <button type="button" class="btn btn-light btn-lg" onclick="retryPage()">
-                            <i class="fas fa-redo me-2"></i>Try Again
-                        </button>
-                        <a href="/" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-home me-2"></i>Go Home
-                        </a>
-                        <button type="button" class="btn btn-outline-light btn-lg" onclick="reportError()">
-                            <i class="fas fa-bug me-2"></i>Report Error
-                        </button>
-                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <!-- Animated Server Illustration -->
-                <div class="error-illustration">
-                    <div class="server-stack">
-                        <div class="server-unit server-1">
-                            <i class="fas fa-server fa-4x"></i>
-                            <div class="server-lights">
-                                <div class="light red"></div>
-                                <div class="light yellow"></div>
-                                <div class="light green"></div>
-                            </div>
-                        </div>
-                        <div class="server-unit server-2">
-                            <i class="fas fa-server fa-4x"></i>
-                            <div class="server-lights">
-                                <div class="light red blinking"></div>
-                                <div class="light yellow"></div>
-                                <div class="light green"></div>
-                            </div>
-                        </div>
-                        <div class="server-unit server-3">
-                            <i class="fas fa-server fa-4x"></i>
-                            <div class="server-lights">
-                                <div class="light red"></div>
-                                <div class="light yellow blinking"></div>
-                                <div class="light green"></div>
-                            </div>
-                        </div>
-                        <div class="error-sparks">
-                            <i class="fas fa-bolt spark spark-1"></i>
-                            <i class="fas fa-bolt spark spark-2"></i>
-                            <i class="fas fa-bolt spark spark-3"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- What You Can Do Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-4">
-                <h3>What you can do while we fix this</h3>
-                <p class="text-muted">Your family data is safe and secure</p>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-clock fa-3x text-primary mb-3"></i>
-                        <h5 class="card-title">Wait a Moment</h5>
-                        <p class="card-text text-muted">Issues are usually resolved within 5-10 minutes</p>
-                        <div class="countdown-timer" id="retryCountdown">
-                            Auto-retry in: <span class="fw-bold">60s</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-mobile-alt fa-3x text-success mb-3"></i>
-                        <h5 class="card-title">Try Mobile App</h5>
-                        <p class="card-text text-muted">Access your family tree on mobile</p>
-                        <a href="#" class="btn btn-outline-success">Download App</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-comments fa-3x text-warning mb-3"></i>
-                        <h5 class="card-title">Community</h5>
-                        <p class="card-text text-muted">Connect with other genealogy enthusiasts</p>
-                        <a href="#" class="btn btn-outline-warning">Join Community</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm h-100 suggestion-card">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-book fa-3x text-info mb-3"></i>
-                        <h5 class="card-title">Learn More</h5>
-                        <p class="card-text text-muted">Read our genealogy guides and tips</p>
-                        <a href="/help" class="btn btn-outline-info">Help Center</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Technical Details (Development Only) -->
-@if (Context.RequestServices.GetService<IWebHostEnvironment>()?.IsDevelopment() == true)
-{
-    <section class="py-4 bg-danger text-white">
-        <div class="container">
-            <div class="alert alert-danger border-0">
-                <h5 class="alert-heading text-white">
-                    <i class="fas fa-bug me-2"></i>
-                    Development Error Information
-                </h5>
-                <hr class="text-white">
+                <!-- Support Information -->
                 <div class="row">
-                    <div class="col-md-6">
-                        <p class="mb-2"><strong>Timestamp:</strong> @DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") UTC</p>
-                        <p class="mb-2"><strong>Request ID:</strong> @System.Diagnostics.Activity.Current?.Id ?? "N/A"</p>
-                        <p class="mb-2"><strong>URL:</strong> @Context.Request.Path@Context.Request.QueryString</p>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-clock fa-2x text-info mb-3"></i>
+                                <h6>Очаквано време за възстановяване</h6>
+                                <p class="text-muted">обикновено 5-15 минути</p>
+                                <small class="text-muted">Последна актуализация: @DateTime.Now.ToString("HH:mm")</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p class="mb-2"><strong>Method:</strong> @Context.Request.Method</p>
-                        <p class="mb-2"><strong>User:</strong> @(User.Identity?.Name ?? "Anonymous")</p>
-                        <p class="mb-2"><strong>User Agent:</strong> @Context.Request.Headers.UserAgent.ToString().Substring(0, Math.Min(50, Context.Request.Headers.UserAgent.ToString().Length))...</p>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope fa-2x text-success mb-3"></i>
+                                <h6>Нужна е допълнителна помощ?</h6>
+                                <p class="text-muted">Свържете се с нашия екип</p>
+                                <a href="mailto:support@worldfamily.com" class="btn btn-sm btn-outline-success">
+                                    support@worldfamily.com
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <button type="button" class="btn btn-outline-light btn-sm" onclick="copyErrorDetails()">
-                        <i class="fas fa-copy me-1"></i>Copy Error Details
-                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .error-page {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .error-icon {
+            position: relative;
+        }
+
+        .error-icon .display-1 {
+            opacity: 0.1;
+            font-size: 8rem;
+        }
+
+        .service-status {
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .service-status:hover {
+            background-color: rgba(0,123,255,0.1);
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .fa-heartbeat {
+            animation: pulse 2s infinite;
+        }
+
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        @@media (max-width: 768px) {
+            .error-icon .display-1 {
+                font-size: 4rem;
+            }
+            
+            .error-icon .fas.fa-5x {
+                font-size: 3rem !important;
+            }
+        }
+    </style>
 }
 
-<!-- Support Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5 text-center">
-                        <i class="fas fa-life-ring fa-3x text-primary mb-3"></i>
-                        <h4>Need Immediate Help?</h4>
-                        <p class="text-muted mb-4">
-                            If this error persists, our support team is standing by to assist you.
-                        </p>
-                        
-                        <!-- Error Reporting Form -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Your email address" id="errorReportEmail">
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-primary w-100" onclick="sendErrorReport()">
-                                    <i class="fas fa-paper-plane me-2"></i>Get Notified When Fixed
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <a href="/contact" class="btn btn-outline-primary w-100">
-                                    <i class="fas fa-envelope me-2"></i>Contact Support
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="tel:+15551234567" class="btn btn-outline-success w-100">
-                                    <i class="fas fa-phone me-2"></i>Call Support
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="#" class="btn btn-outline-info w-100" onclick="openLiveChat()">
-                                    <i class="fas fa-comments me-2"></i>Live Chat
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-       
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Log 500 error for monitoring
+            console.error('500 Internal Server Error occurred at: ' + new Date().toISOString());
+            
+            // Auto-refresh functionality (optional)
+            let refreshCount = 0;
+            const maxRefreshAttempts = 3;
+            
+            // Add click handler for refresh button
+            $('button:contains("Презаредете")').click(function() {
+                refreshCount++;
+                if (refreshCount <= maxRefreshAttempts) {
+                    // Show loading state
+                    $(this).prop('disabled', true)
+                          .html('<i class="fas fa-spinner fa-spin me-2"></i>Презарежда се...');
+                    
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    // Too many refresh attempts
+                    $(this).removeClass('btn-primary')
+                          .addClass('btn-warning')
+                          .html('<i class="fas fa-exclamation-triangle me-2"></i>Твърде много опити');
+                }
+            });
+            
+            // Optional: Auto-refresh after 30 seconds (only once)
+            setTimeout(function() {
+                if (refreshCount === 0) {
+                    const autoRefresh = confirm('Искате ли да опитаме автоматично презареждане?');
+                    if (autoRefresh) {
+                        location.reload();
+                    }
+                }
+            }, 30000);
+        });
+        
+        // Service status animation
+        setInterval(function() {
+            $('.fa-heartbeat').toggleClass('text-success text-primary');
+        }, 2000);
+    </script>
+}

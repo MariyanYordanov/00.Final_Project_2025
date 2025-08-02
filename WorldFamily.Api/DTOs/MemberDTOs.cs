@@ -57,6 +57,7 @@ namespace WorldFamily.Api.DTOs
         public string? Biography { get; set; }
         public string? PlaceOfBirth { get; set; }
         public string? PlaceOfDeath { get; set; }
+        public string? ProfileImageUrl { get; set; }
         public int? Age { get; set; }
         public int FamilyId { get; set; }
         public required string FamilyName { get; set; }

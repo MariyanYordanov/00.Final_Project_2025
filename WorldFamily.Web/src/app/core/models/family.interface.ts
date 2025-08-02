@@ -5,6 +5,7 @@ export interface Family {
   location?: string;
   establishedDate?: Date;
   createdAt: Date;
+  createdByUserId?: string;
   memberCount?: number;
   isOwner?: boolean;
   isPublic: boolean;
@@ -21,6 +22,7 @@ export interface FamilyMember {
   biography?: string;
   placeOfBirth?: string;
   placeOfDeath?: string;
+  profileImageUrl?: string;
   familyId: number;
   familyName: string;
   age?: number;
