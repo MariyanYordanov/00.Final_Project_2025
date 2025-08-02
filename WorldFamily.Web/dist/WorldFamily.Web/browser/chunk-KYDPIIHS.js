@@ -1,1 +1,0 @@
-import"./chunk-4CLCTAJ7.js";var t=[{path:"",loadComponent:()=>import("./chunk-CVY34JSX.js").then(o=>o.MyMembersBootstrapComponent)},{path:":id",loadComponent:()=>import("./chunk-UFFQE464.js").then(o=>o.MemberDetailsBootstrapComponent),data:{renderMode:"client-side"}}];export{t as memberRoutes};
