@@ -324,10 +324,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       firstName: formValue.firstName,
       middleName: formValue.middleName,
       lastName: formValue.lastName,
-      dateOfBirth: formValue.dateOfBirth ? new Date(formValue.dateOfBirth) : undefined,
-      bio: formValue.bio,
-      profilePictureUrl: formValue.profilePictureUrl
+      dateOfBirth: formValue.dateOfBirth ? new Date(formValue.dateOfBirth + 'T00:00:00') : undefined,
+      bio: formValue.bio || null,
+      profilePictureUrl: formValue.profilePictureUrl || null
     };
+
+    console.log('Sending profile update data:', updateData);
+    console.log('Form value:', formValue);
+    console.log('Form valid:', this.profileForm.valid);
 
     this.profileService.updateProfile(updateData)
       .pipe(
@@ -338,18 +342,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
         next: (updatedUser) => {
           this.user = updatedUser;
           this.successMessage = 'Профилът е актуализиран успешно!';
-          // Update the user in AuthService
-          this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(currentUser => {
-            if (currentUser) {
-              const updatedCurrentUser = { ...currentUser, ...updatedUser };
-              // Update localStorage
-              localStorage.setItem('user', JSON.stringify(updatedCurrentUser));
-            }
-          });
+          
+          // Update the current user in AuthService
+          this.authService.updateCurrentUser(updatedUser);
         },
         error: (error) => {
           console.error('Грешка при актуализация на профил:', error);
-          this.errorMessage = error.error?.message || 'Възникна грешка при актуализация на профила.';
+          
+          // Handle validation errors
+          if (error.status === 400 && error.error) {
+            if (typeof error.error === 'object' && error.error.errors) {
+              // ModelState validation errors
+              const validationErrors = Object.values(error.error.errors).flat();
+              this.errorMessage = 'Грешки при валидация: ' + validationErrors.join(', ');
+            } else if (typeof error.error === 'object' && error.error.title) {
+              this.errorMessage = error.error.title;
+            } else if (typeof error.error === 'string') {
+              this.errorMessage = error.error;
+            } else {
+              this.errorMessage = 'Възникна грешка при валидация на данните.';
+            }
+          } else {
+            this.errorMessage = error.error?.message || 'Възникна грешка при актуализация на профила.';
+          }
         }
       });
   }

@@ -65,8 +65,11 @@ namespace WorldFamily.Api.Controllers
         {
             try
             {
+                _logger.LogInformation("UpdateProfile called with data: {@UpdateProfileDto}", updateProfileDto);
+                
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogWarning("ModelState validation failed: {@ModelState}", ModelState);
                     return BadRequest(ModelState);
                 }
 

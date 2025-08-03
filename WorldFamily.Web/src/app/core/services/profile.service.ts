@@ -23,6 +23,8 @@ export class ProfileService {
    * Актуализиране на профила на текущия потребител
    */
   updateProfile(profileData: UpdateProfileRequest): Observable<User> {
+    console.log('ProfileService: Sending PUT request to', `${this.API_URL}/api/profile`);
+    console.log('ProfileService: Request body:', profileData);
     return this.http.put<User>(`${this.API_URL}/api/profile`, profileData);
   }
 

@@ -83,6 +83,11 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  updateCurrentUser(updatedUser: User): void {
+    this.setUser(updatedUser);
+    this.currentUserSubject.next(updatedUser);
+  }
+
   private setToken(token: string): void {
     if (this.isBrowser) {
       localStorage.setItem('token', token);
