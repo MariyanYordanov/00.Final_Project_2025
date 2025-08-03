@@ -13,18 +13,18 @@
 
 ```
 World Family/
-├── 📂 WorldFamily.Api/          # ASP.NET Core Web API + MVC
+├── 📂 MyFamilyTreeNet.Api/          # ASP.NET Core Web API + MVC
 │   ├── Controllers/             # API контролери
 │   ├── Areas/Admin/             # Администраторски панел
 │   ├── Views/                   # MVC views (login/register/web interface)
 │   ├── Services/                # Business logic
 │   ├── DTOs/                    # Data Transfer Objects
 │   └── Middleware/              # Custom middleware
-├── 📂 WorldFamily.Data/         # Entity Framework модели
+├── 📂 MyFamilyTreeNet.Data/         # Entity Framework модели
 │   ├── Models/                  # Entity модели
 │   ├── Migrations/              # Database migrations
 │   └── SeedData.cs              # Начални данни
-└── 📂 WorldFamily.Web/          # Angular Frontend
+└── 📂 MyFamilyTreeNet.Web/          # Angular Frontend
     ├── src/app/features/        # Функционални модули
     ├── src/app/core/            # Core услуги
     └── src/app/shared/          # Споделени компоненти
@@ -112,7 +112,7 @@ cd world-family
 
 ```bash
 # Отидете в API директорията
-cd WorldFamily.Api
+cd MyFamilyTreeNet.Api
 
 # Възстановете NuGet пакетите
 dotnet restore
@@ -132,7 +132,7 @@ dotnet run
 
 ```bash
 # Отидете в Web директорията
-cd WorldFamily.Web
+cd MyFamilyTreeNet.Web
 
 # Инсталирайте npm зависимостите
 npm install
@@ -241,8 +241,8 @@ API-то също предлага традиционен MVC уеб интер�
   "DatabaseProvider": "SQLite",
   "JwtSettings": {
     "SecretKey": "YourSecretKeyHere",
-    "Issuer": "WorldFamilyApi",
-    "Audience": "WorldFamilyClients",
+    "Issuer": "MyFamilyTreeNetApi",
+    "Audience": "MyFamilyTreeNetClients",
     "ExpirationMinutes": 60
   },
   "CORS": {
@@ -266,13 +266,13 @@ export const environment = {
 
 ### Backend тестове
 ```bash
-cd WorldFamily.Api
+cd MyFamilyTreeNet.Api
 dotnet test
 ```
 
 ### Frontend тестове  
 ```bash
-cd WorldFamily.Web
+cd MyFamilyTreeNet.Web
 npm test
 ```
 

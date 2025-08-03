@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * WorldFamily Integration Test Suite
+ * MyFamilyTreeNet Integration Test Suite
  * Tests the complete flow between Angular frontend and ASP.NET API
  */
 
@@ -294,7 +294,7 @@ class IntegrationTester {
 
     // Main test runner
     async runAllTests() {
-        console.log('🧪 Starting WorldFamily Integration Test Suite\n');
+        console.log('🧪 Starting MyFamilyTreeNet Integration Test Suite\n');
         console.log(`API: ${this.apiUrl}`);
         console.log(`Frontend: ${this.frontendUrl}\n`);
 

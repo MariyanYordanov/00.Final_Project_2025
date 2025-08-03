@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Manual Browser Test Instructions for WorldFamily App
+ * Manual Browser Test Instructions for MyFamilyTreeNet App
  * Since automated browser testing requires additional setup,
  * this provides a comprehensive manual testing checklist
  */
 
-console.log('🌐 WorldFamily Application - Manual Browser Testing Guide');
+console.log('🌐 MyFamilyTreeNet Application - Manual Browser Testing Guide');
 console.log('========================================================\n');
 
 console.log('📋 TESTING CHECKLIST - Follow these steps manually:\n');

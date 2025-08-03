@@ -1,4 +1,4 @@
-# 🚀 WorldFamily Deployment Guide для Render.com
+# 🚀 MyFamilyTreeNet Deployment Guide для Render.com
 
 ## 📋 Предпоставки
 - GitHub акаунт
@@ -29,13 +29,13 @@
 
 ### Създаване на Web Service в Render.com:
 1. **New → Web Service**
-2. **Connect GitHub repository**: `WorldFamily.Api`
+2. **Connect GitHub repository**: `MyFamilyTreeNet.Api`
 3. **Настройки:**
    ```
    Name: worldfamily-api
    Region: Frankfurt (EU Central)
    Branch: main
-   Root Directory: WorldFamily.Api
+   Root Directory: MyFamilyTreeNet.Api
    Runtime: Docker
    Plan: Free
    ```
@@ -49,7 +49,7 @@
 ```bash
 ASPNETCORE_ENVIRONMENT=Production
 DATABASE_URL=[PostgreSQL URL от стъпка 1]
-JWT_SECRET_KEY=ThisIsAVerySecretKeyForWorldFamilyAppMinimum32Characters
+JWT_SECRET_KEY=ThisIsAVerySecretKeyForMyFamilyTreeNetAppMinimum32Characters
 CORS_ALLOWED_ORIGINS=https://your-frontend-domain.onrender.com
 ```
 
@@ -73,12 +73,12 @@ export const environment = {
 
 ### Създаване на Static Site в Render.com:
 1. **New → Static Site**
-2. **Connect GitHub repository**: `WorldFamily.Web`
+2. **Connect GitHub repository**: `MyFamilyTreeNet.Web`
 3. **Настройки:**
    ```
    Name: worldfamily-web
    Branch: main
-   Root Directory: WorldFamily.Web
+   Root Directory: MyFamilyTreeNet.Web
    Build Command: npm install && npm run build
    Publish Directory: dist/world-family.web/browser
    ```

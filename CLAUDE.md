@@ -142,7 +142,7 @@ PostgreSQL → Render Postgres (започни с free, upgrade when needed)
 
 ### ASP.NET Core Structure
 ```
-WorldFamily.API/
+MyFamilyTreeNet.API/
 ├── Controllers/
 ├── Models/
 ├── Services/

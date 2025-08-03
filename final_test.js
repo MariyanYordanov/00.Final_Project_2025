@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Final Working Test Suite for WorldFamily Application
+ * Final Working Test Suite for MyFamilyTreeNet Application
  * Tests all functionality with corrected issues
  */
 
@@ -79,7 +79,7 @@ class FinalTester {
     }
 
     async runFullTest() {
-        console.log('🚀 Final WorldFamily Application Test\n');
+        console.log('🚀 Final MyFamilyTreeNet Application Test\n');
         console.log(`API: ${this.apiUrl}`);
         console.log(`Frontend: ${this.frontendUrl}\n`);
 

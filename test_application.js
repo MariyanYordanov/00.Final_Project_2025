@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * WorldFamily Application E2E Test Suite
+ * MyFamilyTreeNet Application E2E Test Suite
  * Simulates user interactions and tests key functionalities
  */
 
 const https = require('https');
 const http = require('http');
 
-class WorldFamilyTester {
+class MyFamilyTreeNetTester {
     constructor() {
         this.apiUrl = 'http://localhost:5000';
         this.frontendUrl = 'http://localhost:4200';
@@ -314,7 +314,7 @@ class WorldFamilyTester {
 
     // Main test runner
     async runAllTests() {
-        console.log('🚀 Starting WorldFamily Application Test Suite\n');
+        console.log('🚀 Starting MyFamilyTreeNet Application Test Suite\n');
         console.log(`Testing API: ${this.apiUrl}`);
         console.log(`Testing Frontend: ${this.frontendUrl}\n`);
 
@@ -399,7 +399,7 @@ class WorldFamilyTester {
 
 // Run tests if called directly
 if (require.main === module) {
-    const tester = new WorldFamilyTester();
+    const tester = new MyFamilyTreeNetTester();
     tester.runAllTests().then(report => {
         process.exit(report.healthy ? 0 : 1);
     }).catch(error => {
@@ -408,4 +408,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = WorldFamilyTester;
+module.exports = MyFamilyTreeNetTester;

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * WorldFamily Frontend E2E Test Suite
+ * MyFamilyTreeNet Frontend E2E Test Suite
  * Tests Angular application UI and user interactions
  */
 
@@ -255,7 +255,7 @@ class FrontendTester {
 
     // Main test runner
     async runAllTests() {
-        console.log('🎭 Starting WorldFamily Frontend Test Suite\n');
+        console.log('🎭 Starting MyFamilyTreeNet Frontend Test Suite\n');
         console.log(`Testing Frontend: ${this.frontendUrl}\n`);
 
         const startTime = Date.now();

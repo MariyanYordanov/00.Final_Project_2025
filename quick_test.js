@@ -4,7 +4,7 @@
  * Quick Manual Test Results Report
  */
 
-console.log('🧪 Quick Test Results for WorldFamily Application\n');
+console.log('🧪 Quick Test Results for MyFamilyTreeNet Application\n');
 
 console.log('📊 MANUAL VERIFICATION RESULTS:');
 console.log('================================\n');
