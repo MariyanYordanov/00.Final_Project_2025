@@ -9,6 +9,7 @@ namespace WorldFamily.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [IgnoreAntiforgeryToken]
     [Authorize]
     public class FamilyController : ControllerBase
     {

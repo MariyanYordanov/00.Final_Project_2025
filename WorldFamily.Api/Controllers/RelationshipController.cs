@@ -8,6 +8,7 @@ namespace WorldFamily.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [IgnoreAntiforgeryToken]
     public class RelationshipController : ControllerBase
     {
         private readonly IRelationshipService _relationshipService;

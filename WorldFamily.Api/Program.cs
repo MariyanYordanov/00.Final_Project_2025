@@ -65,9 +65,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     // Password settings
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
+    options.Password.RequiredLength = 8;
 
     // User settings
     options.User.RequireUniqueEmail = true;
@@ -211,46 +211,6 @@ else
     app.UseHsts();
 }
 
-// API-only status code handling
-app.UseStatusCodePages(async context =>
-{
-    var statusCode = context.HttpContext.Response.StatusCode;
-    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-    var path = context.HttpContext.Request.Path;
-    
-    // Return JSON error response for all requests
-    context.HttpContext.Response.ContentType = "application/json";
-    var error = new
-    {
-        type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-        title = statusCode switch
-        {
-            404 => "Not Found",
-            403 => "Forbidden", 
-            401 => "Unauthorized",
-            500 => "Internal Server Error",
-            _ => "Error"
-        },
-        status = statusCode,
-        detail = statusCode switch
-        {
-            404 => "The requested API endpoint was not found.",
-            403 => "You do not have permission to access this API resource.",
-            401 => "Authentication is required to access this API resource.",
-            500 => "An internal server error occurred.",
-            _ => "An error occurred processing your API request."
-        },
-        traceId = context.HttpContext.TraceIdentifier
-    };
-    
-    // Log the error
-    logger.LogWarning("API Error {StatusCode}: {Path} - User: {User}", 
-        statusCode, path, context.HttpContext.User.Identity?.Name ?? "Anonymous");
-    
-    await context.HttpContext.Response.WriteAsJsonAsync(error);
-});
-
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -263,7 +223,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+// app.UseMiddleware<GlobalExceptionHandlingMiddleware>(); // Temporarily disabled
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
 // Use static files for MVC pages (CSS, JS, images)
@@ -271,6 +231,9 @@ app.UseStaticFiles();
 
 // Use CORS
 app.UseCors("AllowAngularApp");
+
+// Use Routing
+app.UseRouting();
 
 // Use Authentication & Authorization
 app.UseAuthentication();
@@ -280,6 +243,22 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+// Map auth routes
+app.MapControllerRoute(
+    name: "login",
+    pattern: "login",
+    defaults: new { controller = "Account", action = "Login" });
+
+app.MapControllerRoute(
+    name: "register", 
+    pattern: "register",
+    defaults: new { controller = "Account", action = "Register" });
+
+app.MapControllerRoute(
+    name: "logout",
+    pattern: "logout", 
+    defaults: new { controller = "Account", action = "Logout" });
 
 // Map MVC controllers
 app.MapControllerRoute(
@@ -294,6 +273,9 @@ app.MapControllerRoute(
     
 // Map API controllers
 app.MapControllers();
+
+// API-only status code handling temporarily disabled
+// app.UseStatusCodePages(...)
 
 // Health check endpoint
 app.MapGet("/api/health", () => new

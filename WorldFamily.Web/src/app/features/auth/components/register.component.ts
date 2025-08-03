@@ -145,7 +145,7 @@ function passwordMatchValidator(control: AbstractControl) {
                   placeholder="Въведете парола"
                   [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
                 <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-                  Паролата трябва да е поне 6 символа
+                  Паролата трябва да е поне 8 символа и да съдържа малка/главна буква, цифра и специален символ (@$!%*?&)
                 </div>
               </div>
 
@@ -214,8 +214,8 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required, 
-        Validators.minLength(6),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/)
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
       ]],
       confirmPassword: ['', [Validators.required]],
       dateOfBirth: ['', [Validators.required]]

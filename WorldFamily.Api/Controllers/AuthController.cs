@@ -12,28 +12,35 @@ namespace WorldFamily.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [IgnoreAntiforgeryToken]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IConfiguration configuration,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
+            _logger.LogInformation("Register attempt for email: {Email}", model?.Email);
+            _logger.LogInformation("Register model: FirstName={FirstName}, MiddleName={MiddleName}, LastName={LastName}", 
+                model?.FirstName, model?.MiddleName, model?.LastName);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -67,11 +74,23 @@ namespace WorldFamily.Api.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            _logger.LogInformation("TEST endpoint called!");
+            return Ok(new { message = "Test endpoint works!" });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
+            _logger.LogInformation("Login attempt for email: {Email}", model?.Email);
+            
             if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Login ModelState validation failed: {@ModelState}", ModelState);
                 return BadRequest(ModelState);
+            }
 
             var result = await _signInManager.PasswordSignInAsync(
                 model.Email, 

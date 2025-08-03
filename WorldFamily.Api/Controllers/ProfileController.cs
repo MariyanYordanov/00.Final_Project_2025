@@ -11,6 +11,7 @@ namespace WorldFamily.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [IgnoreAntiforgeryToken]
     public class ProfileController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -65,7 +66,11 @@ namespace WorldFamily.Api.Controllers
         {
             try
             {
-                _logger.LogInformation("UpdateProfile called with data: {@UpdateProfileDto}", updateProfileDto);
+                _logger.LogInformation("UpdateProfile called with raw data: {@UpdateProfileDto}", updateProfileDto);
+                _logger.LogInformation("UpdateProfile - FirstName: {FirstName}, MiddleName: {MiddleName}, LastName: {LastName}", 
+                    updateProfileDto?.FirstName, updateProfileDto?.MiddleName, updateProfileDto?.LastName);
+                _logger.LogInformation("UpdateProfile - DateOfBirth as string: '{DateOfBirth}', Bio: '{Bio}'", 
+                    updateProfileDto?.DateOfBirth, updateProfileDto?.Bio);
                 
                 if (!ModelState.IsValid)
                 {
