@@ -35,9 +35,9 @@ export interface UpdateProfileRequest {
   firstName: string;
   middleName: string;
   lastName: string;
-  dateOfBirth?: Date;
-  bio?: string;
-  profilePictureUrl?: string;
+  dateOfBirth?: string | null;
+  bio?: string | null;
+  profilePictureUrl?: string | null;
 }
 
 export interface ChangePasswordRequest {

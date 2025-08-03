@@ -324,7 +324,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       firstName: formValue.firstName,
       middleName: formValue.middleName,
       lastName: formValue.lastName,
-      dateOfBirth: formValue.dateOfBirth ? new Date(formValue.dateOfBirth + 'T00:00:00') : undefined,
+      dateOfBirth: formValue.dateOfBirth || null,
       bio: formValue.bio || null,
       profilePictureUrl: formValue.profilePictureUrl || null
     };

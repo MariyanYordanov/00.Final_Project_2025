@@ -53,24 +53,19 @@ namespace WorldFamily.Api.DTOs
     {
         [Required]
         [MaxLength(50)]
-        [ValidPersonName]
         public required string FirstName { get; set; }
         
         [Required]
         [MaxLength(50)]
-        [ValidPersonName]
         public required string MiddleName { get; set; }
         
         [Required]
         [MaxLength(50)]
-        [ValidPersonName]
         public required string LastName { get; set; }
         
-        [ValidBirthDate]
-        public DateTime? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
         
         [MaxLength(1000)]
-        [NoHtml]
         public string? Bio { get; set; }
         
         [MaxLength(255)]

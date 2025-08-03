@@ -89,7 +89,25 @@ namespace WorldFamily.Api.Controllers
                 user.FirstName = updateProfileDto.FirstName;
                 user.MiddleName = updateProfileDto.MiddleName;
                 user.LastName = updateProfileDto.LastName;
-                user.DateOfBirth = updateProfileDto.DateOfBirth;
+                
+                // Parse DateOfBirth от string към DateTime
+                if (!string.IsNullOrEmpty(updateProfileDto.DateOfBirth))
+                {
+                    if (DateTime.TryParse(updateProfileDto.DateOfBirth, out DateTime parsedDate))
+                    {
+                        user.DateOfBirth = parsedDate;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("DateOfBirth", "Невалиден формат на дата");
+                        return BadRequest(ModelState);
+                    }
+                }
+                else
+                {
+                    user.DateOfBirth = null;
+                }
+                
                 user.Bio = updateProfileDto.Bio;
                 user.ProfilePictureUrl = updateProfileDto.ProfilePictureUrl;
 
