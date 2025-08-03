@@ -24,6 +24,5 @@ namespace MyFamilyTreeNet.Data.Models
         public virtual ICollection<FamilyMember> FamilyMembers { get; set; } = new List<FamilyMember>();
         public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
         public virtual ICollection<Story> Stories { get; set; } = new List<Story>();
-        public virtual ICollection<FamilyInvitation> Invitations { get; set; } = new List<FamilyInvitation>();
     }
 }

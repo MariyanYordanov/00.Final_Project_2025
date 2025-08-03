@@ -251,7 +251,7 @@ http://localhost:5000
 - **Body**:
 ```json
 {
-  "email": "admin@worldfamily.com",
+  "email": "admin@myfamilytreenet.com",
   "password": "Admin123!",
   "rememberMe": false
 }
@@ -418,7 +418,7 @@ http://localhost:5000
 - Token се получава от `/api/auth/login`
 
 ## 📝 **Seed данни**
-- **Admin**: `admin@worldfamily.com` / `Admin123!`
+- **Admin**: `admin@myfamilytreenet.com` / `Admin123!`
 - **Demo users**: `john@demo.com`, `jane@demo.com`, etc.
 - **2 семейства** с членове, снимки и истории
 

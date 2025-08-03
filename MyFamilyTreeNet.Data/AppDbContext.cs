@@ -16,7 +16,6 @@ namespace MyFamilyTreeNet.Data
         public DbSet<Relationship> Relationships { get; set; } = null!;
         public DbSet<Photo> Photos { get; set; } = null!;
         public DbSet<Story> Stories { get; set; } = null!;
-        public DbSet<FamilyInvitation> FamilyInvitations { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -124,26 +123,6 @@ namespace MyFamilyTreeNet.Data
 
 
 
-            modelBuilder.Entity<FamilyInvitation>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.InvitedEmail).IsRequired();
-
-                entity.HasOne(e => e.Family)
-                      .WithMany(f => f.Invitations)
-                      .HasForeignKey(e => e.FamilyId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.InvitedUser)
-                      .WithMany()
-                      .HasForeignKey(e => e.InvitedUserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.InvitedBy)
-                      .WithMany()
-                      .HasForeignKey(e => e.InvitedByUserId)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
         }
     }
 }

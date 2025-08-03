@@ -19,7 +19,7 @@ public static class SeedData
         }
 
         // Seed admin user
-        const string adminEmail = "admin@worldfamily.com";
+        const string adminEmail = "admin@myfamilytreenet.com";
         if (await userManager.FindByEmailAsync(adminEmail) == null)
         {
             var adminUser = new User
@@ -301,6 +301,11 @@ public static class SeedData
             royalRelationships.Add(new Relationship { PrimaryMemberId = familyMembers[20].Id, RelatedMemberId = familyMembers[25].Id, RelationshipType = RelationshipType.Cousin, CreatedByUserId = adminId });
             royalRelationships.Add(new Relationship { PrimaryMemberId = familyMembers[20].Id, RelatedMemberId = familyMembers[26].Id, RelationshipType = RelationshipType.Cousin, CreatedByUserId = adminId });
             
+            // SPECIAL RELATIONSHIPS - Marriages between relatives (common in royal families)
+            // Lady Charlotte (24) married to Earl Frederick (25) - they are second cousins
+            royalRelationships.Add(new Relationship { PrimaryMemberId = familyMembers[24].Id, RelatedMemberId = familyMembers[25].Id, RelationshipType = RelationshipType.Spouse, CreatedByUserId = adminId });
+            // This creates a double relationship - they are both cousins AND spouses
+            
             // Generation 5 - Children relationships
             // Parent-child relationships Generation 4 → 5
             // Crown Prince Alexander → Prince Edward III, Princess Elizabeth II
@@ -366,6 +371,56 @@ public static class SeedData
                     Title = "50 Years Together",
                     Content = "Mary and I celebrated our golden anniversary surrounded by our children and grandchildren. What a journey it has been...",
                     CreatedAt = DateTime.UtcNow.AddDays(-7)
+                },
+                
+                // Royal Family Stories
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "The Foundation of Our Dynasty",
+                    Content = "King Edward Royal I established our family's reign in 1900. Born during turbulent times, he united the kingdom through wisdom and strength. His marriage to Queen Elizabeth I brought together two powerful noble houses, creating the foundation of our enduring dynasty. Their love story became legendary - she was not only his queen but his closest advisor and confidante.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-100)
+                },
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "The Great Alliance",
+                    Content = "The marriage between Prince Charles and Princess Diana in 1955 was more than a union of hearts - it was the merging of the Royal and Noble bloodlines. Diana, daughter of Duke William Noble, brought her family's ancient heritage into our line. Their wedding was attended by royalty from across Europe, cementing alliances that would last generations.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-80)
+                },
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "A Modern Monarchy",
+                    Content = "King William Royal II ascended to the throne in 1975, bringing fresh perspectives to an ancient institution. His coronation marked a new era of openness and connection with the people. Queen Isabella, with her diplomatic background, helped modernize the monarchy while preserving its cherished traditions.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-50)
+                },
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "The Royal Wedding of the Century",
+                    Content = "Crown Prince Alexander's wedding to Princess Sophia Habsburg in 2000 was hailed as the wedding of the century. The ceremony united the Royal family with the ancient Habsburg line of Austria. Thousands lined the streets to witness the procession, and the celebration lasted for three days across the kingdom.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-25)
+                },
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "The Controversial Union",
+                    Content = "The marriage between Lady Charlotte and Earl Frederick raised eyebrows across the court - they were second cousins, continuing the royal tradition of keeping bloodlines close. While some criticized the union, their love was genuine and their partnership became one of the strongest in the family. Their marriage strengthened ties between different branches of the royal house.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-15)
+                },
+                new Story
+                {
+                    FamilyId = royalFamily.Id,
+                    AuthorUserId = adminId,
+                    Title = "The Future King",
+                    Content = "Prince Edward Royal III, born in 2000, represents the future of our monarchy. From a young age, he has shown the wisdom of his great-great-grandfather King Edward I and the compassion of his mother, Crown Princess Sophia. His education spans multiple continents, preparing him for the global challenges of modern leadership.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-5)
                 }
             };
 
@@ -404,6 +459,96 @@ public static class SeedData
                     ImageUrl = "/uploads/anniversary50.jpg",
                     UploadedAt = DateTime.UtcNow.AddDays(-10),
                     DateTaken = DateTime.UtcNow.AddDays(-10)
+                },
+                
+                // Royal Family Photos
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "King Edward I Coronation",
+                    Description = "The founding moment of our dynasty - King Edward Royal I's coronation in 1925",
+                    ImageUrl = "/uploads/royal/coronation_edward_i.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-120),
+                    DateTaken = new DateTime(1925, 6, 15),
+                    Location = "Royal Cathedral, Capital City"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "The Royal Wedding 1955",
+                    Description = "Prince Charles and Princess Diana's wedding ceremony - the great alliance",
+                    ImageUrl = "/uploads/royal/wedding_charles_diana.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-90),
+                    DateTaken = new DateTime(1955, 4, 21),
+                    Location = "St. Royal's Cathedral"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "King William II Coronation",
+                    Description = "The modernizing monarch takes the throne - a new era begins",
+                    ImageUrl = "/uploads/royal/coronation_william_ii.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-60),
+                    DateTaken = new DateTime(1975, 8, 15),
+                    Location = "Royal Cathedral, Capital City"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "Crown Prince Alexander's Wedding",
+                    Description = "The wedding of the century - uniting Royal and Habsburg bloodlines",
+                    ImageUrl = "/uploads/royal/wedding_alexander_sophia.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-30),
+                    DateTaken = new DateTime(2000, 5, 12),
+                    Location = "Royal Palace Gardens"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "Royal Family Portrait 2020",
+                    Description = "Five generations together - a rare and precious moment",
+                    ImageUrl = "/uploads/royal/family_portrait_2020.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-20),
+                    DateTaken = new DateTime(2020, 12, 25),
+                    Location = "Royal Palace Throne Room"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "The Controversial Wedding",
+                    Description = "Lady Charlotte and Earl Frederick - love transcends bloodlines",
+                    ImageUrl = "/uploads/royal/wedding_charlotte_frederick.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-18),
+                    DateTaken = new DateTime(2018, 9, 8),
+                    Location = "Royal Private Chapel"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "Prince Edward III First Official Portrait",
+                    Description = "The future king at age 21 - dignity and wisdom beyond his years",
+                    ImageUrl = "/uploads/royal/edward_iii_portrait.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-5),
+                    DateTaken = new DateTime(2021, 3, 21),
+                    Location = "Royal Portrait Studio"
+                },
+                new Photo
+                {
+                    FamilyId = royalFamily.Id,
+                    UploadedByUserId = adminId,
+                    Title = "Royal Children Summer 2023",
+                    Description = "The next generation at play - Princess Elizabeth II, Lord Louis, Lady Marie, and Prince Philip",
+                    ImageUrl = "/uploads/royal/children_summer_2023.jpg",
+                    UploadedAt = DateTime.UtcNow.AddDays(-3),
+                    DateTaken = new DateTime(2023, 7, 15),
+                    Location = "Royal Estate Gardens"
                 }
             };
 
