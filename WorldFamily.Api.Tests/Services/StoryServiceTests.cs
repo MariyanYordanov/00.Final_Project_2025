@@ -29,8 +29,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -44,8 +43,7 @@ namespace WorldFamily.Api.Tests.Services
                     Content = "Съдържание 1",
                     FamilyId = family.Id,
                     AuthorUserId = "user1",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Story
                 {
@@ -53,8 +51,7 @@ namespace WorldFamily.Api.Tests.Services
                     Content = "Съдържание 2",
                     FamilyId = family.Id,
                     AuthorUserId = "user1",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 
@@ -78,16 +75,14 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Family 1", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             var family2 = new Family 
             { 
                 Name = "Family 2", 
                 CreatedByUserId = "user2", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
 
             _context.Families.AddRange(family1, family2);
@@ -101,8 +96,7 @@ namespace WorldFamily.Api.Tests.Services
                     Content = "Content 1",
                     FamilyId = family1.Id, 
                     AuthorUserId = "user1",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Story 
                 { 
@@ -110,8 +104,7 @@ namespace WorldFamily.Api.Tests.Services
                     Content = "Content 2",
                     FamilyId = family1.Id, 
                     AuthorUserId = "user1",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Story 
                 { 
@@ -119,8 +112,7 @@ namespace WorldFamily.Api.Tests.Services
                     Content = "Content 3",
                     FamilyId = family2.Id, 
                     AuthorUserId = "user2",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 
@@ -145,8 +137,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -158,8 +149,7 @@ namespace WorldFamily.Api.Tests.Services
                 Content = "Тестово съдържание на историята",
                 FamilyId = family.Id,
                 AuthorUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Stories.Add(story);
@@ -192,8 +182,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -205,8 +194,7 @@ namespace WorldFamily.Api.Tests.Services
                 Content = "Съдържание на новата история",
                 FamilyId = family.Id,
                 AuthorUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             // Act
@@ -232,8 +220,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -245,8 +232,7 @@ namespace WorldFamily.Api.Tests.Services
                 Content = "Оригинално съдържание",
                 FamilyId = family.Id,
                 AuthorUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Stories.Add(originalStory);
@@ -296,8 +282,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -309,8 +294,7 @@ namespace WorldFamily.Api.Tests.Services
                 Content = "Съдържание за изтриване",
                 FamilyId = family.Id,
                 AuthorUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Stories.Add(story);

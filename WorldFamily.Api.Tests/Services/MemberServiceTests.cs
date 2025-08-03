@@ -29,16 +29,14 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Family 1", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow
             };
             
             var family2 = new Family 
             { 
                 Name = "Family 2", 
                 CreatedByUserId = "user2", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
 
             _context.Families.AddRange(family1, family2);
@@ -53,9 +51,7 @@ namespace WorldFamily.Api.Tests.Services
                     LastName = "Георгиев", 
                     FamilyId = family1.Id, 
                     Gender = Gender.Male,
-                    JoinedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new FamilyMember 
                 { 
@@ -64,9 +60,7 @@ namespace WorldFamily.Api.Tests.Services
                     LastName = "Георгиева", 
                     FamilyId = family1.Id, 
                     Gender = Gender.Female,
-                    JoinedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new FamilyMember 
                 { 
@@ -75,9 +69,7 @@ namespace WorldFamily.Api.Tests.Services
                     LastName = "Петров", 
                     FamilyId = family2.Id, 
                     Gender = Gender.Male,
-                    JoinedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 
@@ -102,8 +94,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -118,9 +109,7 @@ namespace WorldFamily.Api.Tests.Services
                 Gender = Gender.Male,
                 DateOfBirth = new DateTime(1980, 5, 15),
                 Biography = "Тестова биография",
-                JoinedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.FamilyMembers.Add(member);
@@ -155,8 +144,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -172,8 +160,7 @@ namespace WorldFamily.Api.Tests.Services
                 DateOfBirth = new DateTime(1995, 8, 20),
                 Biography = "Нова биография",
                 PlaceOfBirth = "София",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             // Act
@@ -183,7 +170,7 @@ namespace WorldFamily.Api.Tests.Services
             Assert.NotNull(result);
             Assert.True(result.Id > 0);
             Assert.Equal("Нов", result.FirstName);
-            Assert.True(result.JoinedAt <= DateTime.UtcNow);
+            Assert.True(result.CreatedAt <= DateTime.UtcNow);
 
             // Verify in database
             var savedMember = await _context.FamilyMembers.FindAsync(result.Id);
@@ -199,8 +186,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -214,9 +200,7 @@ namespace WorldFamily.Api.Tests.Services
                 FamilyId = family.Id,
                 Gender = Gender.Male,
                 Biography = "Стара биография",
-                JoinedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.FamilyMembers.Add(originalMember);
@@ -241,7 +225,7 @@ namespace WorldFamily.Api.Tests.Services
             Assert.Equal("Ново", result.FirstName);
             Assert.Equal("Нова биография", result.Biography);
             Assert.Equal("Пловдив", result.PlaceOfBirth);
-            Assert.True(result.UpdatedAt >= originalMember.UpdatedAt);
+            Assert.True(result.CreatedAt >= originalMember.CreatedAt);
         }
 
         [Fact]
@@ -272,8 +256,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -286,9 +269,7 @@ namespace WorldFamily.Api.Tests.Services
                 LastName = "Изтрия",
                 FamilyId = family.Id,
                 Gender = Gender.Male,
-                JoinedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.FamilyMembers.Add(member);
@@ -325,8 +306,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -339,8 +319,7 @@ namespace WorldFamily.Api.Tests.Services
                 LastName = "Член",
                 FamilyId = family.Id,
                 Gender = gender,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             // Act

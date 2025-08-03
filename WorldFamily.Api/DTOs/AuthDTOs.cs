@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorldFamily.Api.Validation;
 
 namespace WorldFamily.Api.DTOs
 {
@@ -9,19 +10,22 @@ namespace WorldFamily.Api.DTOs
         public required string Email { get; set; }
         
         [Required]
-        [MinLength(6)]
+        [StrongPassword]
         public required string Password { get; set; }
         
         [Required]
         [MaxLength(50)]
+        [ValidPersonName]
         public required string FirstName { get; set; }
         
         [Required]
         [MaxLength(50)]
+        [ValidPersonName]
         public required string MiddleName { get; set; }
         
         [Required]
         [MaxLength(50)]
+        [ValidPersonName]
         public required string LastName { get; set; }
     }
 
@@ -40,5 +44,36 @@ namespace WorldFamily.Api.DTOs
         public required string MiddleName { get; set; }
         public required string LastName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Bio { get; set; }
+        public string? ProfilePictureUrl { get; set; }
+    }
+
+    public class UpdateProfileDto
+    {
+        [Required]
+        [MaxLength(50)]
+        [ValidPersonName]
+        public required string FirstName { get; set; }
+        
+        [Required]
+        [MaxLength(50)]
+        [ValidPersonName]
+        public required string MiddleName { get; set; }
+        
+        [Required]
+        [MaxLength(50)]
+        [ValidPersonName]
+        public required string LastName { get; set; }
+        
+        [ValidBirthDate]
+        public DateTime? DateOfBirth { get; set; }
+        
+        [MaxLength(1000)]
+        [NoHtml]
+        public string? Bio { get; set; }
+        
+        [MaxLength(255)]
+        public string? ProfilePictureUrl { get; set; }
     }
 }

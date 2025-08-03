@@ -30,8 +30,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "Семейство Петрови",
                 Description = "Описание 1",
                 CreatedByUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             var family2 = new Family
@@ -39,8 +38,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "Семейство Георгиеви",
                 Description = "Описание 2",
                 CreatedByUserId = "user2",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Families.AddRange(family1, family2);
@@ -64,8 +62,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "Test Family",
                 Description = "Test Description",
                 CreatedByUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Families.Add(family);
@@ -99,8 +96,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "New Family",
                 Description = "New Description",
                 CreatedByUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             // Act
@@ -126,8 +122,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "Original Name",
                 Description = "Original Description",
                 CreatedByUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Families.Add(family);
@@ -147,7 +142,7 @@ namespace WorldFamily.Api.Tests.Services
             Assert.NotNull(result);
             Assert.Equal("Updated Name", result.Name);
             Assert.Equal("Updated Description", result.Description);
-            Assert.True(result.UpdatedAt >= family.UpdatedAt);
+            Assert.True(result.CreatedAt >= family.CreatedAt);
         }
 
         [Fact]
@@ -177,8 +172,7 @@ namespace WorldFamily.Api.Tests.Services
                 Name = "Family to Delete",
                 Description = "Will be deleted",
                 CreatedByUserId = "user1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Families.Add(family);
@@ -211,16 +205,15 @@ namespace WorldFamily.Api.Tests.Services
             // Arrange
             var user1Families = new[]
             {
-                new Family { Name = "User1 Family 1", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-                new Family { Name = "User1 Family 2", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+                new Family { Name = "User1 Family 1", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow },
+                new Family { Name = "User1 Family 2", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow }
             };
 
             var user2Family = new Family 
             { 
                 Name = "User2 Family", 
                 CreatedByUserId = "user2", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
 
             _context.Families.AddRange(user1Families);
@@ -242,9 +235,9 @@ namespace WorldFamily.Api.Tests.Services
             // Arrange
             var families = new[]
             {
-                new Family { Name = "Семейство Петрови", Description = "Българско семейство", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-                new Family { Name = "Семейство Георгиеви", Description = "Друго семейство", CreatedByUserId = "user2", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-                new Family { Name = "Smith Family", Description = "English family", CreatedByUserId = "user3", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+                new Family { Name = "Семейство Петрови", Description = "Българско семейство", CreatedByUserId = "user1", CreatedAt = DateTime.UtcNow },
+                new Family { Name = "Семейство Георгиеви", Description = "Друго семейство", CreatedByUserId = "user2", CreatedAt = DateTime.UtcNow },
+                new Family { Name = "Smith Family", Description = "English family", CreatedByUserId = "user3", CreatedAt = DateTime.UtcNow }
             };
 
             _context.Families.AddRange(families);

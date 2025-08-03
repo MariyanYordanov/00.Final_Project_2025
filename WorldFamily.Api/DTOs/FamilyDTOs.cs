@@ -1,14 +1,27 @@
+using System.ComponentModel.DataAnnotations;
+using WorldFamily.Api.Validation;
+
 namespace WorldFamily.Api.DTOs
 {
     public class CreateFamilyDto
     {
+        [Required]
+        [ValidFamilyName]
         public required string Name { get; set; }
+        
+        [MaxLength(1000)]
+        [NoHtml]
         public string? Description { get; set; }
     }
 
     public class UpdateFamilyDto
     {
+        [Required]
+        [ValidFamilyName]
         public required string Name { get; set; }
+        
+        [MaxLength(1000)]
+        [NoHtml]
         public string? Description { get; set; }
     }
 

@@ -29,8 +29,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -46,8 +45,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family.Id,
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Photo
                 {
@@ -57,8 +55,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family.Id,
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 
@@ -82,16 +79,14 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Family 1", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             var family2 = new Family 
             { 
                 Name = "Family 2", 
                 CreatedByUserId = "user2", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
 
             _context.Families.AddRange(family1, family2);
@@ -106,8 +101,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family1.Id, 
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Photo 
                 { 
@@ -116,8 +110,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family1.Id, 
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Photo 
                 { 
@@ -126,8 +119,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family2.Id, 
                     UploadedByUserId = "user2",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 
@@ -152,8 +144,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -169,8 +160,7 @@ namespace WorldFamily.Api.Tests.Services
                 UploadedAt = DateTime.UtcNow,
                 DateTaken = new DateTime(2023, 12, 25),
                 Location = "София, България",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Photos.Add(photo);
@@ -205,8 +195,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -221,8 +210,7 @@ namespace WorldFamily.Api.Tests.Services
                 UploadedByUserId = "user1",
                 DateTaken = new DateTime(2024, 1, 15),
                 Location = "Пловдив",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             // Act
@@ -248,8 +236,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -263,8 +250,7 @@ namespace WorldFamily.Api.Tests.Services
                 FamilyId = family.Id,
                 UploadedByUserId = "user1",
                 UploadedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Photos.Add(originalPhoto);
@@ -288,7 +274,7 @@ namespace WorldFamily.Api.Tests.Services
             Assert.Equal("Обновено заглавие", result.Title);
             Assert.Equal("Обновено описание", result.Description);
             Assert.Equal("Варна", result.Location);
-            Assert.True(result.UpdatedAt >= originalPhoto.UpdatedAt);
+            Assert.True(result.CreatedAt >= originalPhoto.CreatedAt);
         }
 
         [Fact]
@@ -299,8 +285,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -313,8 +298,7 @@ namespace WorldFamily.Api.Tests.Services
                 FamilyId = family.Id,
                 UploadedByUserId = "user1",
                 UploadedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Photos.Add(photo);
@@ -349,8 +333,7 @@ namespace WorldFamily.Api.Tests.Services
             { 
                 Name = "Test Family", 
                 CreatedByUserId = "user1", 
-                CreatedAt = DateTime.UtcNow, 
-                UpdatedAt = DateTime.UtcNow 
+                CreatedAt = DateTime.UtcNow 
             };
             
             _context.Families.Add(family);
@@ -365,8 +348,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family.Id, 
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow.AddDays(-5),
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Photo 
                 { 
@@ -375,8 +357,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family.Id, 
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow.AddDays(-1),
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Photo 
                 { 
@@ -385,8 +366,7 @@ namespace WorldFamily.Api.Tests.Services
                     FamilyId = family.Id, 
                     UploadedByUserId = "user1",
                     UploadedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 }
             };
 

@@ -1,0 +1,174 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using System.ComponentModel.DataAnnotations;
+using WorldFamily.Data.Models;
+using WorldFamily.Api.DTOs;
+
+namespace WorldFamily.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class ProfileController : ControllerBase
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ProfileController> _logger;
+
+        public ProfileController(
+            UserManager<User> userManager,
+            IMapper mapper,
+            ILogger<ProfileController> logger)
+        {
+            _userManager = userManager;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// Получаване на профила на текущия потребител
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetProfile()
+        {
+            try
+            {
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Потребителят не е аутентикиран.");
+                }
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("Потребителят не е намерен.");
+                }
+
+                var userDto = _mapper.Map<UserDto>(user);
+                return Ok(userDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Грешка при получаване на профил за потребител");
+                return StatusCode(500, "Възникна вътрешна грешка.");
+            }
+        }
+
+        /// <summary>
+        /// Редактиране на профила на текущия потребител
+        /// </summary>
+        [HttpPut]
+        public async Task<ActionResult<UserDto>> UpdateProfile([FromBody] UpdateProfileDto updateProfileDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Потребителят не е аутентикиран.");
+                }
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("Потребителят не е намерен.");
+                }
+
+                // Актуализация на профилните данни
+                user.FirstName = updateProfileDto.FirstName;
+                user.MiddleName = updateProfileDto.MiddleName;
+                user.LastName = updateProfileDto.LastName;
+                user.DateOfBirth = updateProfileDto.DateOfBirth;
+                user.Bio = updateProfileDto.Bio;
+                user.ProfilePictureUrl = updateProfileDto.ProfilePictureUrl;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return BadRequest(ModelState);
+                }
+
+                var userDto = _mapper.Map<UserDto>(user);
+                _logger.LogInformation("Профилът на потребител {UserId} е актуализиран успешно", userId);
+                
+                return Ok(userDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Грешка при актуализация на профил");
+                return StatusCode(500, "Възникна вътрешна грешка.");
+            }
+        }
+
+        /// <summary>
+        /// Смяна на парола
+        /// </summary>
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Потребителят не е аутентикиран.");
+                }
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("Потребителят не е намерен.");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return BadRequest(ModelState);
+                }
+
+                _logger.LogInformation("Паролата на потребител {UserId} е променена успешно", userId);
+                return Ok("Паролата е променена успешно.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Грешка при смяна на парола");
+                return StatusCode(500, "Възникна вътрешна грешка.");
+            }
+        }
+    }
+
+    public class ChangePasswordDto
+    {
+        [Required]
+        public required string CurrentPassword { get; set; }
+        
+        [Required]
+        [MinLength(6)]
+        public required string NewPassword { get; set; }
+        
+        [Required]
+        [Compare("NewPassword")]
+        public required string ConfirmNewPassword { get; set; }
+    }
+}

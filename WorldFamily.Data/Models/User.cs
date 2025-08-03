@@ -26,6 +26,9 @@ namespace WorldFamily.Data.Models
         public string? ProfilePictureUrl { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
+        
+        [MaxLength(1000)]
+        public string? Bio { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

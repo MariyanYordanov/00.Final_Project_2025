@@ -12,6 +12,8 @@ namespace WorldFamily.Api.Mappings
             CreateMap<User, UserDto>();
             CreateMap<RegisterDto, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+            CreateMap<UpdateProfileDto, User>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             // Family mappings
             CreateMap<Family, FamilyDto>()
